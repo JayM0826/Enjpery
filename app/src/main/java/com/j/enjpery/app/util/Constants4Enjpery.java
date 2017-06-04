@@ -5,11 +5,14 @@ package com.j.enjpery.app.util;
  */
 
 public final class Constants4Enjpery {
-    private Constants4Enjpery(){}
+    private Constants4Enjpery() {
+    }
 
     // LeanCloud AppID
     public final static String LeanCloudAppId = "pI5URKIDtBaa60lBVNR7ICa7-gzGzoHsz";
 
     // LeanCloud AppKey
     public final static String LeanCloudAppKey = "Lttw0iBqrPNumnnuXO0cNxxV";
+
+    public static final String KEY = "login";
 }

@@ -25,7 +25,17 @@ import static com.j.enjpery.app.util.Constants4Enjpery.LeanCloudAppKey;
  */
 
 public class EnjperyApplication extends Application {
+
+
     public static EnjperyApplication mInstance;
+
+    public static EnjperyApplication getInstance() {
+        if (mInstance == null){
+            mInstance = new EnjperyApplication();
+        }
+        return mInstance;
+    }
+
 
     @Override
     public void onCreate() {

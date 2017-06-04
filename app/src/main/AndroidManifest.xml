@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.j.enjpery">
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="false"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
     <!-- 基础模块（必须加入以下声明）START -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,8 +16,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 基础模块 END -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!-- 基础模块 END -->
     <application
         android:name=".app.global.EnjperyApplication"
         android:allowBackup="true"
@@ -47,6 +59,17 @@
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
 
+        <activity
+            android:name=".app.ui.mainactivity.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme" />
+
+        <!--登陆页面-->
+        <activity android:name=".app.ui.loginandregister.LoginActivity" android:screenOrientation="portrait"
+            android:label="@string/login"/>
+        <!--注册页面-->
+        <activity android:name=".app.ui.loginandregister.SignUpActivity"
+            android:label="@string/signup" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

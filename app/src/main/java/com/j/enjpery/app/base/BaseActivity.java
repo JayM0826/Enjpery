@@ -7,65 +7,63 @@
 package com.j.enjpery.app.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
-import android.view.WindowManager;
-
 
 import com.j.enjpery.app.util.AppManager;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
+public abstract class BaseActivity extends RxAppCompatActivity {
 
-public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
-
-    protected String TAG = getClass().getSimpleName() + ": %s";
-
-    private boolean isNeedRegister = false;
-
-    protected void setNeedRegister() {
-        this.isNeedRegister = true;
-    }
+    private Unbinder bind;
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //设置布局内容
+        setContentView(getLayoutId());
+        //初始化黄油刀控件绑定框架
+        bind = ButterKnife.bind(this);
+        //初始化控件
+        initViews(savedInstanceState);
+        //初始化ToolBar
+        initToolBar();
         AppManager.addActivity(this);
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);ButterKnife.bind(this);
 
-    }
+    public abstract int getLayoutId();
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    public abstract void initViews(Bundle savedInstanceState);
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
+    public abstract void initToolBar();
+
+
+    public void loadData() {}
+
+
+    public void showProgressBar() {}
+
+
+    public void hideProgressBar() {}
+
+
+    public void initRecyclerView() {}
+
+
+    public void initRefreshLayout() {}
+
+
+    public void finishTask() {}
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        bind.unbind();
     }
 }
