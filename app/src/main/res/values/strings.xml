@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Enjpery</string>
+
+    <string name="lorem_ipsum_short">每天必吃土豆，所以又土又逗 </string>
+    <string name="lorem_ipsum_long">江山如此多娇，引无数英雄竞折腰。
+        惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。
+        一代天骄，成吉思汗，只识弯弓射大雕。
+        俱往矣，数风流人物，还看今朝。 </string>
+
+    <string name="title_following">Following</string>
+    <string name="toolbar_bio">Bio</string>
+    <string name="toolbar_details">Details</string>
+
+    <string-array name="array_names">
+        <item>"又土又逗，简称土逗"</item>
+        <item>"神秘人物,敬请期待"</item>
+    </string-array>
+</resources>
