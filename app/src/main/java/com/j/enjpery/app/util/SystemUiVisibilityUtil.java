@@ -16,6 +16,9 @@ import android.view.WindowManager;
 
 public class SystemUiVisibilityUtil {
 
+
+
+
     public static void addFlags(View view, int flags) {
 
         view.setSystemUiVisibility(view.getSystemUiVisibility() | flags);

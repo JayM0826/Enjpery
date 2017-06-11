@@ -6,32 +6,46 @@
 
 package com.j.enjpery.app.ui.loginandregister;
 
-import android.app.ProgressDialog;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
+import android.transition.Explode;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
+import com.j.enjpery.app.ui.mainactivity.MainActivity;
 import com.j.enjpery.app.util.CommonUtil;
 import com.j.enjpery.app.util.SnackbarUtil;
+import com.j.enjpery.core.loginandregister.LoginAndRegister;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.input_email)
-    EditText account;
-    @BindView(R.id.input_password) 
-    EditText passwordText;
-    @BindView(R.id.btn_login)
-    Button loginButton;
-    @BindView(R.id.link_signup)
-    TextView signUpLink;
+
+
+    private String email;
+    private String password;
+
+    @BindView(R.id.et_username)
+    EditText etUsername;
+    @BindView(R.id.et_password)
+    EditText etPassword;
+    @BindView(R.id.bt_go)
+    Button btGo;
+    @BindView(R.id.cv)
+    CardView cv;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
 
     @Override
     public int getLayoutId() {
@@ -40,113 +54,94 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-
+        instance = this;
+        if (!CommonUtil.isNetworkAvailable(this)){
+            SnackbarUtil.show(btGo, "请先检查网络连接");
+            Timber.i("无网络");
+        }
+        return;
     }
 
     @Override
     public void initToolBar() {
 
     }
-    private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
 
+    @OnClick({R.id.bt_go, R.id.fab})
+    public void onClick(View view) {
 
+        switch (view.getId()) {
+            case R.id.fab:
+                getWindow().setExitTransition(null);
+                getWindow().setEnterTransition(null);
 
-   @OnClick(R.id.btn_login)
-   protected void login() {
-       Timber.d(TAG, "Login");
-       // 先去检测网络
-       if (!CommonUtil.isNetworkAvailable(this)){
-           SnackbarUtil.show(loginButton, "请先检查网络连接");
-           Timber.i(TAG,"无网络");
-           return;
-       }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options =
+                            ActivityOptions.makeSceneTransitionAnimation(this, fab, fab.getTransitionName());
+                    startActivity(new Intent(this, SignUpActivity.class), options.toBundle());
+                } else {
+                    startActivity(new Intent(this, SignUpActivity.class));
+                }
+                break;
+            case R.id.bt_go:
 
-       if (!validate()) {
-           onLoginFailed();
-           return;
-       }
+                if (!validate()) {
+                    Exception e = new Exception("用户名或者密码不符合规范");
+                    onFailCallBack(e);
+                    return;
+                }
 
-       loginButton.setEnabled(false);
+                btGo.setEnabled(false);
+                // 进行真正的登录请求
 
-       final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-               R.style.AppTheme_Dark_Dialog);
-       progressDialog.setIndeterminate(true);
-       progressDialog.setMessage("Authenticating...");
-       progressDialog.show();
-
-
-       // TODO: Implement your own authentication logic here.
-
-       new Handler().postDelayed(
-               new Runnable() {
-                   public void run() {
-                       // On complete call either onLoginSuccess or onLoginFailed
-                       onLoginSuccess();
-                       // onLoginFailed();
-                       progressDialog.dismiss();
-                   }
-               }, 3000);
-   }
-
-
-   @OnClick(R.id.link_signup) protected void gotoSignUp() {
-       Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-       startActivityForResult(intent, REQUEST_SIGNUP);
-       finish();
-       overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-   }
-
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
+                LoginAndRegister.doLogin(email, password, instance);
+                break;
+                default:break;
         }
     }
 
     @Override
-    public void onBackPressed() {
-        // Disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
+    public void onSuccessCallBack() {
+        super.onSuccessCallBack();
+        btGo.setEnabled(true);
+        Explode explode = new Explode();
+        explode.setDuration(500);
 
-    public void onLoginSuccess() {
-        loginButton.setEnabled(true);
+        getWindow().setExitTransition(explode);
+        getWindow().setEnterTransition(explode);
+        ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent i2 = new Intent(this,MainActivity.class);
+        startActivity(i2, oc2.toBundle());
         finish();
     }
 
-    public void onLoginFailed() {
-        SnackbarUtil.show(loginButton, "登录失败");
-        loginButton.setEnabled(true);
+    @Override
+    public void onFailCallBack(Exception e) {
+        super.onFailCallBack(e);
+        SnackbarUtil.show(etPassword, "登录失败,请重新登录");
+        btGo.setEnabled(true);
     }
+
 
     public boolean validate() {
 
         boolean valid = true;
 
-        String email = account.getText().toString();
-        String password = passwordText.getText().toString();
+        email = etUsername.getText().toString();
+        password = etPassword.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            account.setError("enter a valid email address");
+            etUsername.setError("输入的邮箱无效");
             valid = false;
         } else {
-            account.setError(null);
+            etUsername.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 4 || password.length() > 16) {
+            etPassword.setError("密码长度为5-16");
             valid = false;
         } else {
-            passwordText.setError(null);
+            etPassword.setError(null);
         }
 
         return valid;

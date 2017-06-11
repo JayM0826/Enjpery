@@ -16,13 +16,16 @@ import butterknife.Unbinder;
 
 
 public abstract class BaseActivity extends RxAppCompatActivity {
-
     private Unbinder bind;
+    public  BaseActivity instance;
+    private boolean isNeedRegister = false;
 
+    protected void setNeedRegister() {
+        this.isNeedRegister = true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         //设置布局内容
         setContentView(getLayoutId());
@@ -33,6 +36,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         //初始化ToolBar
         initToolBar();
         AppManager.addActivity(this);
+
     }
 
 
@@ -43,13 +47,21 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     public abstract void initToolBar();
 
 
+    // 回掉函数
+    public void onSuccessCallBack(){};
+    // 回掉函数
+    public void onFailCallBack(Exception e){};
+
     public void loadData() {}
 
 
-    public void showProgressBar() {}
+    public void showProgressDialog() {
+    }
 
 
-    public void hideProgressBar() {}
+    public void hideProgressDialog() {
+
+    }
 
 
     public void initRecyclerView() {}
@@ -59,6 +71,18 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
 
     public void finishTask() {}
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void onDestroy() {

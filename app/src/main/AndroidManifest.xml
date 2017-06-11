@@ -33,7 +33,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".app.ui.SplashActivity">
+        <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
+        <activity
+            android:name=".app.ui.welcome.SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,12 +68,14 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
 
-        <!--登陆页面-->
-        <activity android:name=".app.ui.loginandregister.LoginActivity" android:screenOrientation="portrait"
-            android:label="@string/login"/>
-        <!--注册页面-->
-        <activity android:name=".app.ui.loginandregister.SignUpActivity"
-            android:label="@string/signup" android:screenOrientation="portrait"></activity>
+        <!-- 登陆页面 -->
+        <activity
+            android:name=".app.ui.loginandregister.LoginActivity"
+            android:screenOrientation="portrait" />
+        <!-- 注册页面 -->
+        <activity
+            android:name=".app.ui.loginandregister.SignUpActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

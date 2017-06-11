@@ -12,7 +12,6 @@ import android.util.Log;
 import com.avos.avoscloud.AVOSCloud;
 import com.facebook.stetho.Stetho;
 import com.j.enjpery.BuildConfig;
-import com.squareup.leakcanary.LeakCanary;
 
 import timber.log.Timber;
 
@@ -47,14 +46,14 @@ public class EnjperyApplication extends Application {
 
         initLog();
         //初始化Leak内存泄露检测工具
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+        /*if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
-        }
+        }*/
         mInstance = this;
 
-        LeakCanary.install(this);
+        // LeakCanary.install(this);
         //初始化Stetho调试工具
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

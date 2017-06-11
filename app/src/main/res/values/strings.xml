@@ -15,7 +15,7 @@
         <item>"又土又逗，简称土逗"</item>
         <item>"神秘人物,敬请期待"</item>
     </string-array>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Enjpery</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -35,8 +35,23 @@
     </string>
 
 
-    <string name="login">登录Enjpery</string>
-    <string name="signup">注册Enjpery</string>
+    <string name="login">登录</string>
+    <string name="signup">注册</string>
     <string name="get_verify_number">获取验证码</string>
     <string name="register">注          册</string>
+
+
+    <string name="login_success">login success</string>
+
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="go">GO</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="next">NEXT</string>
+    <string name="title_talk">交流</string>
+    <string name="title_live">风采</string>
+    <string name="title_status">动态</string>
+    <string name="title_profile">Me</string>
+
 </resources>
