@@ -10,16 +10,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.j.enjpery.R;
+import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
-public class MainActivity extends AppCompatActivity {
+import com.j.enjpery.app.util.SnackbarUtil;
 
-    private TextView mTextMessage;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainActivity extends BaseActivity {
+    @BindView(R.id.message)
+    TextView mTextMessage;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initViews(Bundle savedInstanceState) {
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    public void initToolBar() {
+        SnackbarUtil.show(mTextMessage, "双击666");
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -29,35 +51,28 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mTextMessage.setText(R.string.title_home);
+                    SnackbarUtil.show(mTextMessage, "双击666");
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
+                    SnackbarUtil.show(mTextMessage, "双击888");
                     return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
+                    SnackbarUtil.show(mTextMessage, "双击999");
                     return true;
                 case R.id.navigation_profile:
                     mTextMessage.setText(R.string.title_profile);
+                    SnackbarUtil.show(mTextMessage, "双击626");
                     return true;
             }
             return false;
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        mTextMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
-            }
-        });
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    @OnClick(R.id.message)
+    public void onViewClicked() {
+        startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
     }
-
 }
