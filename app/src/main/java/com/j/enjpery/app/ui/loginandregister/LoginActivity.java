@@ -7,6 +7,7 @@
 package com.j.enjpery.app.ui.loginandregister;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class LoginActivity extends BaseActivity {
 
     private String email;
     private String password;
+    private ProgressDialog progressDialog;
 
     @BindView(R.id.et_username)
     EditText etUsername;
@@ -93,7 +95,11 @@ public class LoginActivity extends BaseActivity {
 
                 btGo.setEnabled(false);
                 // 进行真正的登录请求
-
+                progressDialog = new ProgressDialog(LoginActivity.this,
+                                     R.style.AppTheme_Dark_Dialog);
+                      progressDialog.setIndeterminate(true);
+                progressDialog.setMessage(getResources().getString(R.string.login_dialog));
+                      progressDialog.show();
                 LoginAndRegister.doLogin(email, password, instance);
                 break;
                 default:break;
@@ -104,6 +110,7 @@ public class LoginActivity extends BaseActivity {
     public void onSuccessCallBack() {
         super.onSuccessCallBack();
         btGo.setEnabled(true);
+        progressDialog.dismiss();
         Explode explode = new Explode();
         explode.setDuration(500);
 
@@ -118,6 +125,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onFailCallBack(Exception e) {
         super.onFailCallBack(e);
+        progressDialog.dismiss();
         SnackbarUtil.show(etPassword, "登录失败,请重新登录");
         btGo.setEnabled(true);
     }

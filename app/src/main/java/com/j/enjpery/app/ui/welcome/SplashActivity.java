@@ -14,7 +14,6 @@ import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.loginandregister.LoginActivity;
 import com.j.enjpery.app.ui.mainactivity.MainActivity;
-import com.j.enjpery.app.ui.mainactivity.TestActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +56,7 @@ public class SplashActivity extends BaseActivity {
         AVUser currentUser = AVUser.getCurrentUser();
         if (currentUser != null) {
             // 跳转到首页
-            startActivity(new Intent(SplashActivity.this, TestActivity.class));
+            startActivity(new Intent(SplashActivity.this,MainActivity.class));
         } else { // 去登录
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         }

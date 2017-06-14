@@ -53,5 +53,7 @@
     <string name="title_live">风采</string>
     <string name="title_status">动态</string>
     <string name="title_profile">Me</string>
+    <string name="login_dialog">小跑登录ing...</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

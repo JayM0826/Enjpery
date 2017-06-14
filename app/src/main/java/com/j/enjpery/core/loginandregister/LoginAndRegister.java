@@ -6,17 +6,11 @@
 
 package com.j.enjpery.core.loginandregister;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SignUpCallback;
 import com.j.enjpery.app.base.BaseActivity;
-import com.j.enjpery.app.ui.loginandregister.LoginActivity;
-import com.j.enjpery.app.ui.mainactivity.MainActivity;
 
 /**
  * Created by luoyong on 2017/6/4/0004.
