@@ -131,4 +131,7 @@ dependencies {
 
     // https://github.com/sephiroth74/Material-BottomNavigation
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
+
+    // https://github.com/Clans/FloatingActionButton
+    compile 'com.github.clans:fab:1.6.4'
 }

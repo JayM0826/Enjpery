@@ -63,6 +63,7 @@
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
 
+
         <!-- 登陆页面 -->
         <activity
             android:name=".app.ui.loginandregister.LoginActivity"
@@ -71,9 +72,8 @@
         <activity
             android:name=".app.ui.loginandregister.SignUpActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".app.ui.mainactivity.MainActivity"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".app.ui.mainactivity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
