@@ -134,4 +134,11 @@ dependencies {
 
     // https://github.com/Clans/FloatingActionButton
     compile 'com.github.clans:fab:1.6.4'
+
+    // https://github.com/JayM0826/RxBinding
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
 }

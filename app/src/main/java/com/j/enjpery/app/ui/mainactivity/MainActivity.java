@@ -3,14 +3,9 @@ package com.j.enjpery.app.ui.mainactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,11 +15,16 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
+import com.j.enjpery.app.util.AppManager;
 import com.j.enjpery.app.util.SnackbarUtil;
+import com.j.enjpery.core.loginandregister.LoginAndRegister;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -33,7 +33,13 @@ import static android.util.Log.INFO;
 import static it.sephiroth.android.library.bottomnavigation.MiscUtils.log;
 
 public class MainActivity extends BaseActivity implements BottomNavigation.OnMenuItemSelectionListener {
-    private BottomNavigation mBottomNavigation;
+    @BindView(R.id.message)
+    TextView message;
+    @BindView(R.id.fab)
+    FloatingActionMenu fabMenu;
+    @BindView(R.id.BottomNavigation)
+    it.sephiroth.android.library.bottomnavigation.BottomNavigation BottomNavigation;
+
     private SystemBarTintManager mSystemBarTint;
 
     @Override
@@ -43,26 +49,24 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mTextMessage = (TextView) findViewById(R.id.message);
-        mTextMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
 
-            }
+        fabMenu.findViewById(R.id.fab_item1).setOnClickListener(aVoid->{
+            Snackbar.make(fabMenu, "Replace with your own action", Snackbar.LENGTH_LONG).setAction(
+                    "Action",
+                    null
+            ).show();
         });
-        final FloatingActionMenu floatingActionButton = (FloatingActionMenu) findViewById(R.id.fab);
-        assert floatingActionButton != null;
-        mBottomNavigation = (BottomNavigation) findViewById(R.id.BottomNavigation);
-        floatingActionButton.findViewById(R.id.fab_item1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction(
-                        "Action",
-                        null
-                ).show();
+
+        fabMenu.findViewById(R.id.fab_item2).setOnClickListener(aVoid->{
+                LoginAndRegister.doLogOut();
+                AppManager.AppExit(getApplicationContext());
             }
+        );
+
+        RxView.clicks(message).subscribe(aVoid -> {
+            startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
         });
+
 
         if (null != getBottomNavigation() && null == savedInstanceState) {
             getBottomNavigation().setDefaultSelectedIndex(0);
@@ -71,9 +75,9 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
                         @Override
                         public void onExpandStatusChanged(final boolean expanded, final boolean animate) {
                             if (expanded) {
-                                floatingActionButton.showMenu(animate);
+                                fabMenu.showMenu(animate);
                             } else {
-                                floatingActionButton.hideMenu(animate);
+                                fabMenu.hideMenu(animate);
                             }
                         }
                     });
@@ -89,27 +93,32 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     }
 
-    private TextView mTextMessage;
-
 
     @Override
     public void onMenuItemSelect(int i, int i1, boolean b) {
-        SnackbarUtil.show(mBottomNavigation, "Hello 罗志华");
+        SnackbarUtil.show(BottomNavigation, "Hello 罗志华");
         Toast.makeText(this, "hello 罗志华", Toast.LENGTH_LONG).show();
 
     }
 
     @Override
     public void onMenuItemReselect(int i, int i1, boolean b) {
-        SnackbarUtil.show(mBottomNavigation, "Hello 罗志华");
+        SnackbarUtil.show(BottomNavigation, "Hello 罗志华");
         Toast.makeText(this, "hello 罗志华", Toast.LENGTH_LONG).show();
     }
 
     public BottomNavigation getBottomNavigation() {
-        if (null == mBottomNavigation) {
-            mBottomNavigation = (BottomNavigation) findViewById(R.id.BottomNavigation);
+        if (null == BottomNavigation) {
+            BottomNavigation = (BottomNavigation) findViewById(R.id.BottomNavigation);
         }
-        return mBottomNavigation;
+        return BottomNavigation;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     public static class FabBehavior extends CoordinatorLayout.Behavior<FloatingActionMenu> {
@@ -168,6 +177,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     public int getNavigationBarHeight() {
         return getSystemBarTint().getConfig().getNavigationBarHeight();
     }
+
     public SystemBarTintManager getSystemBarTint() {
         if (null == mSystemBarTint) {
             mSystemBarTint = new SystemBarTintManager(this);

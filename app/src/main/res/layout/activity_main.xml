@@ -25,10 +25,10 @@
         android:id="@+id/fab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="10dp"
+        android:paddingBottom="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_behavior="com.j.enjpery.app.ui.mainactivity.MainActivity$FabBehavior"
         app:layout_anchor="@id/BottomNavigation"
         app:layout_anchorGravity="right|top"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_camera"
-            app:fab_label="Menu item 2"
+            app:fab_label="Snackbar"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_call"
-            app:fab_label="Lorem Ipsum"
+            app:fab_label="Exit"
             app:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
