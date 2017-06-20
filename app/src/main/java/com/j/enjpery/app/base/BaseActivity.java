@@ -6,10 +6,15 @@
 
 package com.j.enjpery.app.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import com.j.enjpery.R;
+import com.j.enjpery.app.ui.loginandregister.LoginActivity;
 import com.j.enjpery.app.util.AppManager;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -19,6 +24,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private Unbinder bind;
     public  BaseActivity instance;
     private boolean isNeedRegister = false;
+    public ProgressDialog progressDialog;
 
     protected void setNeedRegister() {
         this.isNeedRegister = true;
@@ -48,19 +54,37 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
 
     // 回掉函数
-    public void onSuccessCallBack(){};
+    public void onSuccessCallBack(){
+        hideProgressDialog();
+    };
     // 回掉函数
-    public void onFailCallBack(Exception e){};
+    public void onFailCallBack(Exception e){
+        hideProgressDialog();
+    };
 
     public void loadData() {}
 
 
-    public void showProgressDialog() {
+    public void showProgressDialog(String message) {
+        if (progressDialog == null){
+            progressDialog = new ProgressDialog(this,
+                    R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(message);
+        }
+
+        progressDialog.show();
+    }
+
+    public void showProgressDialog(int id) {
+       showProgressDialog(getResources().getString(id));
     }
 
 
     public void hideProgressDialog() {
-
+        if (progressDialog != null){
+            progressDialog.dismiss();
+        }
     }
 
 
@@ -75,13 +99,17 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // EventBus.getDefault().register(this);
+        if (isNeedRegister){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        // EventBus.getDefault().unregister(this);
+        if (isNeedRegister){
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override

@@ -55,5 +55,6 @@
     <string name="title_profile">Me</string>
     <string name="login_dialog">小跑登录ing...</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="register_dialog">小跑注册ing...</string>
 
 </resources>

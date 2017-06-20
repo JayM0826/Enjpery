@@ -76,9 +76,6 @@ dependencies {
     // https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
 
-    // https://github.com/jrvansuita/MaterialAbout
-    // compile 'com.github.jrvansuita:MaterialAbout:+'
-
     // https://github.com/Nightonke/BoomMenu
 
     // compile 'com.nightonke:boommenu:2.1.0'
@@ -141,4 +138,11 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
+
+    // https://github.com/tbruyelle/RxPermissions
+    /*使用RxPermissions申请权限，必须在Activity.onCreate()或者View.onFinishInflate()中处理。
+    不能在onResume()中处理，因为onResume()在App的生命周期中可能执行的很频繁。
+    如果在请求权限的时候，App重新启动了（例如屏幕旋转导致的App关闭再重新创建），
+    那么用户的选择（允许 或者 拒绝）将无法发给App。*/
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 }

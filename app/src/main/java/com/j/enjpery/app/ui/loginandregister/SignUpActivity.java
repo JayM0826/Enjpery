@@ -180,6 +180,7 @@ public class SignUpActivity extends BaseActivity {
 
         // 进行真正的登录请求
         Timber.i("开始注册");
+        showProgressDialog(R.string.register_dialog);
         LoginAndRegister.doRegister(email, password, instance);
     }
 

@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
+import timber.log.Timber;
 
 import static android.util.Log.INFO;
 import static it.sephiroth.android.library.bottomnavigation.MiscUtils.log;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @BindView(R.id.fab)
     FloatingActionMenu fabMenu;
     @BindView(R.id.BottomNavigation)
-    it.sephiroth.android.library.bottomnavigation.BottomNavigation BottomNavigation;
+    BottomNavigation BottomNavigation;
 
     private SystemBarTintManager mSystemBarTint;
 
@@ -50,39 +51,32 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @Override
     public void initViews(Bundle savedInstanceState) {
 
-        fabMenu.findViewById(R.id.fab_item1).setOnClickListener(aVoid->{
-            Snackbar.make(fabMenu, "Replace with your own action", Snackbar.LENGTH_LONG).setAction(
-                    "Action",
-                    null
-            ).show();
+        RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid->{
+            SnackbarUtil.show(fabMenu, "上面的SnackBar");
         });
 
-        fabMenu.findViewById(R.id.fab_item2).setOnClickListener(aVoid->{
-                LoginAndRegister.doLogOut();
-                AppManager.AppExit(getApplicationContext());
-            }
-        );
+        RxView.clicks(fabMenu.findViewById(R.id.fab_item2)).subscribe(aVoid->{
+            LoginAndRegister.doLogOut();
+            AppManager.AppExit(getApplicationContext());
+        });
+
 
         RxView.clicks(message).subscribe(aVoid -> {
             startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
         });
 
 
-        if (null != getBottomNavigation() && null == savedInstanceState) {
-            getBottomNavigation().setDefaultSelectedIndex(0);
-            ((BottomBehavior) getBottomNavigation().getBehavior()).setOnExpandStatusChangeListener(
+        if (null == savedInstanceState) {
+            BottomNavigation.setDefaultSelectedIndex(0);
+            ((BottomBehavior) BottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
                     new BottomBehavior.OnExpandStatusChangeListener() {
                         @Override
                         public void onExpandStatusChanged(final boolean expanded, final boolean animate) {
-                            if (expanded) {
-                                fabMenu.showMenu(animate);
-                            } else {
-                                fabMenu.hideMenu(animate);
-                            }
+
                         }
                     });
 
-            final BadgeProvider provider = getBottomNavigation().getBadgeProvider();
+            final BadgeProvider provider = BottomNavigation.getBadgeProvider();
             provider.show(R.id.bbn_item3);
             provider.show(R.id.bbn_item4);
         }
@@ -96,29 +90,13 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
     @Override
     public void onMenuItemSelect(int i, int i1, boolean b) {
-        SnackbarUtil.show(BottomNavigation, "Hello 罗志华");
-        Toast.makeText(this, "hello 罗志华", Toast.LENGTH_LONG).show();
+        System.out.println("为啥子出不来呢");
 
     }
 
-    @Override
+    // @Override
     public void onMenuItemReselect(int i, int i1, boolean b) {
-        SnackbarUtil.show(BottomNavigation, "Hello 罗志华");
-        Toast.makeText(this, "hello 罗志华", Toast.LENGTH_LONG).show();
-    }
-
-    public BottomNavigation getBottomNavigation() {
-        if (null == BottomNavigation) {
-            BottomNavigation = (BottomNavigation) findViewById(R.id.BottomNavigation);
-        }
-        return BottomNavigation;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+       System.out.println("为啥子出不来呢");
     }
 
     public static class FabBehavior extends CoordinatorLayout.Behavior<FloatingActionMenu> {
@@ -144,7 +122,6 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
         @Override
         public boolean onDependentViewChanged(
                 final CoordinatorLayout parent, final FloatingActionMenu child, final View dependency) {
-            log("志华", INFO, "onDependentViewChanged: " + dependency);
 
             final List<View> list = parent.getDependencies(child);
             int bottomMargin = ((ViewGroup.MarginLayoutParams) child.getLayoutParams()).bottomMargin;
