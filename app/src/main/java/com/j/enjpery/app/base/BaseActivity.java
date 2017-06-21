@@ -8,9 +8,9 @@ package com.j.enjpery.app.base;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.Window;
 
 import com.j.enjpery.R;
-import com.j.enjpery.app.ui.loginandregister.LoginActivity;
 import com.j.enjpery.app.util.AppManager;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
@@ -33,6 +33,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         //设置布局内容
         setContentView(getLayoutId());
         //初始化黄油刀控件绑定框架
@@ -50,7 +51,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     public abstract void initViews(Bundle savedInstanceState);
 
-    public abstract void initToolBar();
+    public void initToolBar(){};
 
 
     // 回掉函数

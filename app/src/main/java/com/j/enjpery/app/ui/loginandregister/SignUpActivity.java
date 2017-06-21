@@ -12,7 +12,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
+import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.mainactivity.MainActivity;
+import com.j.enjpery.app.util.CircularAnim;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
 
@@ -49,8 +52,21 @@ public class SignUpActivity extends BaseActivity {
     public void onSuccessCallBack() {
         super.onSuccessCallBack();
         btGo.setEnabled(true);
-        startActivity(new Intent(this, MainActivity.class));
+      /*  CircularAnim.fullActivity(this, btGo)
+                .colorOrImageRes(R.color.colorPrimary)
+                .go(()->startActivity(new Intent(this, MainActivity.class)));*/
+
+
+        Explode explode = new Explode();
+        explode.setDuration(500);
+
+        getWindow().setExitTransition(explode);
+        getWindow().setEnterTransition(explode);
+        ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent i2 = new Intent(this,MainActivity.class);
+        startActivity(i2, oc2.toBundle());
         finish();
+        // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

@@ -5,15 +5,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
+import com.j.enjpery.app.ui.mainactivity.mainfragment.AFragment;
+import com.j.enjpery.app.ui.mainactivity.mainfragment.LiveFragment;
+import com.j.enjpery.app.ui.mainactivity.mainfragment.MessageFragment;
+import com.j.enjpery.app.ui.mainactivity.mainfragment.ProfileFragment;
+import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.AppManager;
 import com.j.enjpery.app.util.SnackbarUtil;
@@ -28,18 +37,14 @@ import butterknife.ButterKnife;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
-import timber.log.Timber;
 
-import static android.util.Log.INFO;
-import static it.sephiroth.android.library.bottomnavigation.MiscUtils.log;
-
-public class MainActivity extends BaseActivity implements BottomNavigation.OnMenuItemSelectionListener {
-    @BindView(R.id.message)
-    TextView message;
+public class MainActivity extends BaseActivity {
     @BindView(R.id.fab)
     FloatingActionMenu fabMenu;
     @BindView(R.id.BottomNavigation)
     BottomNavigation BottomNavigation;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     private SystemBarTintManager mSystemBarTint;
 
@@ -51,19 +56,17 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
     @Override
     public void initViews(Bundle savedInstanceState) {
 
-        RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid->{
-            SnackbarUtil.show(fabMenu, "上面的SnackBar");
+        RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid -> {
+            startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
         });
 
-        RxView.clicks(fabMenu.findViewById(R.id.fab_item2)).subscribe(aVoid->{
+        RxView.clicks(fabMenu.findViewById(R.id.fab_item2)).subscribe(aVoid -> {
             LoginAndRegister.doLogOut();
             AppManager.AppExit(getApplicationContext());
         });
 
 
-        RxView.clicks(message).subscribe(aVoid -> {
-            startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
-        });
+
 
 
         if (null == savedInstanceState) {
@@ -75,29 +78,33 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
 
                         }
                     });
+            BottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
+                @Override
+                public void onMenuItemSelect(int i, int i1, boolean b) {
+                    SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
+                }
 
+                @Override
+                public void onMenuItemReselect(int i, int i1, boolean b) {
+                    SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
+                }
+            });
             final BadgeProvider provider = BottomNavigation.getBadgeProvider();
             provider.show(R.id.bbn_item3);
             provider.show(R.id.bbn_item4);
+
+            PagerAdapter adapter = new SegmentPageAdapter(getSupportFragmentManager());
+            viewPager.setAdapter(adapter);
         }
     }
 
     @Override
-    public void initToolBar() {
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
-
-    @Override
-    public void onMenuItemSelect(int i, int i1, boolean b) {
-        System.out.println("为啥子出不来呢");
-
-    }
-
-    // @Override
-    public void onMenuItemReselect(int i, int i1, boolean b) {
-       System.out.println("为啥子出不来呢");
-    }
 
     public static class FabBehavior extends CoordinatorLayout.Behavior<FloatingActionMenu> {
         public FabBehavior() {
@@ -160,6 +167,35 @@ public class MainActivity extends BaseActivity implements BottomNavigation.OnMen
             mSystemBarTint = new SystemBarTintManager(this);
         }
         return mSystemBarTint;
+    }
+
+    private class SegmentPageAdapter extends FragmentPagerAdapter {
+
+        private String[] title = {"F1", "f2", "f3", "f4"};
+
+        private String[] fragments = {AFragment.class.getName(), AFragment.class.getName(),
+                AFragment.class.getName(), AFragment.class.getName()};
+
+        public SegmentPageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return title[position];
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            Log.v("MainActivity", getClass().getName() + "------>call getItem(), pos = " + pos);
+            return Fragment.instantiate(getApplicationContext(), fragments[pos]);
+        }
+
+        @Override
+        public int getCount() {
+            return title.length;
+        }
+
     }
 
 }

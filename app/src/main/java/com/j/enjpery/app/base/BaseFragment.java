@@ -1,11 +1,13 @@
 package com.j.enjpery.app.base;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +22,53 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseFragment extends RxFragment {
-    private View parentView;
 
+    protected boolean isViewInitiated;
+    protected boolean isVisibleToUser;
+    protected boolean isDataInitiated;
     private FragmentActivity activity;
 
-    // 标志位 标志已经初始化完成。
-    protected boolean isPrepared;
-
-    //标志位 fragment是否可见
-    protected boolean isVisible;
+    private View parentView;
 
     private Unbinder bind;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-    public abstract
-    @LayoutRes
-    int getLayoutResId();
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isViewInitiated = true;
+        prepareFetchData();
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        this.isVisibleToUser = isVisibleToUser;
+        prepareFetchData();
+    }
+
+    public abstract void fetchData();
+
+    public boolean prepareFetchData() {
+        return prepareFetchData(false);
+    }
+
+    public boolean prepareFetchData(boolean forceUpdate) {
+        if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {
+            onVisible();
+            isDataInitiated = true;
+            return true;
+        }
+        onInvisible();
+        return false;
+    }
+
+
+    public abstract @LayoutRes int getLayoutResId();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -44,6 +76,12 @@ public abstract class BaseFragment extends RxFragment {
         activity = getSupportActivity();
         return parentView;
     }
+
+    public FragmentActivity getSupportActivity() {
+
+        return super.getActivity();
+    }
+
 
 
     @Override
@@ -54,16 +92,7 @@ public abstract class BaseFragment extends RxFragment {
         finishCreateView(savedInstanceState);
     }
 
-
     public abstract void finishCreateView(Bundle state);
-
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-    }
-
 
     @Override
     public void onDestroyView() {
@@ -72,14 +101,12 @@ public abstract class BaseFragment extends RxFragment {
         bind.unbind();
     }
 
-
     @Override
     public void onAttach(Activity activity) {
 
         super.onAttach(activity);
         this.activity = (FragmentActivity) activity;
     }
-
 
     @Override
     public void onDetach() {
@@ -88,18 +115,10 @@ public abstract class BaseFragment extends RxFragment {
         this.activity = null;
     }
 
-
-    public FragmentActivity getSupportActivity() {
-
-        return super.getActivity();
-    }
-
-
-    public android.app.ActionBar getSupportActionBar() {
+    public ActionBar getSupportActionBar() {
 
         return getSupportActivity().getActionBar();
     }
-
 
     public Context getApplicationContext() {
 
@@ -108,24 +127,6 @@ public abstract class BaseFragment extends RxFragment {
                 getActivity().getApplicationContext())
                 : this.activity.getApplicationContext();
     }
-
-
-    /**
-     * Fragment数据的懒加载
-     */
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-            isVisible = true;
-            onVisible();
-        } else {
-            isVisible = false;
-            onInvisible();
-        }
-    }
-
 
     protected void onVisible() {
 
@@ -138,10 +139,6 @@ public abstract class BaseFragment extends RxFragment {
 
     protected void onInvisible() {}
 
-
-    protected void loadData() {}
-
-
     protected void showProgressBar() {}
 
 
@@ -150,6 +147,9 @@ public abstract class BaseFragment extends RxFragment {
 
     protected void initRecyclerView() {}
 
+    /*
+
+    protected void loadData() {}
 
     protected void initRefreshLayout() {}
 
@@ -161,5 +161,5 @@ public abstract class BaseFragment extends RxFragment {
     public <T extends View> T $(int id) {
 
         return (T) parentView.findViewById(id);
-    }
+    }*/
 }

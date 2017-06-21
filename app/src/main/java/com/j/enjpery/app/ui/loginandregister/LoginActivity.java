@@ -21,6 +21,7 @@ import android.widget.EditText;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.mainactivity.MainActivity;
+import com.j.enjpery.app.util.CircularAnim;
 import com.j.enjpery.app.util.CommonUtil;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
@@ -113,7 +114,11 @@ public class LoginActivity extends BaseActivity {
         ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         Intent i2 = new Intent(this,MainActivity.class);
         startActivity(i2, oc2.toBundle());
+        /*CircularAnim.fullActivity(this, btGo)
+                .colorOrImageRes(R.color.colorPrimary)
+                .go(()->startActivity(new Intent(this, MainActivity.class)));*/
         finish();
+        // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
