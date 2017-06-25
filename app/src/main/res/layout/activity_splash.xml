@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.j.enjpery.app.ui.welcome.SplashActivity">
 
+
+    <!--这里的全屏之所以会出现上下两个白条，是因为图片的问题，可以考虑换图片的-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

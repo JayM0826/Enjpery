@@ -18,25 +18,22 @@ import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionMenu;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
-import com.j.enjpery.app.ui.mainactivity.mainfragment.AFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.LiveFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.MessageFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.ProfileFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.AppManager;
-import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
 import com.jakewharton.rxbinding2.view.RxView;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.fab)
@@ -46,7 +43,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private SystemBarTintManager mSystemBarTint;
+    // private SystemBarTintManager mSystemBarTint;
 
     @Override
     public int getLayoutId() {
@@ -65,10 +62,6 @@ public class MainActivity extends BaseActivity {
             AppManager.AppExit(getApplicationContext());
         });
 
-
-
-
-
         if (null == savedInstanceState) {
             BottomNavigation.setDefaultSelectedIndex(0);
             ((BottomBehavior) BottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
@@ -81,12 +74,13 @@ public class MainActivity extends BaseActivity {
             BottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
                 @Override
                 public void onMenuItemSelect(int i, int i1, boolean b) {
-                    SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
+                    Timber.i("不要在类上实现接口，要使用匿名类");
                 }
 
                 @Override
                 public void onMenuItemReselect(int i, int i1, boolean b) {
-                    SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
+                    // SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
+                    Timber.i("bottombar的监听器要使用匿名类");
                 }
             });
             final BadgeProvider provider = BottomNavigation.getBadgeProvider();
@@ -96,13 +90,6 @@ public class MainActivity extends BaseActivity {
             PagerAdapter adapter = new SegmentPageAdapter(getSupportFragmentManager());
             viewPager.setAdapter(adapter);
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
 
@@ -142,9 +129,9 @@ public class MainActivity extends BaseActivity {
                     result = true;
                 } else if (BottomNavigation.class.isInstance(dep)) {
                     BottomNavigation navigation = (BottomNavigation) dep;
-                    t += navigation.getTranslationY() - navigation.getHeight() + bottomMargin;
-                    result = true;
-                }
+                t += navigation.getTranslationY() - navigation.getHeight() + bottomMargin;
+                result = true;
+            }
             }
 
             child.setTranslationY(t);
@@ -158,7 +145,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public int getNavigationBarHeight() {
+    /*public int getNavigationBarHeight() {
         return getSystemBarTint().getConfig().getNavigationBarHeight();
     }
 
@@ -167,23 +154,18 @@ public class MainActivity extends BaseActivity {
             mSystemBarTint = new SystemBarTintManager(this);
         }
         return mSystemBarTint;
-    }
+    }*/
 
     private class SegmentPageAdapter extends FragmentPagerAdapter {
 
-        private String[] title = {"F1", "f2", "f3", "f4"};
 
-        private String[] fragments = {AFragment.class.getName(), AFragment.class.getName(),
-                AFragment.class.getName(), AFragment.class.getName()};
+        private String[] fragments = {MessageFragment.class.getName(), LiveFragment.class.getName(),
+                TimelineFragment.class.getName(), ProfileFragment.class.getName()};
 
         public SegmentPageAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return title[position];
-        }
 
         @Override
         public Fragment getItem(int pos) {
@@ -193,7 +175,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return title.length;
+            return 4;
         }
 
     }

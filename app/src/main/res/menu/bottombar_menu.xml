@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bbn_item1"
+        android:color="@android:color/holo_purple"
+        android:icon="@drawable/ic_face_white_24px"
+        android:title="@string/bottom_talk" />
+    <item
+        android:id="@+id/bbn_item2"
+        android:color="@android:color/holo_green_dark"
+        android:icon="@drawable/ic_play_circle_outline_white_24px"
+        android:title="@string/bottom_live" />
+    <item
+        android:id="@+id/bbn_item3"
+        android:color="@android:color/holo_orange_dark"
+        android:icon="@drawable/ic_share_white_24px"
+        android:title="@string/bottom_status" />
+    <item
+        android:id="@+id/bbn_item4"
+        android:color="#FF5252"
+        android:icon="@drawable/ic_sentiment_very_satisfied_white_24px"
+        android:title="@string/bottom_profile" />
+
+</menu>

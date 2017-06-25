@@ -15,7 +15,27 @@ import com.j.enjpery.app.base.BaseFragment;
  * A simple {@link Fragment} subclass.
  */
 public class LiveFragment extends BaseFragment {
-    public static LiveFragment newInstance(String title){
+
+    @Override
+    public void fetchData() {
+
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_live;
+    }
+
+    public LiveFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public void finishCreateView(Bundle state) {
+
+    }
+    /*public static LiveFragment newInstance(String title){
         LiveFragment fragment = new LiveFragment();
         Bundle args = new Bundle();
         args.putString("key_fragment_title", title);
@@ -46,12 +66,12 @@ public class LiveFragment extends BaseFragment {
     @Override
     public void fetchData() {
         tv.setText(title);
-        /** * 在这里请求网络。 */
+        *//** * 在这里请求网络。 *//*
     }
 
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_live;
-    }
+    }*/
 
 }

@@ -32,16 +32,59 @@ public abstract class BaseFragment extends RxFragment {
 
     private Unbinder bind;
 
+    /*called once the fragment is associated with its activity.*/
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (FragmentActivity) activity;
+    }
+
+    /*called to do initial creation of the fragment.*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+
+    /*creates and returns the view hierarchy associated with the fragment.*/
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        parentView = inflater.inflate(getLayoutResId(), container, false);
+        activity = getSupportActivity();
+        return parentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        bind = ButterKnife.bind(this, view);
+        finishCreateView(savedInstanceState);
+    }
+
+
+    /*tells the fragment that its activity has completed its own Activity.onCreate().*/
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         isViewInitiated = true;
         prepareFetchData();
+    }
+
+
+    /*allows the fragment to clean up resources associated with its View.*/
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+        bind.unbind();
+    }
+
+    /*called immediately prior to the fragment no longer being associated with its activity.*/
+    @Override
+    public void onDetach() {
+
+        super.onDetach();
+        this.activity = null;
     }
 
     @Override
@@ -70,50 +113,13 @@ public abstract class BaseFragment extends RxFragment {
 
     public abstract @LayoutRes int getLayoutResId();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
-        parentView = inflater.inflate(getLayoutResId(), container, false);
-        activity = getSupportActivity();
-        return parentView;
-    }
-
     public FragmentActivity getSupportActivity() {
 
         return super.getActivity();
     }
 
 
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
-        bind = ButterKnife.bind(this, view);
-        finishCreateView(savedInstanceState);
-    }
-
     public abstract void finishCreateView(Bundle state);
-
-    @Override
-    public void onDestroyView() {
-
-        super.onDestroyView();
-        bind.unbind();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-
-        super.onAttach(activity);
-        this.activity = (FragmentActivity) activity;
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-        this.activity = null;
-    }
 
     public ActionBar getSupportActionBar() {
 
@@ -154,12 +160,12 @@ public abstract class BaseFragment extends RxFragment {
     protected void initRefreshLayout() {}
 
 
-    protected void finishTask() {}
+    protected void finishTask() {}*/
 
 
     @SuppressWarnings("unchecked")
     public <T extends View> T $(int id) {
 
         return (T) parentView.findViewById(id);
-    }*/
+    }
 }
