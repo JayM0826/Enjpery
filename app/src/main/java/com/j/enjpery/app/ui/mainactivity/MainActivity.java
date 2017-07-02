@@ -2,6 +2,7 @@ package com.j.enjpery.app.ui.mainactivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -16,20 +17,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
+import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.LiveFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.MessageFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.ProfileFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.AppManager;
+import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
 import com.jakewharton.rxbinding2.view.RxView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -43,6 +52,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    private Disposable networkDisposable;
+    private Disposable internetDispoable;
+
     // private SystemBarTintManager mSystemBarTint;
 
     @Override
@@ -51,7 +63,53 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
+                .subscribeOn(Schedulers.io())
+                .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(connectivity -> {
+                    Timber.i("监听网络的变化");
+                    final NetworkInfo.State state = connectivity.getState();
+                    String networkInfo = "";
+                    switch (state){
+                        case CONNECTED:
+                            SnackbarUtil.show(fabMenu, "网络已经连接");
+                            networkInfo = "网络已经连接";
+                            break;
+                        case CONNECTING:
+                            SnackbarUtil.show(fabMenu, "网络正在连接");
+                            networkInfo = "网络正在连接";
+                            break;
+                        case DISCONNECTED:
+                            SnackbarUtil.show(fabMenu, "已经断开连接");
+                            networkInfo = "网络已经断开";
+                            break;
+                            default:break;
+                    }
+                    EventBus.getDefault().post(new NetworkEvent(networkInfo));
+                });
+
+        internetDispoable = ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aBoolean -> {
+                    String networkInfo = "";
+                    if (aBoolean)
+                        networkInfo = "网络在连接";
+                    else
+                        networkInfo = "网络已断开";
+                    EventBus.getDefault().post(new NetworkEvent(networkInfo));
+                });
+    }
+
+    @Override
     public void initViews(Bundle savedInstanceState) {
+
+        // 注册EventBus,发布者不需要注册，只要注册就要订阅
+        // setNeedRegister();
 
         RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid -> {
             startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
@@ -129,9 +187,9 @@ public class MainActivity extends BaseActivity {
                     result = true;
                 } else if (BottomNavigation.class.isInstance(dep)) {
                     BottomNavigation navigation = (BottomNavigation) dep;
-                t += navigation.getTranslationY() - navigation.getHeight() + bottomMargin;
-                result = true;
-            }
+                    t += navigation.getTranslationY() - navigation.getHeight() + bottomMargin;
+                    result = true;
+                }
             }
 
             child.setTranslationY(t);

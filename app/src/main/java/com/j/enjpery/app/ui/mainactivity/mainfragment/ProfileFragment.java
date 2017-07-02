@@ -29,7 +29,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
-    public void finishCreateView(Bundle state) {
+    public void initCreateView(Bundle state) {
 
     }
 

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.trello.rxlifecycle2.components.support.RxFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,40 +33,41 @@ public abstract class BaseFragment extends RxFragment {
     protected boolean isVisibleToUser;
     protected boolean isDataInitiated;
     private FragmentActivity activity;
-
-    private View parentView;
-
-    private Unbinder bind;
+    private boolean isNeedRegister = false;
 
     /*called once the fragment is associated with its activity.*/
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (FragmentActivity) activity;
+
     }
 
     /*called to do initial creation of the fragment.*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
+        if (isNeedRegister){
+            EventBus.getDefault().register(this);
+        }
+    }
 
     /*creates and returns the view hierarchy associated with the fragment.*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         parentView = inflater.inflate(getLayoutResId(), container, false);
         activity = getSupportActivity();
+        bind = ButterKnife.bind(this, parentView);
         return parentView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bind = ButterKnife.bind(this, view);
-        finishCreateView(savedInstanceState);
-    }
+        initCreateView(savedInstanceState);
 
+    }
 
     /*tells the fragment that its activity has completed its own Activity.onCreate().*/
     @Override
@@ -70,13 +77,19 @@ public abstract class BaseFragment extends RxFragment {
         prepareFetchData();
     }
 
-
     /*allows the fragment to clean up resources associated with its View.*/
     @Override
     public void onDestroyView() {
-
         super.onDestroyView();
         bind.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isNeedRegister){
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     /*called immediately prior to the fragment no longer being associated with its activity.*/
@@ -86,6 +99,15 @@ public abstract class BaseFragment extends RxFragment {
         super.onDetach();
         this.activity = null;
     }
+
+    protected void setNeedRegister() {
+        this.isNeedRegister = true;
+    }
+
+    private View parentView;
+
+    private Unbinder bind;
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -119,7 +141,7 @@ public abstract class BaseFragment extends RxFragment {
     }
 
 
-    public abstract void finishCreateView(Bundle state);
+    public abstract void initCreateView(Bundle state);
 
     public ActionBar getSupportActionBar() {
 

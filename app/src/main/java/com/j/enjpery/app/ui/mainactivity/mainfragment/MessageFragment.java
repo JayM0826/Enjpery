@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseFragment;
+import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,8 +20,15 @@ import com.j.enjpery.app.base.BaseFragment;
 public class MessageFragment extends BaseFragment {
 
 
+
+
     @Override
     public void fetchData() {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkEvent(NetworkEvent networkEvent){
 
     }
 
@@ -32,8 +43,8 @@ public class MessageFragment extends BaseFragment {
 
 
     @Override
-    public void finishCreateView(Bundle state) {
-
+    public void initCreateView(Bundle state) {
+        // setNeedRegister();
     }
 
 }

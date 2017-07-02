@@ -14,8 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <it.sephiroth.android.library.bottomnavigation.BottomNavigation
+        android:id="@+id/BottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:bbn_badgeProvider="@string/bbn_badgeProvider"
+        app:bbn_entries="@menu/bottombar_menu"
+        app:layout_behavior="@string/bbn_phone_view_behavior"
+        />
 
-
+    <!--被引用的id一定要先声明-->
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab"
         android:layout_width="match_parent"
@@ -51,14 +60,4 @@
             app:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
-
-    <it.sephiroth.android.library.bottomnavigation.BottomNavigation
-        android:id="@+id/BottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        app:bbn_badgeProvider="@string/bbn_badgeProvider"
-        app:bbn_entries="@menu/bottombar_menu"
-        app:layout_behavior="@string/bbn_phone_view_behavior"
-        />
 </android.support.design.widget.CoordinatorLayout>

@@ -28,7 +28,7 @@ public class TimelineFragment extends BaseFragment {
 
 
     @Override
-    public void finishCreateView(Bundle state) {
+    public void initCreateView(Bundle state) {
 
     }
 

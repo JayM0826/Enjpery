@@ -26,10 +26,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     private boolean isNeedRegister = false;
     public ProgressDialog progressDialog;
 
-    protected void setNeedRegister() {
-        this.isNeedRegister = true;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +40,34 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initToolBar();
         AppManager.addActivity(this);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (isNeedRegister){
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isNeedRegister){
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        bind.unbind();
+
+    }
+
+    protected void setNeedRegister() {
+        this.isNeedRegister = true;
     }
 
 
@@ -97,26 +121,4 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     public void finishTask() {}
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (isNeedRegister){
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (isNeedRegister){
-            EventBus.getDefault().unregister(this);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-        bind.unbind();
-    }
 }
