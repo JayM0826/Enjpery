@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
                     EventBus.getDefault().post(new NetworkEvent(networkInfo));
                 });
 
-        internetDispoable = ReactiveNetwork.observeInternetConnectivity()
+        /*internetDispoable = ReactiveNetwork.observeInternetConnectivity()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aBoolean -> {
@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
                     else
                         networkInfo = "网络已断开";
                     EventBus.getDefault().post(new NetworkEvent(networkInfo));
-                });
+                });*/
     }
 
     @Override
