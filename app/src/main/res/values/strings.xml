@@ -60,4 +60,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="long_text">江山如此多娇，引无数英雄竞折腰。
+        惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。
+        一代天骄，成吉思汗，只识弯弓射大雕。
+        俱往矣，数风流人物，还看今朝。 </string>
+
 </resources>

@@ -18,4 +18,22 @@
 
     <!-- *height_profile_picture_with_toolbar* - half of *size_button_message* -->
     <dimen name="margin_top_button_message">290dp</dimen>
+
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+
+    <!--Status顶部字体大小-->
+    <dimen name="profile_user_image_38dp">38dp</dimen>
+    <dimen name="profile_user_name_14sp">14sp</dimen>
+    <dimen name="profile_user_time_12sp">12sp</dimen>
+    <dimen name="status_comefrom_device_12sp">12sp</dimen>
+    <dimen name="status_line_space_3dp">3dp</dimen>
+    <dimen name="status_text_size_15sp">15sp</dimen>
+
+    <dimen name="repost_status_font_size_15sp">15sp</dimen>
+
+
+    <dimen name="post_content_font_size_15sp">15sp</dimen>
+    <dimen name="status_bottom_action_font_size_12sp">12sp</dimen><!--底部Bar的字体大小-->
 </resources>

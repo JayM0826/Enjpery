@@ -53,6 +53,7 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
 
 
     /******************第三方控件家族*****************************
@@ -63,6 +64,13 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     // https://github.com/w446108264/XhsEmoticonsKeyboard
     compile 'com.github.w446108264:XhsEmoticonsKeyboard:2.0.4'
+    //  https://github.com/hdodenhof/CircleImageView
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    compile('me.drakeet.multitype:multitype:3.1.0', {
+        exclude group: 'com.android.support'
+    })
+
 
 
     /******************Rx家族*****************************
@@ -100,15 +108,15 @@ dependencies {
     /******************LeanCloud家族*****************************
      ****************************************************/
     // LeanCloud 基础包
-    compile 'cn.leancloud.android:avoscloud-sdk:v4.1.1'
+    compile 'cn.leancloud.android:avoscloud-sdk:v4.4.0'
     // 推送与实时聊天需要的包
-    compile('cn.leancloud.android:avoscloud-push:v4.1.1@aar') { transitive = true }
+    compile('cn.leancloud.android:avoscloud-push:v4.4.0@aar') { transitive = true }
     // LeanCloud 统计包
-    compile 'cn.leancloud.android:avoscloud-statistics:v4.1.1'
+    compile 'cn.leancloud.android:avoscloud-statistics:v4.4.0'
     // LeanCloud 用户反馈包
-    compile 'cn.leancloud.android:avoscloud-feedback:v4.1.1@aar'
+    compile 'cn.leancloud.android:avoscloud-feedback:v4.4.0@aar'
     // LeanCloud 应用内搜索包
-    compile 'cn.leancloud.android:avoscloud-search:v4.1.1@aar'
+    compile 'cn.leancloud.android:avoscloud-search:v4.4.0@aar'
 
 
 
@@ -123,8 +131,8 @@ dependencies {
     // testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     // butterknife 注入 http://jakewharton.github.io/butterknife/
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 
     // https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -165,5 +173,6 @@ dependencies {
     // https://github.com/daimajia/AndroidViewAnimations 安卓动画
 
     // https://github.com/Nightonke/BoomMenu boom菜单
+    compile 'com.nightonke:boommenu:2.1.0'
     // https://github.com/glomadrian/RoadRunner 加载动画
 }
