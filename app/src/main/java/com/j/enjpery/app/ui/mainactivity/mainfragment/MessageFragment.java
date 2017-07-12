@@ -34,7 +34,7 @@ public class MessageFragment extends BaseFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_message;
+        return R.layout.wxfragment_profile;
     }
 
     public MessageFragment() {

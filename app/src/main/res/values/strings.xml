@@ -64,5 +64,11 @@
         惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。
         一代天骄，成吉思汗，只识弯弓射大雕。
         俱往矣，数风流人物，还看今朝。 </string>
+    <string name="settings">设置</string>
+    <string name="expression2">表情</string>
+    <string name="card_bag">卡包</string>
+    <string name="wallet">钱包</string>
+    <string name="collection">收藏</string>
+    <string name="my_posts">相册</string>
 
 </resources>

@@ -1,13 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.yalantis.phoenix.PullToRefreshView
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/statusRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </com.yalantis.phoenix.PullToRefreshView>
+
+    <!--被引用的id一定要先声明-->
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_behavior="com.j.enjpery.app.base.BaseFragment$FabBehavior"
+        app:layout_anchorGravity="right|top"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
+        app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_fab_size="mini">
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_item1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        app:fab_label="Snackbar"
+        app:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_item2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_call"
+        app:fab_label="Exit"
+        app:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <!--下拉结果小提示-->
+    <include layout="@layout/loaded_toast" />
+
+    <!--没有任何动态时的layout-->
+    <include layout="@layout/empty_default" />
 </FrameLayout>

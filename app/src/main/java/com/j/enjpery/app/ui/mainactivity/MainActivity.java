@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -45,10 +46,10 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.fab)
-    FloatingActionMenu fabMenu;
-    @BindView(R.id.BottomNavigation)
-    BottomNavigation BottomNavigation;
+    /*@BindView(R.id.fab)
+    FloatingActionMenu fabMenu;*/
+    @BindView(R.id.bottomNavigation)
+    BottomNavigation bottomNavigation;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
@@ -76,15 +77,15 @@ public class MainActivity extends BaseActivity {
                     String networkInfo = "";
                     switch (state){
                         case CONNECTED:
-                            SnackbarUtil.show(fabMenu, "网络已经连接");
+                            SnackbarUtil.show(bottomNavigation, "网络已经连接");
                             networkInfo = "网络已经连接";
                             break;
                         case CONNECTING:
-                            SnackbarUtil.show(fabMenu, "网络正在连接");
+                            SnackbarUtil.show(bottomNavigation, "网络正在连接");
                             networkInfo = "网络正在连接";
                             break;
                         case DISCONNECTED:
-                            SnackbarUtil.show(fabMenu, "已经断开连接");
+                            SnackbarUtil.show(bottomNavigation, "已经断开连接");
                             networkInfo = "网络已经断开";
                             break;
                             default:break;
@@ -111,25 +112,25 @@ public class MainActivity extends BaseActivity {
         // 注册EventBus,发布者不需要注册，只要注册就要订阅
         // setNeedRegister();
 
-        RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid -> {
+        /*RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid -> {
             startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
         });
 
         RxView.clicks(fabMenu.findViewById(R.id.fab_item2)).subscribe(aVoid -> {
             LoginAndRegister.doLogOut();
             AppManager.AppExit(getApplicationContext());
-        });
+        });*/
 
         if (null == savedInstanceState) {
-            BottomNavigation.setDefaultSelectedIndex(0);
-            ((BottomBehavior) BottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
+            bottomNavigation.setDefaultSelectedIndex(0);
+            ((BottomBehavior) bottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
                     new BottomBehavior.OnExpandStatusChangeListener() {
                         @Override
                         public void onExpandStatusChanged(final boolean expanded, final boolean animate) {
 
                         }
                     });
-            BottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
+            bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
                 @Override
                 public void onMenuItemSelect(int i, int i1, boolean b) {
                     Timber.i("不要在类上实现接口，要使用匿名类");
@@ -141,7 +142,7 @@ public class MainActivity extends BaseActivity {
                     Timber.i("bottombar的监听器要使用匿名类");
                 }
             });
-            final BadgeProvider provider = BottomNavigation.getBadgeProvider();
+            final BadgeProvider provider = bottomNavigation.getBadgeProvider();
             provider.show(R.id.bbn_item3);
             provider.show(R.id.bbn_item4);
 

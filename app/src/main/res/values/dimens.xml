@@ -35,5 +35,9 @@
 
 
     <dimen name="post_content_font_size_15sp">15sp</dimen>
-    <dimen name="status_bottom_action_font_size_12sp">12sp</dimen><!--底部Bar的字体大小-->
+    <dimen name="status_bottom_action_font_size_12sp">12sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="sp_15">15sp</dimen>
 </resources>

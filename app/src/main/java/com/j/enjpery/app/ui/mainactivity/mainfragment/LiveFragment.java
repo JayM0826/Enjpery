@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseFragment;
@@ -26,8 +27,8 @@ import butterknife.Unbinder;
 public class LiveFragment extends BaseFragment {
 
 
-    @BindView(R.id.networkInfo)
-    Button networkInfo;
+    /*@BindView(R.id.networkInfo)
+    Button networkInfo;*/
     Unbinder unbinder;
 
     @Override
@@ -43,7 +44,7 @@ public class LiveFragment extends BaseFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_live;
+        return R.layout.wxfragment_profile;
     }
 
     public LiveFragment() {
@@ -51,24 +52,10 @@ public class LiveFragment extends BaseFragment {
     }
 
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkEvent(NetworkEvent networkEvent){
-        networkInfo.setText(networkEvent.getNetworkInfo());
+        // networkInfo.setText(networkEvent.getNetworkInfo());
+        Toast.makeText(getContext(), networkEvent.getNetworkInfo(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

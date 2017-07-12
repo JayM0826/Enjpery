@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <!-- 1.colorPrimary 应用的主要色调，actionBar默认使用该颜色，Toolbar导航栏的底色
+    <!-- 1.colorPrimary 应用的主要色调，actionBar默认使用该颜色，Toolbar导航栏的底色
 
-    2.colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色
+     2.colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色
 
-    3.statusBarColor 状态栏颜色，默认使用colorPrimaryDark
+     3.statusBarColor 状态栏颜色，默认使用colorPrimaryDark
 
-    4.windowBackground 窗口背景颜色
+     4.windowBackground 窗口背景颜色
 
-    5.navigationBarColor 底部栏颜色
+     5.navigationBarColor 底部栏颜色
 
-    6.colorForeground 应用的前景色，ListView的分割线，switch滑动区默认使用该颜色
+     6.colorForeground 应用的前景色，ListView的分割线，switch滑动区默认使用该颜色
 
-    7.colorBackground 应用的背景色，popMenu的背景默认使用该颜色
+     7.colorBackground 应用的背景色，popMenu的背景默认使用该颜色
 
-    8.colorAccent CheckBox，RadioButton，SwitchCompat等一般控件的选中效果默认采用该颜色
+     8.colorAccent CheckBox，RadioButton，SwitchCompat等一般控件的选中效果默认采用该颜色
 
-    9.colorControlNormal CheckBox，RadioButton，SwitchCompat等默认状态的颜色。
+     9.colorControlNormal CheckBox，RadioButton，SwitchCompat等默认状态的颜色。
 
-    10.colorControlHighlight 控件按压时的色调
+     10.colorControlHighlight 控件按压时的色调
 
-    11.colorControlActivated 控件选中时的颜色，默认使用colorAccent
+     11.colorControlActivated 控件选中时的颜色，默认使用colorAccent
 
-    12.colorButtonNormal 默认按钮的背景颜色
+     12.colorButtonNormal 默认按钮的背景颜色
 
-    13.editTextColor：默认EditView输入框字体的颜色。
+     13.editTextColor：默认EditView输入框字体的颜色。
 
-    14.textColor Button，textView的文字颜色
+     14.textColor Button，textView的文字颜色
 
-    15.textColorPrimaryDisableOnly RadioButton checkbox等控件的文字
+     15.textColorPrimaryDisableOnly RadioButton checkbox等控件的文字
 
-    16.textColorPrimary 应用的主要文字颜色，actionBar的标题文字默认使用该颜色
+     16.textColorPrimary 应用的主要文字颜色，actionBar的标题文字默认使用该颜色
 
-    17.colorSwitchThumbNormal: switch thumbs 默认状态的颜色. (switch off)-->
+     17.colorSwitchThumbNormal: switch thumbs 默认状态的颜色. (switch off)-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -58,7 +58,6 @@
     <color name="iron">#CCCCCC</color>
 
 
-
     <!--material design color-->
     <!--Red 红色-->
     <color name="color_red_50">#FFEBEE</color>
@@ -76,7 +75,6 @@
     <color name="color_red_A200">#FF5252</color>
     <color name="color_red_A400">#FF1744</color>
     <color name="color_red_A700">#D50000</color>
-
 
 
     <!--pink 粉色-->
@@ -347,7 +345,7 @@
     <color name="color_brown_800">#4E342E</color>
     <color name="color_brown_900">#3E2723</color>
 
-   <!-- Grey 灰色 -->
+    <!-- Grey 灰色 -->
     <color name="color_grey_50">#FAFAFA</color>
     <color name="color_grey_100">#F5F5F5</color>
     <color name="color_grey_200">#EEEEEE</color>
@@ -377,22 +375,130 @@
     <color name="gray">#000</color>
     <color name="status_text_color">#334455</color>
 
- <!--显示微博转发数，评论数，赞数的bar-->
- <color name="commentbar_bg">#FFFFFF</color><!--普通背景颜色-->
- <color name="commentbar_highlight_bg">#f4f4f4</color><!--press的背景颜色-->
- <color name="commentbar_top_drive">#f2f2f2</color><!--顶部的分割线-->
- <color name="commentbar_vertical_drive">#f4f4f4</color><!--竖直的分割线-->
+    <!--显示微博转发数，评论数，赞数的bar-->
+    <color name="commentbar_bg">#FFFFFF</color><!--普通背景颜色-->
+    <color name="commentbar_highlight_bg">#f4f4f4</color><!--press的背景颜色-->
+    <color name="commentbar_top_drive">#f2f2f2</color><!--顶部的分割线-->
+    <color name="commentbar_vertical_drive">#f4f4f4</color><!--竖直的分割线-->
 
 
- <color name="status_bottombar_bg_FFF">#FFFFFF</color><!--底部bar的背景样式-->
- <color name="status_bottombar_font_color_929292">#929292</color><!--底部bar字体颜色-->
- <color name="status_bottombar_line_color_eaeaea">#eaeaea</color><!--顶部分割线的颜色-->
+    <color name="status_bottombar_bg_FFF">#FFFFFF</color><!--底部bar的背景样式-->
+    <color name="status_bottombar_font_color_929292">#929292</color><!--底部bar字体颜色-->
+    <color name="status_bottombar_line_color_eaeaea">#eaeaea</color><!--顶部分割线的颜色-->
 
- <!--按钮栏-白天 -->
- <color name="rl_normal_bg">#FFFFFF</color><!--状态栏的的背景颜色-->
- <color name="rl_highlight_bg">#f2f2f2</color><!--状态栏的的背景颜色-->
- <color name="rl_textcolor">#111111</color>
+    <!--按钮栏-白天 -->
+    <color name="rl_normal_bg">#FFFFFF</color><!--状态栏的的背景颜色-->
+    <color name="rl_highlight_bg">#f2f2f2</color><!--状态栏的的背景颜色-->
+    <color name="rl_textcolor">#111111</color>
 
- <color name="origin_highlight_bg">#ededed</color><!--微博的按压状态下的背景颜色-->
- <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->
+    <color name="origin_highlight_bg">#ededed</color><!--微博的按压状态下的背景颜色-->
+    <color name="origin_nor_bg">#FFFFFF</color><!--微博的普通背景颜色-->
+
+
+    <!--微信的调色板-->
+    <color name="transparent">#00000000</color>
+    <color name="transparent2">#50000000</color>
+    <color name="light_notes_color">#ff999999</color>
+    <color name="link_color">#ff4abad7</color>
+    <color name="font_value">#ff888271</color>
+    <color name="khbf_list_white">#fff8f8f8</color>
+    <color name="title_white">#fff7f7f7</color>
+    <color name="deep_black">#ff000000</color>
+    <color name="blacky">#ff000000</color>
+    <color name="black1">#ff7a7e83</color>
+    <color name="blackk1">#ff7c8081</color>
+    <color name="blackk">#ffe6e6e6</color>
+    <color name="black2">#ffeeeeee</color>
+    <color name="blue0">#ff88c1e8</color>
+    <color name="black3">#fff7f7f7</color>
+    <color name="black4">#ffeaeaea</color>
+    <color name="white_blue">#ff99ccff</color>
+    <color name="white_gray">#ffcccc99</color>
+    <color name="qjjl_top">#ffffffcc</color>
+    <color name="red">#fffc2828</color>
+    <color name="red1">#ffe36c09</color>
+    <color name="red3">#ffc0504d</color>
+    <color name="orange1">#ffff7d27</color>
+    <color name="orange2">#ffd75702</color>
+    <color name="orange4">#ffa57d3e</color>
+    <color name="darkgreen">#ff336666</color>
+    <color name="login">#ff333333</color>
+    <color name="gray_white">#fff7f7f7</color>
+    <color name="blue6">#ff71c7d4</color>
+    <color name="gray_black">#ff525252</color>
+    <color name="gray_back">#ff473e26</color>
+    <color name="main_bgcolor">#ffffffff</color>
+    <color name="list_bg1">#fff7f8fa</color>
+    <color name="list_bg0">#fff5f5f5</color>
+    <color name="list_bg2">#ffffffff</color>
+    <color name="list_bg3">#ffffcccc</color>
+    <color name="list_pressed">#ffa0a0a3</color>
+    <color name="title_back">#ff293852</color>
+    <color name="greeny">#ff11aca6</color>
+    <color name="orange3">#ffffd1b3</color>
+    <color name="notice_detail_pressedc">#ff99cccc</color>
+    <color name="white_blue_selected">#ffb1daff</color>
+    <color name="product_list_tab_color">#ff87888c</color>
+    <color name="product_list_tab_select_color">#ff333333</color>
+    <color name="product_list_bg_color">#ffcccccc</color>
+    <color name="pink">#fffedbf5</color>
+    <color name="lightblue">#ffe0eeff</color>
+    <color name="gray1">#ffefefef</color>
+    <color name="grey">#fff5f5f5</color>
+    <color name="window_bg">#ffeef1f3</color>
+    <color name="qqblue">#ff54acea</color>
+    <color name="green1">#ff76923c</color>
+    <color name="greenn">#ff96cf99</color>
+    <color name="blue2">#ff31859b</color>
+    <color name="red4">#ff953734</color>
+    <color name="blue1">#ff00a4e8</color>
+    <color name="red2">#fff79646</color>
+    <color name="red0">#ffb7393a</color>
+    <color name="pur">#ff7030a0</color>
+    <color name="color_divider">#ffc9c9c9</color>
+    <color name="c1">#ffcca266</color>
+    <color name="c2">#ffc466cc</color>
+    <color name="c3">#ff31abea</color>
+    <color name="c4">#ff8ec31f</color>
+    <color name="c5">#ffff6cad</color>
+    <color name="c6">#ff8acc66</color>
+    <color name="c7">#ff448aca</color>
+    <color name="red6">#ffee5759</color>
+    <color name="calendar_background">#ff000000</color>
+    <color name="recordremind_background">#ffffffff</color>
+    <color name="border_color">#ffffffff</color>
+    <color name="weekname_color">#ffffffff</color>
+    <color name="day_color">#ffffffff</color>
+    <color name="inner_grid_color">#ffffffff</color>
+    <color name="prev_next_month_day_color">#ff999999</color>
+    <color name="text_color">#ffffff00</color>
+    <color name="recordremindtext_color">#ff000000</color>
+    <color name="current_day_color">#ffff0000</color>
+    <color name="today_background_color">#ffff0000</color>
+    <color name="today_color">#ffffffff</color>
+    <color name="sunday_saturday_color">#ffff0000</color>
+    <color name="sunday_saturday_prev_next_month_day_color">#ff990000</color>
+    <color name="bgcolor">#ffffffff</color>
+    <color name="txtcolor">#ff000000</color>
+    <color name="Calendar_WeekBgColor">#ffefe7de</color>
+    <color name="Calendar_WeekFontColor">#ff8c8a8c</color>
+    <color name="Calendar_DayBgColor">#fff7f7f7</color>
+    <color name="isHoliday_BgColor">#ffe0e0e0</color>
+    <color name="unPresentMonth_FontColor">#ff8c8a8c</color>
+    <color name="isPresentMonth_FontColor">#ff000000</color>
+    <color name="isToday_BgColor">#ffebdcc1</color>
+    <color name="specialReminder">#ffff0000</color>
+    <color name="commonReminder">#ffbdbab5</color>
+    <color name="gray_wx">#ff808080</color>
+    <color name="gray2">#ffeef2fb</color>
+    <color name="windows_color">#fff5f5f5</color>
+    <color name="bar_color">#ff232325</color>
+    <color name="popbg_color">#ff49484a</color>
+    <color name="grey2">#ffeaebea</color>
+    <color name="viewfinder_frame">#ff3ac814</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_laser">#ffe9e9e9</color>
+
 </resources>
