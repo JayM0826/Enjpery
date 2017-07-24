@@ -55,13 +55,13 @@
                     android:text="微信号:worromoT_"
                     android:textSize="14.0dip" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15.0dip"
-                    android:src="@drawable/right" />
+                <!-- <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="15.0dip"
+                     android:src="@drawable/ic_profile_qrcode" />-->
 
                 <ImageView
                     android:id="@+id/iv_sex"
@@ -78,81 +78,70 @@
                 android:layout_height="1.0px"
                 android:background="@color/black2" />
 
-            <TextView
-                android:id="@+id/txt_album"
-                style="@style/TxtTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:layout_marginTop="20.0dip"
-                android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_photo"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
-                android:gravity="center_vertical"
-                android:paddingLeft="16.0dip"
-                android:paddingRight="16.0dip"
-                android:text="@string/my_posts"
-                android:textSize="16.0sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40.0dip"
+                android:layout_marginTop="10.0dip"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_album"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/setting_item_selector"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center"
+                    android:text="@string/my_posts"
+                    android:textColor="@color/black"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/txt_collect"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/setting_item_selector"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center"
+                    android:text="@string/collection"
+                    android:textColor="@color/black"
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/txt_money"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/setting_item_selector"
+                    android:drawablePadding="10.0dip"
+                    android:gravity="center"
+                    android:text="@string/follow"
+                    android:textColor="@color/black"
+                    android:textSize="15.0sp" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1.0px"
                 android:background="@color/black2" />
 
-            <TextView
-                android:id="@+id/txt_collect"
-                style="@style/TxtTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_collect"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
-                android:gravity="center_vertical"
-                android:paddingLeft="16.0dip"
-                android:paddingRight="16.0dip"
-                android:text="@string/collection"
-                android:textSize="16.0sp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:background="@color/black2" />
-
-            <TextView
-                android:id="@+id/txt_money"
-                style="@style/TxtTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_money"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
-                android:gravity="center_vertical"
-                android:paddingLeft="16.0dip"
-                android:paddingRight="16.0dip"
-                android:text="@string/wallet"
-                android:textSize="16.0sp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:background="@color/black2" />
 
             <TextView
                 android:id="@+id/txt_card"
                 style="@style/TxtTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="50.0dip"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_card"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
+                android:drawableLeft="@drawable/ic_profile_status"
+                android:drawablePadding="24.0dip"
                 android:gravity="center_vertical"
                 android:paddingLeft="16.0dip"
                 android:paddingRight="16.0dip"
-                android:text="@string/card_bag"
-                android:textSize="16.0sp" />
+                android:text="@string/status"
+                android:textSize="20.0sp" />
 
             <View
                 android:layout_width="fill_parent"
@@ -160,20 +149,56 @@
                 android:background="@color/black2" />
 
             <TextView
-                android:id="@+id/txt_smail"
+                android:id="@+id/txt_card1"
                 style="@style/TxtTitle"
                 android:layout_width="fill_parent"
                 android:layout_height="50.0dip"
-                android:layout_marginTop="20.0dip"
                 android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_smail"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
+                android:drawableLeft="@drawable/ic_profile_music"
+                android:drawablePadding="24.0dip"
                 android:gravity="center_vertical"
                 android:paddingLeft="16.0dip"
                 android:paddingRight="16.0dip"
-                android:text="@string/expression2"
-                android:textSize="16.0sp" />
+                android:text="@string/music"
+                android:textSize="20.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@color/black2" />
+
+            <TextView
+                android:id="@+id/txt_card2"
+                style="@style/TxtTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:background="@drawable/setting_item_selector"
+                android:drawableLeft="@drawable/ic_profile_video"
+                android:drawablePadding="24.0dip"
+                android:gravity="center_vertical"
+                android:paddingLeft="16.0dip"
+                android:paddingRight="16.0dip"
+                android:text="@string/video"
+                android:textSize="20.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:background="@color/black2" />
+
+            <TextView
+                android:id="@+id/txt_card3"
+                style="@style/TxtTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="50.0dip"
+                android:background="@drawable/setting_item_selector"
+                android:drawableLeft="@drawable/ic_profile_note"
+                android:drawablePadding="24.0dip"
+                android:gravity="center_vertical"
+                android:paddingLeft="16.0dip"
+                android:paddingRight="16.0dip"
+                android:text="@string/note"
+                android:textSize="20.0sp" />
 
             <View
                 android:layout_width="fill_parent"
@@ -187,14 +212,13 @@
                 android:layout_height="50.0dip"
                 android:layout_marginTop="20.0dip"
                 android:background="@drawable/setting_item_selector"
-                android:drawableLeft="@drawable/icon_me_setting"
-                android:drawablePadding="10.0dip"
-                android:drawableRight="@drawable/right"
+                android:drawableLeft="@drawable/ic_profile_settings"
+                android:drawablePadding="24.0dip"
                 android:gravity="center_vertical"
                 android:paddingLeft="16.0dip"
                 android:paddingRight="10.0dip"
                 android:text="@string/settings"
-                android:textSize="16.0sp" />
+                android:textSize="20.0sp" />
 
             <View
                 android:layout_width="fill_parent"
