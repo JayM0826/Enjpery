@@ -27,9 +27,8 @@
     <application
         android:name=".app.global.EnjperyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_profile_status"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
@@ -72,8 +71,17 @@
         <activity
             android:name=".app.ui.loginandregister.SignUpActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".app.ui.mainactivity.MainActivity"
+        <activity
+            android:name=".app.ui.mainactivity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 仿微信的图片选择器 -->
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"
+            android:theme="@style/ImagePickerThemeFullScreen" />
+        <activity android:name=".app.ui.userinfo.UserInfoActivity"
+            android:label="@string/userinfo"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

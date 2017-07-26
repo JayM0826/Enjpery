@@ -52,7 +52,7 @@
                     android:layout_below="@id/tvname"
                     android:layout_marginTop="10.0dip"
                     android:layout_toRightOf="@id/head"
-                    android:text="微信号:worromoT_"
+                    android:text="签名:我是一只小青蛙，呱呱呱呱呱。"
                     android:textSize="14.0dip" />
 
                 <!-- <ImageView

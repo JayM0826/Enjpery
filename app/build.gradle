@@ -55,9 +55,8 @@ dependencies {
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
 
-
     /******************第三方控件家族*****************************
-    ****************************************************/
+     ****************************************************/
     // https://github.com/sephiroth74/Material-BottomNavigation
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
     // https://github.com/Clans/FloatingActionButton
@@ -74,8 +73,6 @@ dependencies {
 
     // https://github.com/Yalantis/Phoenix
     compile 'com.yalantis:phoenix:1.2.3'
-
-
 
     /******************Rx家族*****************************
      ****************************************************/
@@ -105,24 +102,18 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-support-v4:2.0.0'
 
-    // https://github.com/FinalTeam/RxGalleryFinal
-    compile 'cn.finalteam.rxgalleryfinal:library:1.0.8'
-
-
     /******************LeanCloud家族*****************************
      ****************************************************/
     // LeanCloud 基础包
-    compile 'cn.leancloud.android:avoscloud-sdk:v4.4.0'
+    compile 'cn.leancloud.android:avoscloud-sdk:v4.4.3'
     // 推送与实时聊天需要的包
-    compile('cn.leancloud.android:avoscloud-push:v4.4.0@aar') { transitive = true }
+    compile('cn.leancloud.android:avoscloud-push:v4.4.3@aar') { transitive = true }
     // LeanCloud 统计包
-    compile 'cn.leancloud.android:avoscloud-statistics:v4.4.0'
+    compile 'cn.leancloud.android:avoscloud-statistics:v4.4.3'
     // LeanCloud 用户反馈包
-    compile 'cn.leancloud.android:avoscloud-feedback:v4.4.0@aar'
+    compile 'cn.leancloud.android:avoscloud-feedback:v4.4.3@aar'
     // LeanCloud 应用内搜索包
-    compile 'cn.leancloud.android:avoscloud-search:v4.4.0@aar'
-
-
+    compile 'cn.leancloud.android:avoscloud-search:v4.4.3@aar'
 
     /******************杂七杂八*****************************
      ****************************************************/
@@ -160,7 +151,6 @@ dependencies {
     // https://github.com/JakeWharton/timber 打印log
     compile 'com.jakewharton.timber:timber:4.5.1'
 
-
     // https://github.com/Gavin-ZYX/StickyDecoration 实现顶部悬浮效果，
     // mRecyclerView.addItemDecoration(decoration);
     compile 'com.gavin.com.library:stickyDecoration:1.0.2'
@@ -168,8 +158,10 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
 
-    // https://github.com/vanniktech/Emoji
+    // https://github.com/JayM0826/ImagePicker 仿微信的图片选择器
+    compile 'com.lzy.widget:imagepicker:0.5.5'
 
+    // https://github.com/vanniktech/Emoji
 
     // https://github.com/square/retrofit
     // compile 'com.squareup.retrofit2:retrofit:2.3.0'
