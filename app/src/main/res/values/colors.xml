@@ -500,5 +500,7 @@
     <color name="possible_result_points">#c0ffff00</color>
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_laser">#ffe9e9e9</color>
+    <color name="highlight">#FF1AAD19</color>
+    <color name="disable">#FF2C6830</color>
 
 </resources>

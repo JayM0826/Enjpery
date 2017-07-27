@@ -1,0 +1,11 @@
+<android.support.v7.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/menu_background"
+    android:gravity="center"
+    android:text="@string/menu_save"
+    android:padding="10dp"
+    android:textStyle="bold"
+    android:layout_marginEnd="@dimen/dp8"
+    tools:ignore="RtlHardcoded" />

@@ -26,7 +26,7 @@
                 android:background="@color/black2" />
 
             <RelativeLayout
-                android:id="@+id/headImageLayout"
+                android:id="@+id/view_user"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10.0dip"
@@ -35,6 +35,7 @@
                 android:paddingTop="5.0dip">
 
                 <TextView
+                    android:id="@+id/tvname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -45,7 +46,7 @@
                     android:textSize="20sp" />
 
                 <ImageView
-                    android:id="@+id/headImage"
+                    android:id="@+id/head"
                     android:layout_width="80.0dip"
                     android:layout_height="80.0dip"
                     android:layout_alignParentRight="true"
@@ -64,7 +65,7 @@
                 android:background="@color/black2" />
 
             <RelativeLayout
-                android:id="@+id/accountLayout"
+                android:id="@+id/nicknameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/setting_item_selector"
@@ -84,7 +85,7 @@
                     android:textSize="20.0sp" />
 
                 <TextView
-                    android:id="@+id/account"
+                    android:id="@+id/nickname"
                     style="@style/TxtTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="50.0dip"
@@ -95,7 +96,9 @@
                     android:gravity="center_vertical"
                     android:text="又土又逗，简称土豆"
                     android:textColor="@color/black1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
             </RelativeLayout>
 
 
@@ -107,7 +110,7 @@
                 android:background="@color/black2" />
 
             <RelativeLayout
-                android:id="@+id/signatureLayout"
+                android:id="@+id/nicknameLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/setting_item_selector"
@@ -138,96 +141,9 @@
                     android:gravity="center_vertical"
                     android:text="我是一只小青蛙，呱呱呱呱呱"
                     android:textColor="@color/black1"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            </RelativeLayout>
-
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
-
-            <RelativeLayout
-                android:id="@+id/sexLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="性   别"
-                    android:textSize="20.0sp" />
-
-                <TextView
-                    android:id="@+id/sex"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="男"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
-
-            </RelativeLayout>
-
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
-
-
-            <RelativeLayout
-                android:id="@+id/locationLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="地   区"
-                    android:textSize="20.0sp" />
-
-                <TextView
-                    android:id="@+id/location"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="广东  深圳"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
             </RelativeLayout>
 
             <View
