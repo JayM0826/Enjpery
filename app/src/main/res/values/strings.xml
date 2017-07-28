@@ -74,5 +74,8 @@
     <string name="status">动态</string>
     <string name="userinfo">个人资料</string>
     <string name="menu_save">保存</string>
+    <string name="connected">网络已经连接</string>
+    <string name="connecting">网络正在连接</string>
+    <string name="disconnected">网络已断开</string>
 
 </resources>

@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
@@ -30,6 +31,7 @@ import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.AppManager;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
+import com.jakewharton.rxbinding2.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,9 +55,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private Disposable networkDisposable;
-    private Disposable internetDispoable;
-
     // private SystemBarTintManager mSystemBarTint;
 
     @Override
@@ -67,43 +66,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
-                .subscribeOn(Schedulers.io())
-                .compose(bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(connectivity -> {
-                    Timber.i("监听网络的变化");
-                    final NetworkInfo.State state = connectivity.getState();
-                    String networkInfo = "";
-                    switch (state){
-                        case CONNECTED:
-                            SnackbarUtil.show(bottomNavigation, "网络已经连接");
-                            networkInfo = "网络已经连接";
-                            break;
-                        case CONNECTING:
-                            SnackbarUtil.show(bottomNavigation, "网络正在连接");
-                            networkInfo = "网络正在连接";
-                            break;
-                        case DISCONNECTED:
-                            SnackbarUtil.show(bottomNavigation, "已经断开连接");
-                            networkInfo = "网络已经断开";
-                            break;
-                            default:break;
-                    }
-                    EventBus.getDefault().post(new NetworkEvent(networkInfo));
-                });
 
-        /*internetDispoable = ReactiveNetwork.observeInternetConnectivity()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aBoolean -> {
-                    String networkInfo = "";
-                    if (aBoolean)
-                        networkInfo = "网络在连接";
-                    else
-                        networkInfo = "网络已断开";
-                    EventBus.getDefault().post(new NetworkEvent(networkInfo));
-                });*/
     }
 
     @Override
@@ -124,30 +87,51 @@ public class MainActivity extends BaseActivity {
         if (null == savedInstanceState) {
             bottomNavigation.setDefaultSelectedIndex(0);
             ((BottomBehavior) bottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
-                    new BottomBehavior.OnExpandStatusChangeListener() {
-                        @Override
-                        public void onExpandStatusChanged(final boolean expanded, final boolean animate) {
-
-                        }
+                    (expanded, animate)-> {
+                        // 书写监听事件
+                        Toast.makeText(MainActivity.this, "setOnExpandStatusChangeListener 点击", Toast.LENGTH_SHORT).show();
                     });
             bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
                 @Override
                 public void onMenuItemSelect(int i, int i1, boolean b) {
+                    // i代表该item在R中的值，i1代表第几个item，从0开始计数，viewpager
+                    // 也是从0开始计数
+
                     Timber.i("不要在类上实现接口，要使用匿名类");
+                    // Timber.i("MainActivity 点击了第" + i1 + "个item");
+                    viewPager.setCurrentItem(i1);
                 }
 
                 @Override
                 public void onMenuItemReselect(int i, int i1, boolean b) {
-                    // SnackbarUtil.show(fabMenu, "不要在类上实现接口，要使用匿名类");
                     Timber.i("bottombar的监听器要使用匿名类");
+                    // Timber.i("MainActivity 再次点击了第" + i1 + "个item");
                 }
             });
+
             final BadgeProvider provider = bottomNavigation.getBadgeProvider();
             provider.show(R.id.bbn_item3);
             provider.show(R.id.bbn_item4);
 
             PagerAdapter adapter = new SegmentPageAdapter(getSupportFragmentManager());
             viewPager.setAdapter(adapter);
+
+
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    bottomNavigation.setSelectedIndex(position, true);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
         }
     }
 
