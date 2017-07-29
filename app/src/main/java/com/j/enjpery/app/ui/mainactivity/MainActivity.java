@@ -1,10 +1,7 @@
 package com.j.enjpery.app.ui.mainactivity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,35 +10,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
-import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.LiveFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.MessageFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.ProfileFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
-import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
-import com.j.enjpery.app.util.AppManager;
-import com.j.enjpery.app.util.SnackbarUtil;
-import com.j.enjpery.core.loginandregister.LoginAndRegister;
-import com.jakewharton.rxbinding2.support.v4.view.RxViewPager;
-import com.jakewharton.rxbinding2.view.RxView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -87,7 +70,7 @@ public class MainActivity extends BaseActivity {
         if (null == savedInstanceState) {
             bottomNavigation.setDefaultSelectedIndex(0);
             ((BottomBehavior) bottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
-                    (expanded, animate)-> {
+                    (expanded, animate) -> {
                         // 书写监听事件
                         Toast.makeText(MainActivity.this, "setOnExpandStatusChangeListener 点击", Toast.LENGTH_SHORT).show();
                     });
@@ -97,9 +80,10 @@ public class MainActivity extends BaseActivity {
                     // i代表该item在R中的值，i1代表第几个item，从0开始计数，viewpager
                     // 也是从0开始计数
 
-                    Timber.i("不要在类上实现接口，要使用匿名类");
-                    // Timber.i("MainActivity 点击了第" + i1 + "个item");
-                    viewPager.setCurrentItem(i1);
+                    // Timber.i("不要在类上实现接口，要使用匿名类");
+                    Timber.i("MainActivity 点击了第" + i1 + "个item");
+                    // 切换fragment时关闭平滑滚动，并不是去掉动画
+                    viewPager.setCurrentItem(i1, false);
                 }
 
                 @Override
@@ -115,8 +99,10 @@ public class MainActivity extends BaseActivity {
 
             PagerAdapter adapter = new SegmentPageAdapter(getSupportFragmentManager());
             viewPager.setAdapter(adapter);
-
-
+           /* 参数	解释
+            reverseDrawingOrder	boolean值，true表示提供的PageTransformer画view时是倒序，false则是正序
+            transformer	将修改每一页动画属性的PageTransformer*/
+            // viewPager.setPageTransformer(true, new AccordionTransformer());
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -199,9 +185,15 @@ public class MainActivity extends BaseActivity {
         return mSystemBarTint;
     }*/
 
+    /*使用 FragmentPagerAdapter 时，ViewPager 中的所有 Fragment 实例常驻内存，
+    当 Fragment 变得不可见时仅仅是视图结构的销毁，即调用了 onDestroyView 方法。
+    由于 FragmentPagerAdapter 内存消耗较大，所以适合少量静态页面的场景。
+
+    使用 FragmentStatePagerAdapter 时，当 Fragment 变得不可见，不仅视图层次销毁，
+    实例也被销毁，即调用了 onDestroyView 和 onDestroy 方法，
+    仅仅保存 Fragment 状态。相比而言， FragmentStatePagerAdapter 内存占用较小，
+    所以适合大量动态页面，比如我们常见的新闻列表类应用。*/
     private class SegmentPageAdapter extends FragmentPagerAdapter {
-
-
         private String[] fragments = {MessageFragment.class.getName(), LiveFragment.class.getName(),
                 TimelineFragment.class.getName(), ProfileFragment.class.getName()};
 
@@ -209,18 +201,18 @@ public class MainActivity extends BaseActivity {
             super(fm);
         }
 
-
         @Override
         public Fragment getItem(int pos) {
-            Log.v("MainActivity", getClass().getName() + "------>call getItem(), pos = " + pos);
+            Timber.v("MainActivity", getClass().getName() + "------>call getItem(), pos = " + pos);
             return Fragment.instantiate(getApplicationContext(), fragments[pos]);
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return fragments.length;
         }
-
     }
+
+
 
 }

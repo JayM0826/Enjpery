@@ -54,7 +54,6 @@ public abstract class BaseFragment extends RxFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (isNeedRegister){
             EventBus.getDefault().register(this);
         }
@@ -89,6 +88,11 @@ public abstract class BaseFragment extends RxFragment {
     public void onDestroyView() {
         super.onDestroyView();
         bind.unbind();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override

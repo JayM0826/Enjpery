@@ -8,6 +8,7 @@ package com.j.enjpery.app.ui.loginandregister;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,11 +21,15 @@ import android.widget.EditText;
 
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
+import com.j.enjpery.app.global.EnjperyApplication;
 import com.j.enjpery.app.ui.mainactivity.MainActivity;
 import com.j.enjpery.app.util.CircularAnim;
 import com.j.enjpery.app.util.CommonUtil;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,11 +62,25 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         instance = this;
-        if (!CommonUtil.isNetworkAvailable(this)){
+        if (EnjperyApplication.state != NetworkInfo.State.CONNECTED) {
             SnackbarUtil.show(btGo, "请先检查网络连接");
             Timber.i("无网络");
         }
-        return;
+
+        RxView.clicks(btGo)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    if (!validate()) {
+                        Exception e = new Exception("用户名或者密码不符合规范");
+                        onFailCallBack(e);
+                        return;
+                    }
+
+                    btGo.setEnabled(false);
+                    // 进行真正的登录请求
+                    showProgressDialog(R.string.login_dialog);
+                    LoginAndRegister.doLogin(email, password, instance);
+                });
     }
 
     @Override
@@ -69,36 +88,17 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.bt_go, R.id.fab})
-    public void onClick(View view) {
+    @OnClick({R.id.fab})
+    public void clickFab(View view) {
+        getWindow().setExitTransition(null);
+        getWindow().setEnterTransition(null);
 
-        switch (view.getId()) {
-            case R.id.fab:
-                getWindow().setExitTransition(null);
-                getWindow().setEnterTransition(null);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options =
-                            ActivityOptions.makeSceneTransitionAnimation(this, fab, fab.getTransitionName());
-                    startActivity(new Intent(this, SignUpActivity.class), options.toBundle());
-                } else {
-                    startActivity(new Intent(this, SignUpActivity.class));
-                }
-                break;
-            case R.id.bt_go:
-
-                if (!validate()) {
-                    Exception e = new Exception("用户名或者密码不符合规范");
-                    onFailCallBack(e);
-                    return;
-                }
-
-                btGo.setEnabled(false);
-                // 进行真正的登录请求
-                showProgressDialog(R.string.login_dialog);
-                LoginAndRegister.doLogin(email, password, instance);
-                break;
-                default:break;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options =
+                    ActivityOptions.makeSceneTransitionAnimation(this, fab, fab.getTransitionName());
+            startActivity(new Intent(this, SignUpActivity.class), options.toBundle());
+        } else {
+            startActivity(new Intent(this, SignUpActivity.class));
         }
     }
 
@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity {
         getWindow().setExitTransition(explode);
         getWindow().setEnterTransition(explode);
         ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-        Intent i2 = new Intent(this,MainActivity.class);
+        Intent i2 = new Intent(this, MainActivity.class);
         startActivity(i2, oc2.toBundle());
         /*CircularAnim.fullActivity(this, btGo)
                 .colorOrImageRes(R.color.colorPrimary)

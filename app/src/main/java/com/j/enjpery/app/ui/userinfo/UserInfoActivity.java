@@ -163,8 +163,11 @@ public class UserInfoActivity extends BaseActivity {
                 });
     }
 
+    /**
+     * 更新用户头像
+     * @param file 图片压缩后的文件描述符
+     */
     private void uploadHeadImage(File file) {
-
         try {
             AVFile fileInfo = AVFile.withAbsoluteLocalPath(file.getName(), file.getAbsolutePath());
             AVUser avUser = AVUser.getCurrentUser();
