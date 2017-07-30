@@ -77,5 +77,6 @@
     <string name="connected">网络已经连接</string>
     <string name="connecting">网络正在连接</string>
     <string name="disconnected">网络已断开</string>
+    <string name="title_teaminfo">团队资料</string>
 
 </resources>

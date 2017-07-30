@@ -17,7 +17,9 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.FollowCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
+import com.j.enjpery.app.util.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +29,11 @@ import java.util.concurrent.TimeUnit;
 
 public class User extends AVUser {
 
-    public static final String USERNAME = "username";
     public static final String AVATAR = "avatar";
+
+
+
+    private String avatarUrl;
     public static final String LOCATION = "location";
     public static final String INSTALLATION = "installation";
 
@@ -37,26 +42,34 @@ public class User extends AVUser {
         return (null != currentUser ? currentUser.getObjectId() : null);
     }
 
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getAvatarUrl() {
-        AVFile avatar = getAVFile(AVATAR);
-        if (avatar != null) {
-            return avatar.getUrl();
-        } else {
-            return null;
+        if (!StringUtils.isBlank(avatarUrl)){
+            return avatarUrl;
+        }else{
+            AVFile avatar = getAVFile(AVATAR);
+            if (avatar != null) {
+                setAvatarUrl(avatar.getUrl());
+                return avatar.getUrl();
+            }else return null;
         }
     }
 
 
-    public void saveAvatar(String path, final SaveCallback saveCallback) {
+    public void saveAvatar(File filePath, final SaveCallback saveCallback) {
         final AVFile file;
         try {
-            file = AVFile.withAbsoluteLocalPath(getUsername(), path);
+            file = AVFile.withAbsoluteLocalPath(filePath.getName(), filePath.getAbsolutePath());
             put(AVATAR, file);
             file.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
                     if (null == e) {
+                        AVFile avatar = getAVFile(AVATAR);
+                        setAvatarUrl(avatar.getUrl());
                         saveInBackground(saveCallback);
                     } else {
                         if (null != saveCallback) {

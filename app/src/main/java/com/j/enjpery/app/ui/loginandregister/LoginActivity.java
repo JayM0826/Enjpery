@@ -40,8 +40,6 @@ public class LoginActivity extends BaseActivity {
 
     private String email;
     private String password;
-
-
     @BindView(R.id.et_username)
     EditText etUsername;
     @BindView(R.id.et_password)
@@ -75,37 +73,31 @@ public class LoginActivity extends BaseActivity {
                         onFailCallBack(e);
                         return;
                     }
-
-                    btGo.setEnabled(false);
                     // 进行真正的登录请求
                     showProgressDialog(R.string.login_dialog);
                     LoginAndRegister.doLogin(email, password, instance);
                 });
+        RxView.clicks(fab)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> {
+                    // Activity之间的切换没有任何动画
+                    getWindow().setExitTransition(null);
+                    getWindow().setEnterTransition(null);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions options =
+                                ActivityOptions.makeSceneTransitionAnimation(this, fab, fab.getTransitionName());
+                        startActivity(new Intent(this, SignUpActivity.class), options.toBundle());
+                    } else {
+                        startActivity(new Intent(this, SignUpActivity.class));
+                    }
+                });
     }
 
-    @Override
-    public void initToolBar() {
-
-    }
-
-    @OnClick({R.id.fab})
-    public void clickFab(View view) {
-        getWindow().setExitTransition(null);
-        getWindow().setEnterTransition(null);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options =
-                    ActivityOptions.makeSceneTransitionAnimation(this, fab, fab.getTransitionName());
-            startActivity(new Intent(this, SignUpActivity.class), options.toBundle());
-        } else {
-            startActivity(new Intent(this, SignUpActivity.class));
-        }
-    }
 
     @Override
     public void onSuccessCallBack() {
         super.onSuccessCallBack();
-        btGo.setEnabled(true);
         Explode explode = new Explode();
         explode.setDuration(500);
 
@@ -114,9 +106,6 @@ public class LoginActivity extends BaseActivity {
         ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         Intent i2 = new Intent(this, MainActivity.class);
         startActivity(i2, oc2.toBundle());
-        /*CircularAnim.fullActivity(this, btGo)
-                .colorOrImageRes(R.color.colorPrimary)
-                .go(()->startActivity(new Intent(this, MainActivity.class)));*/
         finish();
         // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

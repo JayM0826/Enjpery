@@ -36,8 +36,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         bind = ButterKnife.bind(this);
         //初始化控件
         initViews(savedInstanceState);
-        //初始化ToolBar
-        initToolBar();
+        //初始化TopBar
+        initTopBar();
         AppManager.addActivity(this);
 
     }
@@ -75,7 +75,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     public abstract void initViews(Bundle savedInstanceState);
 
-    public void initToolBar(){};
+    public void initTopBar(){};
 
 
     // 回掉函数

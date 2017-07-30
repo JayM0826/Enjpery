@@ -29,13 +29,15 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
+import timber.log.Timber;
 
 /**
  * Created by luoyong on 2017/6/3/0003.
  */
 
 public abstract class BaseFragment extends RxFragment {
-
+    private View parentView;
+    private Unbinder bind;
     protected boolean isViewInitiated;
     protected boolean isVisibleToUser;
     protected boolean isDataInitiated;
@@ -47,14 +49,13 @@ public abstract class BaseFragment extends RxFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (FragmentActivity) activity;
-
     }
 
     /*called to do initial creation of the fragment.*/
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isNeedRegister){
+        if (isNeedRegister) {
             EventBus.getDefault().register(this);
         }
     }
@@ -72,7 +73,6 @@ public abstract class BaseFragment extends RxFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initCreateView(savedInstanceState);
-
     }
 
     /*tells the fragment that its activity has completed its own Activity.onCreate().*/
@@ -83,6 +83,11 @@ public abstract class BaseFragment extends RxFragment {
         prepareFetchData();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     /*allows the fragment to clean up resources associated with its View.*/
     @Override
     public void onDestroyView() {
@@ -91,14 +96,9 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isNeedRegister){
+        if (isNeedRegister) {
             EventBus.getDefault().unregister(this);
         }
     }
@@ -106,7 +106,6 @@ public abstract class BaseFragment extends RxFragment {
     /*called immediately prior to the fragment no longer being associated with its activity.*/
     @Override
     public void onDetach() {
-
         super.onDetach();
         this.activity = null;
     }
@@ -115,17 +114,19 @@ public abstract class BaseFragment extends RxFragment {
         this.isNeedRegister = true;
     }
 
-    private View parentView;
 
-    private Unbinder bind;
-
-
+    /**
+     * 执行到这个方法，则说明fragment已经可见了
+     *
+     * @param isVisibleToUser
+     */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisibleToUser = isVisibleToUser;
         prepareFetchData();
     }
+
 
     public abstract void fetchData();
 
@@ -144,56 +145,44 @@ public abstract class BaseFragment extends RxFragment {
     }
 
 
-    public abstract @LayoutRes int getLayoutResId();
+    public abstract @LayoutRes
+    int getLayoutResId();
 
     public FragmentActivity getSupportActivity() {
-
         return super.getActivity();
     }
 
 
     public abstract void initCreateView(Bundle state);
 
-    public ActionBar getSupportActionBar() {
-
-        return getSupportActivity().getActionBar();
-    }
-
     public Context getApplicationContext() {
-
         return this.activity == null
                 ? (getActivity() == null ? null :
                 getActivity().getApplicationContext())
                 : this.activity.getApplicationContext();
     }
 
+    // 在这里进行懒加载
     protected void onVisible() {
+        showProgressBar();
+        fetchData();
+    }
 
-        lazyLoad();
+    protected void onInvisible() {
+        hideProgressBar();
+    }
+
+    protected void showProgressBar() {
+
     }
 
 
-    protected void lazyLoad() {}
+    protected void hideProgressBar() {
+    }
 
 
-    protected void onInvisible() {}
-
-    protected void showProgressBar() {}
-
-
-    protected void hideProgressBar() {}
-
-
-    protected void initRecyclerView() {}
-
-    /*
-
-    protected void loadData() {}
-
-    protected void initRefreshLayout() {}
-
-
-    protected void finishTask() {}*/
+    protected void initRecyclerView() {
+    }
 
 
     @SuppressWarnings("unchecked")

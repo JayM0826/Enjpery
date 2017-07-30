@@ -83,6 +83,10 @@ public class EnjperyApplication extends Application {
         initNetworkListener();
     }
 
+    /**
+     * 实时监测网络状态的变化，观察者模式，只有当网络状态发生变化时
+     * 才会通知状态变化
+     */
     private void initNetworkListener() {
         networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getApplicationContext())
                 .subscribeOn(Schedulers.io())
@@ -92,7 +96,7 @@ public class EnjperyApplication extends Application {
                     state = connectivity.getState();
                     switch (state) {
                         case CONNECTED:
-                            Toast.makeText(this, R.string.connected, Toast.LENGTH_SHORT).show();
+                            Timber.i("网路已经连接");
                             break;
                         case CONNECTING:
                             Toast.makeText(this, R.string.connecting, Toast.LENGTH_SHORT).show();

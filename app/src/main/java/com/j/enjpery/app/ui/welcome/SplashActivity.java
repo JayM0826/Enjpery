@@ -33,13 +33,6 @@ public class SplashActivity extends BaseActivity {
         setUpSplash();
     }
 
-    @Override
-    public void initToolBar() {
-
-    }
-
-
-
     private void setUpSplash() {
 
         Observable.timer(1500, TimeUnit.MILLISECONDS)

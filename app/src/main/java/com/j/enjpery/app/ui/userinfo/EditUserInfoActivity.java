@@ -1,26 +1,36 @@
 package com.j.enjpery.app.ui.userinfo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVUser;
-import com.bumptech.glide.Glide;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
+import com.j.enjpery.app.util.SnackbarUtil;
+import com.jakewharton.rxbinding2.view.RxView;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class EditUserInfoActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    private String toolBarTitle;
+    @BindView(R.id.btn_back)
+    ImageView btnBack;
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
+    @BindView(R.id.btn_ok)
+    Button btnOk;
+    @BindView(R.id.editInfo)
+    TextInputEditText editInfo;
+    @BindView(R.id.editInfoLayout)
+    TextInputLayout editInfoLayout;
 
     @Override
     public int getLayoutId() {
@@ -30,36 +40,25 @@ public class EditUserInfoActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        toolBarTitle = intent.getStringExtra("title");
-        toolbar.setTitle(toolBarTitle);
+        tvDescription.setText(intent.getStringExtra("title"));
+
+        RxView.clicks(btnBack).throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid -> onBackPressed());
+
+        btnOk.setVisibility(View.VISIBLE);
+        RxView.clicks(btnOk).compose(bindToLifecycle())
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(aVoid->{
+                    SnackbarUtil.show(btnOk, "保存");
+                    onBackPressed();
+                });
     }
 
-    @Override
-    public void initToolBar() {
-        super.initToolBar();
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /*Android中可以重写activity的两个方法进行创建菜单：
-    onPrepareOptionsMenu（Menu menu），onCreateOptionsMenu。
-
-    两种方法的区别是，前者是每次点击menu键都会重新调用，所以，
-    如果菜单需要更新的话，就用此方法。而后者只是在activity创建的时候执行一次。*/
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.clear();
-        getMenuInflater().inflate(R.menu.edituserinfo_menu, menu);
-        return super.onPrepareOptionsMenu(menu);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -23,8 +23,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.j.enjpery.R;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.nhaarman.listviewanimations.appearance.ViewAnimator;
 import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
 import com.squareup.picasso.Picasso;
@@ -33,7 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 
@@ -59,6 +62,8 @@ public class TeamInfoActivity extends Activity {
     public static ShapeDrawable sOverlayShape;
     static public int sScreenWidth;
     static public int sProfileImageHeight;
+    @BindView(R.id.toolbar_back)
+    ImageView toolbarBack;
 
     private SwingLeftInAnimationAdapter mListViewAnimationAdapter;
     private ViewAnimator mListViewAnimator;
@@ -76,7 +81,12 @@ public class TeamInfoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teaminfo);
-
+        ButterKnife.bind(this);
+        RxView.clicks(toolbarBack)
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe(AVoid->{
+                    onBackPressed();
+                });
         mWrapper = (RelativeLayout) findViewById(R.id.wrapper);
         mListView = (ListView) findViewById(R.id.list_view);
         mToolbar = (FrameLayout) findViewById(R.id.toolbar_list);
@@ -85,17 +95,11 @@ public class TeamInfoActivity extends Activity {
         mTextViewProfileName = (TextView) findViewById(R.id.text_view_profile_name);
         mTextViewProfileDescription = (TextView) findViewById(R.id.text_view_profile_description);
         mButtonProfile = findViewById(R.id.button_profile);
-        mButtonProfile.post(new Runnable() {
-            @Override
-            public void run() {
+        mButtonProfile.post(()-> {
                 mInitialProfileButtonX = mButtonProfile.getX();
-            }
         });
-        findViewById(R.id.toolbar_profile_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.toolbar_profile_back).setOnClickListener(v->{
                 animateCloseProfileDetails();
-            }
         });
 
         sScreenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -114,12 +118,9 @@ public class TeamInfoActivity extends Activity {
             mListViewAnimator.disableAnimations();
         }
         mListView.setAdapter(mListViewAnimationAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mListView.setOnItemClickListener((parent, view, position, id)->{
                 mState = TeamInfoState.Opening;
                 showProfileDetails((Map<String, Object>) parent.getItemAtPosition(position), view);
-            }
         });
     }
 

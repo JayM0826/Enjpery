@@ -10,6 +10,9 @@ buildscript {
         maven {
             url "https://jitpack.io"
         }
+        maven {
+            url "http://dl.bintray.com/glomadrian/maven"
+        }
         jcenter()
         mavenCentral() // add repository
     }
@@ -32,6 +35,9 @@ allprojects {
             url "http://mvn.leancloud.cn/nexus/content/repositories/public"
         }
         maven { url "https://jitpack.io" }
+        maven {
+            url "http://dl.bintray.com/glomadrian/maven"
+        }
     }
 }
 

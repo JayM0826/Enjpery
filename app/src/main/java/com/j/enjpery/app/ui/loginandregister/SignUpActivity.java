@@ -98,12 +98,6 @@ public class SignUpActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void initToolBar() {
-
-    }
-
-
     private void ShowEnterAnimation() {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.fabtransition);
         getWindow().setSharedElementEnterTransition(transition);
