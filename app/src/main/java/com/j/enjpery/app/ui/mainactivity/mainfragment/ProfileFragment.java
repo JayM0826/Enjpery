@@ -55,7 +55,8 @@ public class ProfileFragment extends BaseFragment {
         Timber.i("fetchData 该UI可见");
         firstVisible = false;
         // Glide默认使用内存缓存和磁盘缓存
-        Glide.with(getActivity()).load(User.getCurrentUser().getAvatarUrl()).into(headImage);
+        // 只会请求一次网络,里面的map都是本地的
+        Glide.with(getActivity()).load(((AVFile)AVUser.getCurrentUser().get("headImage")).getUrl()).into(headImage);
     }
 
     @Override

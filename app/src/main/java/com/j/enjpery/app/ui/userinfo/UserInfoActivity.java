@@ -8,11 +8,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.mainactivity.eventbus.FragmentVisibleEvent;
+import com.j.enjpery.app.ui.mainactivity.eventbus.UpdateImageEvent;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.CompressCompletedCB;
 import com.j.enjpery.app.util.SnackbarUtil;
@@ -24,8 +27,11 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -77,10 +83,11 @@ public class UserInfoActivity extends BaseActivity {
         return R.layout.activity_user_info;
     }
 
+
     @Override
     public void initViews(Bundle savedInstanceState) {
         tvDescription.setText(R.string.userinfo);
-        Glide.with(this).load(User.getCurrentUser().getAvatarUrl()).into(headImage);
+        Glide.with(this).load(((AVFile) AVUser.getCurrentUser().get("headImage")).getUrl()).into(headImage);
 
         RxView.clicks(headImageLayout).subscribe(aVoid -> {
             ImagePicker.getInstance().setSelectLimit(1);
@@ -111,8 +118,8 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        // 只要返回回来就进行刷新
         EventBus.getDefault().post(new FragmentVisibleEvent(true));
-        Timber.i("我发送了啊");
     }
 
     @OnClick({R.id.accountLayout, R.id.signatureLayout, R.id.sexLayout, R.id.locationLayout})
@@ -148,24 +155,14 @@ public class UserInfoActivity extends BaseActivity {
             if (data != null && requestCode == IMAGE_PICKER) {
                 List<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null) {
-                    Timber.i(images.get(0).path);
+                    Timber.i("选择的原始图片路径为：" + images.get(0).path);
                     File imgFile = new File(images.get(0).path);
+                    Timber.i("开始压缩");
                     compressWithRx(imgFile, file -> {
                         // 上传图片
-                        User.getCurrentUser().saveAvatar(file, new SaveCallback() {
-                            @Override
-                            public void done(AVException e) {
-                                if (e == null) {
-                                    // 成功
-                                    Timber.i("上传成功" + User.getCurrentUser().getAvatarUrl());
-                                    SnackbarUtil.show(headImageLayout, "上传成功");
-                                    Glide.with(UserInfoActivity.this).load(User.getCurrentUser().getAvatarUrl()).into(headImage);
-                                } else {
-                                    Timber.e("上传失败,请重新登录");
-                                    SnackbarUtil.show(headImageLayout, "上传失败");
-                                }
-                            }
-                        });
+                        Timber.i("开始完毕，开始上传头像");
+                        // AVUser.getCurrentUser().saveAvatar(file);
+                        updateHeadImage(file);
                     });
                 }
             }
@@ -173,11 +170,41 @@ public class UserInfoActivity extends BaseActivity {
 
     }
 
+    private void updateHeadImage(File file) {
+        try {
+            String temp = ((AVFile)AVUser.getCurrentUser().get("headImage")).getUrl();
+            AVFile fileInfo = AVFile.withAbsoluteLocalPath(file.getName(), file.getAbsolutePath());
+            AVUser avUser = AVUser.getCurrentUser();
+            avUser.put("headImage", fileInfo);
+            avUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        AVFile avFile = (AVFile) avUser.get("headImage");
+                        Timber.i("上传成功" + avFile.getUrl());
+                        SnackbarUtil.show(headImage, "上传成功");
+                        Glide.with(UserInfoActivity.this).load(avFile.getUrl()).into(headImage);
+                    } else {
+                        Timber.e("上传失败");
+                        SnackbarUtil.show(headImage, "上传失败");
+                        ((AVFile)AVUser.getCurrentUser().get("headImage")).setUrl(temp);
+                    }
+                }
+            });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Timber.e("文件未找到");
+        }
+    }
+
+
     /**
      * 压缩图片，返回压缩后的文件描述符
-     * @param file 原图片的文件描述符
+     *
+     * @param file                原图片的文件描述符
      * @param compressCompletedCB 压缩完成后进行的回掉
      */
+
     private void compressWithRx(File file, final CompressCompletedCB compressCompletedCB) {
         Flowable.just(file)
                 .observeOn(Schedulers.io())
@@ -196,5 +223,18 @@ public class UserInfoActivity extends BaseActivity {
                     }
                 });
     }
+
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateImageEvent updateImageEvent) {
+        Timber.i("更新头像后返回是否有异常");
+        if (updateImageEvent.getStatus()) {
+            SnackbarUtil.show(btnBack, "上传成功");
+            Glide.with(UserInfoActivity.this).load(AVUser.getCurrentUser().getAvatarUrl()).into(headImage);
+        } else {
+            SnackbarUtil.show(btnBack, updateImageEvent.getException().getCode() + "  上传失败，请稍后再试");
+
+        }
+    }*/
+
 
 }

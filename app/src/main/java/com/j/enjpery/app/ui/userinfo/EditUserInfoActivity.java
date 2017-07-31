@@ -49,16 +49,7 @@ public class EditUserInfoActivity extends BaseActivity {
         RxView.clicks(btnOk).compose(bindToLifecycle())
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid->{
-                    SnackbarUtil.show(btnOk, "保存");
                     onBackPressed();
                 });
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }
