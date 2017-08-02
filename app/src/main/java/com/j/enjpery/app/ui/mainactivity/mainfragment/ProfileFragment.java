@@ -7,18 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.bumptech.glide.Glide;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseFragment;
 import com.j.enjpery.app.ui.mainactivity.eventbus.FragmentVisibleEvent;
-import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.j.enjpery.app.ui.userinfo.UserInfoActivity;
-import com.j.enjpery.app.util.SnackbarUtil;
-import com.j.enjpery.model.User;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -56,7 +51,7 @@ public class ProfileFragment extends BaseFragment {
         firstVisible = false;
         // Glide默认使用内存缓存和磁盘缓存
         // 只会请求一次网络,里面的map都是本地的
-        Glide.with(getActivity()).load(((AVFile)AVUser.getCurrentUser().get("headImage")).getUrl()).into(headImage);
+        Glide.with(getActivity()).load(AVUser.getCurrentUser().get("headImage")).into(headImage);
     }
 
     @Override

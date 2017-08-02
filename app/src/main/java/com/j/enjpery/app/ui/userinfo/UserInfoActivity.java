@@ -10,17 +10,17 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.ui.mainactivity.eventbus.FragmentVisibleEvent;
-import com.j.enjpery.app.ui.mainactivity.eventbus.UpdateImageEvent;
+import com.j.enjpery.app.ui.mainactivity.eventbus.ShowProgressBarEvent;
 import com.j.enjpery.app.ui.teaminfo.TeamInfoActivity;
 import com.j.enjpery.app.util.CompressCompletedCB;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.j.enjpery.core.loginandregister.LoginAndRegister;
-import com.j.enjpery.model.User;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -45,6 +46,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 import top.zibin.luban.Luban;
+
+import static android.view.View.GONE;
 
 public class UserInfoActivity extends BaseActivity {
     private static final int IMAGE_PICKER = 100;
@@ -78,6 +81,17 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_description)
     TextView tvDescription;
 
+    @BindView(R.id.progress_bar)
+    RingProgressBar progressBar;
+
+    private AVFile fileInfo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setNeedRegister();
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_user_info;
@@ -87,7 +101,7 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         tvDescription.setText(R.string.userinfo);
-        Glide.with(this).load(((AVFile) AVUser.getCurrentUser().get("headImage")).getUrl()).into(headImage);
+        Glide.with(this).load(AVUser.getCurrentUser().get("headImage")).into(headImage);
 
         RxView.clicks(headImageLayout).subscribe(aVoid -> {
             ImagePicker.getInstance().setSelectLimit(1);
@@ -113,12 +127,23 @@ public class UserInfoActivity extends BaseActivity {
                 .subscribe(aVoid -> {
                     onBackPressed();
                 });
+
+        progressBar.setVisibility(GONE);
+        progressBar.setOnProgressListener(()->{
+            SnackbarUtil.show(progressBar, "更新头像完毕");
+            Glide.with(UserInfoActivity.this).load(fileInfo.getUrl()).into(headImage);
+        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         // 只要返回回来就进行刷新
+        if (fileInfo != null){
+            // fileInfo.cancel();
+            Timber.d("取消上传图片");
+        }
+        EventBus.getDefault().post(new ShowProgressBarEvent(false));
         EventBus.getDefault().post(new FragmentVisibleEvent(true));
     }
 
@@ -172,22 +197,38 @@ public class UserInfoActivity extends BaseActivity {
 
     private void updateHeadImage(File file) {
         try {
-            String temp = ((AVFile)AVUser.getCurrentUser().get("headImage")).getUrl();
-            AVFile fileInfo = AVFile.withAbsoluteLocalPath(file.getName(), file.getAbsolutePath());
+            fileInfo = AVFile.withAbsoluteLocalPath(file.getName(), file.getAbsolutePath());
             AVUser avUser = AVUser.getCurrentUser();
-            avUser.put("headImage", fileInfo);
-            avUser.saveInBackground(new SaveCallback() {
+           EventBus.getDefault().post(new ShowProgressBarEvent(true));
+            fileInfo.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(AVException e) {
                     if (e == null) {
-                        AVFile avFile = (AVFile) avUser.get("headImage");
-                        Timber.i("上传成功" + avFile.getUrl());
-                        SnackbarUtil.show(headImage, "上传成功");
-                        Glide.with(UserInfoActivity.this).load(avFile.getUrl()).into(headImage);
+                        String temp = fileInfo.getUrl();
+                        avUser.put("headImage", temp);
+                        avUser.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                if (e == null){
+                                    EventBus.getDefault().post(new ShowProgressBarEvent(false));
+                                    Timber.i("上传成功" + temp);
+                                }else {
+                                    SnackbarUtil.show(progressBar, "头像上传失败");
+                                }
+                                EventBus.getDefault().post(new ShowProgressBarEvent(false));
+                            }
+                        });
                     } else {
+                        EventBus.getDefault().post(new ShowProgressBarEvent(false));
                         Timber.e("上传失败");
                         SnackbarUtil.show(headImage, "上传失败");
-                        ((AVFile)AVUser.getCurrentUser().get("headImage")).setUrl(temp);
+                    }
+                }
+            }, new ProgressCallback() {
+                @Override
+                public void done(Integer integer) {
+                    if (progressBar != null){
+                        progressBar.setProgress(integer);
                     }
                 }
             });
@@ -196,6 +237,8 @@ public class UserInfoActivity extends BaseActivity {
             Timber.e("文件未找到");
         }
     }
+
+
 
 
     /**
@@ -224,17 +267,20 @@ public class UserInfoActivity extends BaseActivity {
                 });
     }
 
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(UpdateImageEvent updateImageEvent) {
-        Timber.i("更新头像后返回是否有异常");
-        if (updateImageEvent.getStatus()) {
-            SnackbarUtil.show(btnBack, "上传成功");
-            Glide.with(UserInfoActivity.this).load(AVUser.getCurrentUser().getAvatarUrl()).into(headImage);
-        } else {
-            SnackbarUtil.show(btnBack, updateImageEvent.getException().getCode() + "  上传失败，请稍后再试");
 
+
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ShowProgressBarEvent showProgressBarEvent) {
+        if (showProgressBarEvent.isVisible()) {
+            if (progressBar.getVisibility() == GONE)
+                progressBar.setVisibility(View.VISIBLE);
+        } else {
+            if (progressBar.getVisibility() == View.VISIBLE)
+                progressBar.setVisibility(GONE);
         }
-    }*/
+    }
 
 
 }

@@ -50,7 +50,6 @@ public class EnjperyApplication extends Application {
         return mInstance;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();

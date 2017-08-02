@@ -1,337 +1,355 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="fill_parent">
 
-    <include layout="@layout/top_bar" />
-
-    <ScrollView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/top_bar" />
+
+        <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:background="@color/black2" />
-
-            <RelativeLayout
-                android:id="@+id/headImageLayout"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:background="@color/black2" />
+
+                <RelativeLayout
+                    android:id="@+id/headImageLayout"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:text=" 头   像"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <ImageView
-                    android:id="@+id/headImage"
-                    android:layout_width="80.0dip"
-                    android:layout_height="80.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="10.0dip"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/head" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/black2" />
-
-            <RelativeLayout
-                android:id="@+id/accountLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10.0dip"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="账   号"
-                    android:textSize="20.0sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-                <TextView
-                    android:id="@+id/account"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:text=" 头   像"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/headImage"
+                        android:layout_width="80.0dip"
+                        android:layout_height="80.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_marginRight="16dp"
+                        android:src="#FFFFFFFF" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/black2" />
+
+                <RelativeLayout
+                    android:id="@+id/accountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="又土又逗，简称土豆"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
+
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="账   号"
+                        android:textSize="20.0sp" />
+
+                    <TextView
+                        android:id="@+id/account"
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="又土又逗，简称土豆"
+                        android:textColor="@color/black1"
+                        android:textSize="15sp" />
+                </RelativeLayout>
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
 
-            <RelativeLayout
-                android:id="@+id/signatureLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                <RelativeLayout
+                    android:id="@+id/signatureLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="签   名"
-                    android:textSize="20.0sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-                <TextView
-                    android:id="@+id/nickname"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="签   名"
+                        android:textSize="20.0sp" />
+
+                    <TextView
+                        android:id="@+id/nickname"
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="我是一只小青蛙，呱呱呱呱呱"
+                        android:textColor="@color/black1"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
+
+                <RelativeLayout
+                    android:id="@+id/sexLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="我是一只小青蛙，呱呱呱呱呱"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-            </RelativeLayout>
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="性   别"
+                        android:textSize="20.0sp" />
+
+                    <TextView
+                        android:id="@+id/sex"
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="男"
+                        android:textColor="@color/black1"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
 
-            <RelativeLayout
-                android:id="@+id/sexLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
 
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                <RelativeLayout
+                    android:id="@+id/locationLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="性   别"
-                    android:textSize="20.0sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-                <TextView
-                    android:id="@+id/sex"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="地   区"
+                        android:textSize="20.0sp" />
+
+                    <TextView
+                        android:id="@+id/location"
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="广东  深圳"
+                        android:textColor="@color/black1"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:background="@color/black2" />
+
+                <RelativeLayout
+                    android:id="@+id/aboutLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="男"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-            </RelativeLayout>
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="关   于"
+                        android:textSize="20.0sp" />
+
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:drawableLeft="@drawable/ic_arrow_forward_black_24dp"
+                        android:drawableTint="@color/black1"
+                        android:gravity="center_vertical"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/black2" />
 
-
-            <RelativeLayout
-                android:id="@+id/locationLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                <RelativeLayout
+                    android:id="@+id/logoutLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="地   区"
-                    android:textSize="20.0sp" />
+                    android:paddingBottom="5.0dip"
+                    android:paddingTop="5.0dip">
 
-                <TextView
-                    android:id="@+id/location"
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="广东  深圳"
-                    android:textColor="@color/black1"
-                    android:textSize="15sp" />
-            </RelativeLayout>
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:gravity="center_vertical"
+                        android:text="退   出"
+                        android:textSize="20.0sp" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
+                    <TextView
+                        style="@style/TxtTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50.0dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:background="@drawable/setting_item_selector"
+                        android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
+                        android:drawableTint="@color/black1"
+                        android:gravity="center_vertical"
+                        android:textSize="15sp" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="@dimen/dp16"
-                android:background="@color/black2" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/black2" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/aboutLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="关   于"
-                    android:textSize="20.0sp" />
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:drawableTint="@color/black1"
-                    android:background="@drawable/setting_item_selector"
-                    android:drawableLeft="@drawable/ic_arrow_forward_black_24dp"
-                    android:gravity="center_vertical"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
-
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/black2" />
-
-            <RelativeLayout
-                android:id="@+id/logoutLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/setting_item_selector"
-                android:paddingBottom="5.0dip"
-                android:paddingTop="5.0dip">
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:gravity="center_vertical"
-                    android:text="退   出"
-                    android:textSize="20.0sp" />
-
-                <TextView
-                    style="@style/TxtTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50.0dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/setting_item_selector"
-                    android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
-                    android:gravity="center_vertical"
-                    android:drawableTint="@color/black1"
-                    android:textSize="15sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1.0px"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/black2" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    <io.netopen.hotbitmapgg.library.view.RingProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:max="100"
+        app:ringColor="@android:color/holo_orange_light"
+        app:ringProgressColor="@android:color/holo_orange_dark"
+        app:ringWidth="3dp"
+        app:style="STROKE"
+        app:textSize="16sp" />
+</FrameLayout>

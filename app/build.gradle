@@ -170,4 +170,8 @@ dependencies {
 
     // https://github.com/Nightonke/BoomMenu boom菜单
     compile 'com.nightonke:boommenu:2.1.0'
+    // https://github.com/HotBitmapGG/RingProgressBar
+    compile 'com.github.HotBitmapGG:RingProgressBar:V1.2.3'
+    //https://github.com/DreaminginCodeZH/MaterialProgressBar
+    compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
 }
