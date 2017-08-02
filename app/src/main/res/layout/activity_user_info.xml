@@ -302,6 +302,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
+<<<<<<< HEAD
                     android:paddingBottom="5.0dip"
                     android:paddingTop="5.0dip">
 
@@ -353,3 +354,21 @@
         app:style="STROKE"
         app:textSize="16sp" />
 </FrameLayout>
+=======
+                    android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"
+                    android:gravity="center_vertical"
+                    android:drawableTint="@color/black1"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0px"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/black2" />
+        </LinearLayout>
+        <!--这是用来测试的，抓门用来测试的-->
+    </ScrollView>
+</LinearLayout>
+>>>>>>> 96a17cf0320eeb9df971e666cbcbb2056cdcd387
