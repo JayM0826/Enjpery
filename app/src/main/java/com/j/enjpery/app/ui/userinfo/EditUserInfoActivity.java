@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.util.SnackbarUtil;
@@ -40,16 +46,71 @@ public class EditUserInfoActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        tvDescription.setText(intent.getStringExtra("title"));
+        int title = intent.getIntExtra("title", 0);
+        tvDescription.setText(getResources().getString(title));
+
+        switch (title){
+            case R.string.editID:
+                editInfoLayout.setHint("换个ID，换个心情");
+                break;
+            case R.string.editSignature:
+                editInfoLayout.setHint("新的签名，新的感悟");
+                break;
+            case R.string.editAddr:
+                editInfoLayout.setHint("新的地址，不一样的生活");
+                break;
+            case R.string.selectSex:
+                editInfoLayout.setHint("选择请慎重");
+                break;
+                default:break;
+        }
 
         RxView.clicks(btnBack).throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> onBackPressed());
 
-        btnOk.setVisibility(View.VISIBLE);
         RxView.clicks(btnOk).compose(bindToLifecycle())
                 .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid->{
+                    String string = editInfo.getText().toString();
+                    switch (title){
+                        case R.string.editID:
+                            AVUser.getCurrentUser().put("username", string);
+                            break;
+                        case R.string.editSignature:
+                            AVUser.getCurrentUser().put("signature", string);
+                            break;
+                        case R.string.editAddr:
+                            AVUser.getCurrentUser().put("address", string);
+                            break;
+                        case R.string.selectSex:
+                            AVUser.getCurrentUser().put("sex", string);
+                            break;
+                        default:break;
+                    }
+                    AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     onBackPressed();
                 });
+        editInfo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                btnOk.setEnabled(true);
+            }
+        });
+
     }
 }

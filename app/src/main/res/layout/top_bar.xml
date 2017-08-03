@@ -48,7 +48,8 @@
         android:padding="8dp"
         android:text="完成"
         android:textColor="#ffffff"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:enabled="false"
         android:textSize="14dp"/>
 
 </RelativeLayout>

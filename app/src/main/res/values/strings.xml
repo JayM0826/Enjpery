@@ -78,5 +78,9 @@
     <string name="connecting">网络正在连接</string>
     <string name="disconnected">网络已断开</string>
     <string name="title_teaminfo">团队资料</string>
+    <string name="editID">更改ID</string>
+    <string name="editSignature">修改签名</string>
+    <string name="selectSex">选择性别</string>
+    <string name="editAddr">更改地址</string>
 
 </resources>

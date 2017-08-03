@@ -81,6 +81,9 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_description)
     TextView tvDescription;
 
+    @BindView(R.id.signature)
+    TextView signature;
+
     @BindView(R.id.progress_bar)
     RingProgressBar progressBar;
 
@@ -102,7 +105,7 @@ public class UserInfoActivity extends BaseActivity {
     public void initViews(Bundle savedInstanceState) {
         tvDescription.setText(R.string.userinfo);
         Glide.with(this).load(AVUser.getCurrentUser().get("headImage")).into(headImage);
-
+        signature.setText((String)AVUser.getCurrentUser().get("signature"));
         RxView.clicks(headImageLayout).subscribe(aVoid -> {
             ImagePicker.getInstance().setSelectLimit(1);
             Intent intent = new Intent(this, ImageGridActivity.class);
@@ -153,19 +156,19 @@ public class UserInfoActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.accountLayout:
                 intent = new Intent(this, EditUserInfoActivity.class);
-                intent.putExtra("title", "更改ID");
+                intent.putExtra("title", R.string.editID);
                 break;
             case R.id.signatureLayout:
                 intent = new Intent(this, EditUserInfoActivity.class);
-                intent.putExtra("title", "修改签名");
+                intent.putExtra("title", R.string.editSignature);
                 break;
             case R.id.sexLayout:
                 intent = new Intent(this, EditUserInfoActivity.class);
-                intent.putExtra("title", "选择性别");
+                intent.putExtra("title", R.string.selectSex);
                 break;
             case R.id.locationLayout:
                 intent = new Intent(this, EditUserInfoActivity.class);
-                intent.putExtra("title", "更改地址");
+                intent.putExtra("title", R.string.editAddr);
                 break;
         }
         startActivity(intent);

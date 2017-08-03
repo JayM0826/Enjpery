@@ -129,7 +129,7 @@
                         android:textSize="20.0sp" />
 
                     <TextView
-                        android:id="@+id/nickname"
+                        android:id="@+id/signature"
                         style="@style/TxtTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="50.0dip"
@@ -351,6 +351,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:max="100"
+        android:elevation="@dimen/dp8"
         app:ringColor="@android:color/holo_orange_light"
         app:ringProgressColor="@android:color/holo_orange_dark"
         app:ringWidth="3dp"
