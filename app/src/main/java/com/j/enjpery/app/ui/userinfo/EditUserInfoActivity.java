@@ -20,6 +20,8 @@ import com.j.enjpery.app.base.BaseActivity;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -57,7 +59,7 @@ public class EditUserInfoActivity extends BaseActivity {
                 editInfoLayout.setHint("新的签名，新的感悟");
                 break;
             case R.string.editAddr:
-                editInfoLayout.setHint("新的地址，不一样的生活");
+                editInfoLayout.setHint("新的方位，新的视角，新的生活");
                 break;
             case R.string.selectSex:
                 editInfoLayout.setHint("选择请慎重");
@@ -74,7 +76,7 @@ public class EditUserInfoActivity extends BaseActivity {
                     String string = editInfo.getText().toString();
                     switch (title){
                         case R.string.editID:
-                            AVUser.getCurrentUser().put("username", string);
+                            AVUser.getCurrentUser().put("account", string);
                             break;
                         case R.string.editSignature:
                             AVUser.getCurrentUser().put("signature", string);
@@ -90,7 +92,11 @@ public class EditUserInfoActivity extends BaseActivity {
                     AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
                         @Override
                         public void done(AVException e) {
-                            Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                            if (e == null){
+                                EventBus.getDefault().post(new EditUserInfoEvent(true));
+                            }else {
+                                EventBus.getDefault().post(new EditUserInfoEvent(false));
+                            }
                         }
                     });
                     onBackPressed();
@@ -108,6 +114,7 @@ public class EditUserInfoActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                btnOk.setVisibility(View.VISIBLE);
                 btnOk.setEnabled(true);
             }
         });

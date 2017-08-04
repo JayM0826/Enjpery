@@ -127,8 +127,10 @@ public abstract class BaseFragment extends RxFragment {
         prepareFetchData();
     }
 
-
-    public abstract void fetchData();
+    /**
+     * 用来获取或者刷新数据
+     */
+    public abstract void refreshData();
 
     public boolean prepareFetchData() {
         return prepareFetchData(false);
@@ -165,7 +167,7 @@ public abstract class BaseFragment extends RxFragment {
     // 在这里进行懒加载
     protected void onVisible() {
         showProgressBar();
-        fetchData();
+        refreshData();
     }
 
     protected void onInvisible() {

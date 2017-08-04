@@ -25,7 +25,7 @@ public class TimelineFragment extends BaseFragment {
     private Runnable runnable;*/
 
     @Override
-    public void fetchData() {
+    public void refreshData() {
 
     }
 

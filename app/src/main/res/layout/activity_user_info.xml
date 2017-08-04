@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -138,7 +139,7 @@
                         android:layout_marginRight="16dp"
                         android:background="@drawable/setting_item_selector"
                         android:gravity="center_vertical"
-                        android:text="我是一只小青蛙，呱呱呱呱呱"
+                        android:text="喂自己袋盐"
                         android:textColor="@color/black1"
                         android:textSize="15sp" />
 
@@ -182,7 +183,7 @@
                         android:layout_marginRight="16dp"
                         android:background="@drawable/setting_item_selector"
                         android:gravity="center_vertical"
-                        android:text="男"
+                        android:text="绅士 | 贵妇"
                         android:textColor="@color/black1"
                         android:textSize="15sp" />
 
@@ -198,7 +199,7 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/locationLayout"
+                    android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/setting_item_selector"
@@ -218,7 +219,7 @@
                         android:textSize="20.0sp" />
 
                     <TextView
-                        android:id="@+id/location"
+                        android:id="@+id/address"
                         style="@style/TxtTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="50.0dip"
@@ -227,7 +228,7 @@
                         android:layout_marginRight="16dp"
                         android:background="@drawable/setting_item_selector"
                         android:gravity="center_vertical"
-                        android:text="广东  深圳"
+                        android:text="安道尔"
                         android:textColor="@color/black1"
                         android:textSize="15sp" />
                 </RelativeLayout>
