@@ -82,5 +82,10 @@
     <string name="editSignature">修改签名</string>
     <string name="selectSex">选择性别</string>
     <string name="editAddr">更改地址</string>
+    <string name="account">用户名</string>
+    <string name="publishtime">发布时间</string>
+    <string name="placeholder">占位符</string>
+    <string name="source">消息来源</string>
+    <string name="reply">回复</string>
 
 </resources>

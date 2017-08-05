@@ -32,7 +32,7 @@ public class TimelineFragment extends BaseFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_profile;
+        return R.layout.fragment_timeline;
     }
 
     public TimelineFragment() {

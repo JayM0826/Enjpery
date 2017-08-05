@@ -503,4 +503,8 @@
     <color name="highlight">#FF1AAD19</color>
     <color name="disable">#FF2C6830</color>
 
+
+
+    <color name="pressed_app_color">#77FF8800</color>
+
 </resources>
