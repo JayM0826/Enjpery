@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/origin_weibo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/status_bg"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/statustitle_layout" />
+
+        <com.j.enjpery.app.ui.customview.EmojiTextView
+            android:id="@+id/statusContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginRight="@dimen/dp8"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="@dimen/status_line_space_3dp"
+            android:text="@string/long_text"
+            android:textColor="@color/status_text_color"
+            android:textSize="@dimen/status_text_size_15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/statusImageRecycleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:paddingBottom="10dp" />
+
+        <ImageView
+            android:id="@+id/splitLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_grey_200"/>
+        <include layout="@layout/status_action_layout" />
+    </LinearLayout>

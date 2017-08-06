@@ -56,44 +56,68 @@ dependencies {
 
     /******************第三方控件家族*****************************
      ****************************************************/
+
     // https://github.com/sephiroth74/Material-BottomNavigation
     compile 'it.sephiroth.android.library.bottomnavigation:bottom-navigation:2.0.1-rc1'
+
     // https://github.com/Clans/FloatingActionButton
     compile 'com.github.clans:fab:1.6.4'
+
     // https://github.com/w446108264/XhsEmoticonsKeyboard
     compile 'com.github.w446108264:XhsEmoticonsKeyboard:2.0.4'
+
     //  https://github.com/hdodenhof/CircleImageView
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
     // https://github.com/drakeet/Effective-MultiType
-    compile('me.drakeet.multitype:multitype:3.1.0', {
+    /*compile('me.drakeet.multitype:multitype:3.1.0', {
         exclude group: 'com.android.support'
-    })
+    })*/
 
     // https://github.com/Yalantis/Phoenix
     compile 'com.yalantis:phoenix:1.2.3'
 
+    // https://github.com/koral--/android-gif-drawable
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
+
+    // https://github.com/davemorrissey/subsampling-scale-image-view
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
+
+    //https://github.com/cesards/CropImageView
+    compile 'com.cesards.android:cropimageview:1.0.2.1'
+
     /******************Rx家族*****************************
      ****************************************************/
+
     // https://github.com/tbruyelle/RxPermissions
+
     /*使用RxPermissions申请权限，必须在Activity.onCreate()或者View.onFinishInflate()中处理。
-        不能在onResume()中处理，因为onResume()在App的生命周期中可能执行的很频繁。
-        如果在请求权限的时候，App重新启动了（例如屏幕旋转导致的App关闭再重新创建），
-        那么用户的选择（允许 或者 拒绝）将无法发给App。*/
+                不能在onResume()中处理，因为onResume()在App的生命周期中可能执行的很频繁。
+                如果在请求权限的时候，App重新启动了（例如屏幕旋转导致的App关闭再重新创建），
+                那么用户的选择（允许 或者 拒绝）将无法发给App。*/
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+
     // https://github.com/pwittchen/ReactiveNetwork
     compile 'com.github.pwittchen:reactivenetwork-rx2:0.9.1'
+
     // https://github.com/trello/RxLifecycle
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
+
     //Version 2.x and 1.x will live side-by-side for several years.
+
     // They will have different group ids
+
     // (io.reactivex.rxjava2 vs io.reactivex) and
+
     // namespaces (io.reactivex vs rx).
+
     // https://github.com/ReactiveX/RxJava
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+
     // https://github.com/ReactiveX/RxAndroid
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     // https://github.com/JayM0826/RxBinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
@@ -103,25 +127,34 @@ dependencies {
 
     /******************LeanCloud家族*****************************
      ****************************************************/
+
     // LeanCloud 基础包
     compile 'cn.leancloud.android:avoscloud-sdk:v4.4.3'
+
     // 推送与实时聊天需要的包
     compile('cn.leancloud.android:avoscloud-push:v4.4.3@aar') { transitive = true }
+
     // LeanCloud 统计包
     compile 'cn.leancloud.android:avoscloud-statistics:v4.4.3'
+
     // LeanCloud 用户反馈包
     compile 'cn.leancloud.android:avoscloud-feedback:v4.4.3@aar'
+
     // LeanCloud 应用内搜索包
     compile 'cn.leancloud.android:avoscloud-search:v4.4.3@aar'
 
     /******************杂七杂八*****************************
      ****************************************************/
+
     // facebook调试工具，http://facebook.github.io/stetho/
     compile 'com.facebook.stetho:stetho:1.5.0'
 
     // 内存泄露检查工具，https://github.com/square/leakcanary
+
     // debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+
     // releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+
     // testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     // butterknife 注入 http://jakewharton.github.io/butterknife/
@@ -132,6 +165,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     //  https://github.com/greenrobot/greenDAO
+
     // compile 'org.greenrobot:greendao:3.2.2'
 
     // https://github.com/Curzibn/Luban 图片压缩
@@ -151,8 +185,10 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.5.1'
 
     // https://github.com/Gavin-ZYX/StickyDecoration 实现顶部悬浮效果，
+
     // mRecyclerView.addItemDecoration(decoration);
     compile 'com.gavin.com.library:stickyDecoration:1.0.2'
+
     // https://github.com/bumptech/glide
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
@@ -163,15 +199,21 @@ dependencies {
     // https://github.com/vanniktech/Emoji
 
     // https://github.com/square/retrofit
+
     // compile 'com.squareup.retrofit2:retrofit:2.3.0'
 
     // https://github.com/JayM0826/aurora-imui/blob/master/README_zh.md 聊天界面
+
     // https://github.com/daimajia/AndroidViewAnimations 安卓动画
 
     // https://github.com/Nightonke/BoomMenu boom菜单
     compile 'com.nightonke:boommenu:2.1.0'
+
     // https://github.com/HotBitmapGG/RingProgressBar
     compile 'com.github.HotBitmapGG:RingProgressBar:V1.2.3'
+
     //https://github.com/DreaminginCodeZH/MaterialProgressBar
     compile 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    implementation files('src/libs/universal-image-loader-1.9.5.jar')
+    implementation 'com.google.code.gson:gson:2.8.1'
 }

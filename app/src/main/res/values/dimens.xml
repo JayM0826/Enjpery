@@ -41,4 +41,17 @@
     <dimen name="dp_30">30dp</dimen>
     <dimen name="sp_15">15sp</dimen>
     <dimen name="timeline_pic_size">48dp</dimen>
+    <dimen name="home_original_weiboitem_linespace">3dp</dimen>
+    <dimen name="home_original_weiboitem_font">15sp</dimen>
+    <dimen name="home_retweet_weiboitem_font">15sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+
+
+    <!--首页的其他设置-->
+    <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
+    <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
+    <dimen name="home_weiboitem_space">8dp</dimen>
+    <dimen name="dp_45">45dp</dimen><!--微博列表的上下间距-->
 </resources>
