@@ -35,8 +35,8 @@ public class LoadedToast extends Toast {
         // toast settings
         mDefault_offset_y = (int) context.getResources().getDimension(R.dimen.dp_45);
         View mToastView = LayoutInflater.from(context).inflate(R.layout.loaded_toast, null, true);
-        mTvMsg = (TextView) mToastView.findViewById(R.id.refreshTip);
-        mTvMsg.setText(msg);
+        /*mTvMsg = (TextView) mToastView.findViewById(R.id.refreshTip);
+        mTvMsg.setText(msg);*/
         //mToastView.getLayoutParams().height = mDefault_offset_y;
 
         setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, DEFAULT_OFFSET_X, mDefault_offset_y);

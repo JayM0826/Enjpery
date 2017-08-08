@@ -660,7 +660,7 @@ public class FillContent {
     }
 
     public static void refreshNoneView(Context context, int type, int repostss_count, int comments_count, View noneView) {
-        TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
+        // TextView textView = (TextView) noneView.findViewById(R.id.tv_normal_refresh_footer_status);
         if (NetUtil.isConnected(context)) {
             switch (type) {
                 case StatusDetailModelImp.COMMENT_PAGE:
@@ -668,7 +668,7 @@ public class FillContent {
                         noneView.setVisibility(View.GONE);
                     } else if (comments_count == 0) {
                         noneView.setVisibility(View.VISIBLE);
-                        textView.setText("还没有人评论");
+                        // textView.setText("还没有人评论");
                     }
                     break;
 
@@ -677,14 +677,14 @@ public class FillContent {
                         noneView.setVisibility(View.GONE);
                     } else if (repostss_count == 0) {
                         noneView.setVisibility(View.VISIBLE);
-                        textView.setText("还没有人转发");
+                        // textView.setText("还没有人转发");
                     }
                     break;
             }
 
         } else {
             noneView.setVisibility(View.VISIBLE);
-            textView.setText("网络出错啦");
+            // textView.setText("网络出错啦");
         }
 
     }

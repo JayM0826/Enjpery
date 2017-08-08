@@ -597,5 +597,13 @@
     <color name="center_area_comment_item_text">#909090</color>
 
     <color name="center_area_comment_item_bg">#fefefe</color>
+    <color name="topbar_bg">#FFFFFF</color>
+    <color name="topbar_center_highlight_bg">#e7e7e7</color>
+    <color name="topbar_center">#545454</color>
+    <color name="topbar_bottom_drive">#e3e3e3</color>
+    <color name="bg_toast">#f79f43</color>
+    <color name="searchHeadView_inner_bg">#FFFFFF</color>
+    <color name="loadding_footer_bg">#FFFFFF</color>
+    <color name="loadding_footer_text">#8A000000</color>
 
 </resources>

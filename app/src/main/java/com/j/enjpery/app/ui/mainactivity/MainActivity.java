@@ -31,8 +31,6 @@ import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
-    /*@BindView(R.id.fab)
-    FloatingActionMenu fabMenu;*/
     @BindView(R.id.bottomNavigation)
     BottomNavigation bottomNavigation;
     @BindView(R.id.viewPager)
@@ -57,15 +55,6 @@ public class MainActivity extends BaseActivity {
 
         // 注册EventBus,发布者不需要注册，只要注册就要订阅
         // setNeedRegister();
-
-        /*RxView.clicks(fabMenu.findViewById(R.id.fab_item1)).subscribe(aVoid -> {
-            startActivity(new Intent(MainActivity.this, TeamInfoActivity.class));
-        });
-
-        RxView.clicks(fabMenu.findViewById(R.id.fab_item2)).subscribe(aVoid -> {
-            LoginAndRegister.doLogOut();
-            AppManager.AppExit(getApplicationContext());
-        });*/
 
         if (null == savedInstanceState) {
             bottomNavigation.setDefaultSelectedIndex(0);
@@ -212,7 +201,5 @@ public class MainActivity extends BaseActivity {
             return fragments.length;
         }
     }
-
-
 
 }

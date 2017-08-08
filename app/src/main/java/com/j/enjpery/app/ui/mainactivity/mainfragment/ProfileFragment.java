@@ -55,8 +55,7 @@ public class ProfileFragment extends BaseFragment {
     TextView note;
     @BindView(R.id.setting)
     TextView setting;
-    Unbinder unbinder;
-    private boolean firstVisible = true;
+
     @BindView(R.id.head)
     ImageView headImage;
 
@@ -89,16 +88,6 @@ public class ProfileFragment extends BaseFragment {
 
     }
 
-    @Override
-    protected void onInvisible() {
-        super.onInvisible();
-        if (isVisibleToUser == true && !firstVisible) {
-            Timber.i("onInvisible 该UI其实是可见的,进行加载数据");
-            prepareFetchData(true);
-        } else {
-            Timber.i("onInvisible 该UI不可见");
-        }
-    }
 
     @Override
     public int getLayoutResId() {

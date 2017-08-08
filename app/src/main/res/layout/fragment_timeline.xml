@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/statusRecyclerView"
+            android:id="@+id/timelineRecyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -22,7 +22,7 @@
 
     <!--被引用的id一定要先声明-->
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab"
+        android:id="@+id/fabMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="0dp"
@@ -36,22 +36,22 @@
         app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
-        app:menu_fab_size="mini">
+        app:menu_fab_size="normal">
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_item1"
+        android:id="@+id/fabSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_camera"
-        app:fab_label="Snackbar"
+        app:fab_label="Search"
         app:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_item2"
+        android:id="@+id/fabNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_menu_call"
-        app:fab_label="Exit"
+        app:fab_label="New"
         app:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

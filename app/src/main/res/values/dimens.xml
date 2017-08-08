@@ -53,5 +53,10 @@
     <dimen name="home_weiboitem_marginleftright">8dp</dimen><!--距离屏幕左右边缘的间距-->
     <dimen name="home_weiboitem_imagelist_space">4dp</dimen><!--图片列表的上下间距与左右间距-->
     <dimen name="home_weiboitem_space">8dp</dimen>
-    <dimen name="dp_45">45dp</dimen><!--微博列表的上下间距-->
+    <dimen name="dp_45">45dp</dimen>
+    <dimen name="topbar_height">45dp</dimen>
+    <dimen name="topbar_toast_height">40dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_22">22dp</dimen><!--微博列表的上下间距-->
 </resources>

@@ -1,28 +1,21 @@
 package com.j.enjpery.app.base;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.MainThread;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionMenu;
-import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -43,6 +36,7 @@ public abstract class BaseFragment extends RxFragment {
     protected boolean isDataInitiated;
     private FragmentActivity activity;
     private boolean isNeedRegister = false;
+    protected boolean firstVisible = true;
 
     /*called once the fragment is associated with its activity.*/
     @Override
@@ -172,6 +166,10 @@ public abstract class BaseFragment extends RxFragment {
 
     protected void onInvisible() {
         hideProgressBar();
+        if (isVisibleToUser == true && !firstVisible) {
+            Timber.i("onInvisible 该UI其实是可见的,进行加载数据");
+            prepareFetchData(true);
+        }
     }
 
     protected void showProgressBar() {
@@ -184,6 +182,7 @@ public abstract class BaseFragment extends RxFragment {
 
 
     protected void initRecyclerView() {
+
     }
 
 
