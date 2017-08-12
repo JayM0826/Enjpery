@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.RequestListener;
 import com.j.enjpery.app.util.Constants;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * Created by J on 2017/8/6.
  */
 public class StatusDetailModelImp implements StatusDetailModel {
-    private ArrayList<Status> mRepostList = new ArrayList<>();
+    private ArrayList<AVStatus> mRepostList = new ArrayList<>();
     private ArrayList<Comment> mCommentList = new ArrayList<>();
     private boolean mRefrshAll = true;
     private int mCurrentGroup;
@@ -23,7 +24,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     public static final int REPOST_PAGE = 0x2;
 
     @Override
-    public void comment(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
+    public void comment(int groupType, AVStatus status, final Context context, final OnCommentCallBack onCommentCallBack) {
         /*CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         commentsAPI.show(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
@@ -50,7 +51,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     }
 
     @Override
-    public void commentNextPage(int groupType, Status status, final Context context, final OnCommentCallBack onCommentCallBack) {
+    public void commentNextPage(int groupType, AVStatus status, final Context context, final OnCommentCallBack onCommentCallBack) {
         /*CommentsAPI commentsAPI = new CommentsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId = "";
         if (mCommentList.size() == 0) {
@@ -86,7 +87,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     }
 
     @Override
-    public void repost(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
+    public void repost(int groupType, AVStatus status, final Context context, final OnRepostCallBack onRepostCallBack) {
         /*StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         statusesAPI.repostTimeline(Long.valueOf(status.id), 0, 0, NewFeature.GET_COMMENT_ITEM, 1, 0, new RequestListener() {
             @Override
@@ -113,7 +114,7 @@ public class StatusDetailModelImp implements StatusDetailModel {
     }
 
     @Override
-    public void repostNextPage(int groupType, Status status, final Context context, final OnRepostCallBack onRepostCallBack) {
+    public void repostNextPage(int groupType, AVStatus status, final Context context, final OnRepostCallBack onRepostCallBack) {
         /*StatusesAPI statusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         String maxId;
         if (mRepostList.size() == 0) {

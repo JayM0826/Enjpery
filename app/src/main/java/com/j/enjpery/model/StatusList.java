@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.avos.avoscloud.AVStatus;
 import com.google.gson.Gson;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.FillContentHelper;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class StatusList implements Parcelable {
 
-    public ArrayList<Status> statuses = new ArrayList<Status>();
+    public ArrayList<AVStatus> statuses = new ArrayList<AVStatus>();
     public boolean hasvisible;
     public String previous_cursor;
     public String next_cursor;
@@ -32,21 +33,21 @@ public class StatusList implements Parcelable {
         StatusList statuses = new Gson().fromJson(jsonString, StatusList.class);
 
         //对status中的本地私有字段进行赋值
-        for (Status status : statuses.statuses) {
+        for (AVStatus status : statuses.statuses) {
             //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
             FillContentHelper.setSingleImgSizeType(status);
             //提取微博来源的关键字
             FillContentHelper.setSource(status);
             //设置三种类型图片的url地址
             FillContentHelper.setImgUrl(status);
-            if (status.retweeted_status != null) {
+            /*if (status.retweeted_status != null) {
                 //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
                 FillContentHelper.setSingleImgSizeType(status.retweeted_status);
                 //提取微博来源的关键字
                 FillContentHelper.setSource(status.retweeted_status);
                 //设置三种类型图片的url地址
                 FillContentHelper.setImgUrl(status.retweeted_status);
-            }
+            }*/
         }
 
 
@@ -74,7 +75,7 @@ public class StatusList implements Parcelable {
     }
 
     protected StatusList(Parcel in) {
-        this.statuses = in.createTypedArrayList(Status.CREATOR);
+        this.statuses = in.createTypedArrayList(AVStatus.CREATOR);
         this.hasvisible = in.readByte() != 0;
         this.previous_cursor = in.readString();
         this.next_cursor = in.readString();

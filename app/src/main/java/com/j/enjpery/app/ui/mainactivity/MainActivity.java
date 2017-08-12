@@ -12,8 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.j.enjpery.R;
 import com.j.enjpery.app.base.BaseActivity;
@@ -25,6 +30,7 @@ import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
@@ -35,6 +41,31 @@ public class MainActivity extends BaseActivity {
     BottomNavigation bottomNavigation;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.fab1_item1)
+    FloatingActionButton fab1Item1;
+    @BindView(R.id.fab1_item2)
+    FloatingActionButton fab1Item2;
+    @BindView(R.id.fab1)
+    FloatingActionMenu fab1;
+    @BindView(R.id.fab2_item1)
+    FloatingActionButton fab2Item1;
+    @BindView(R.id.fab2_item2)
+    FloatingActionButton fab2Item2;
+    @BindView(R.id.fab2)
+    FloatingActionMenu fab2;
+    @BindView(R.id.fab3_item1)
+    FloatingActionButton fab3Item1;
+    @BindView(R.id.fab3_item2)
+    FloatingActionButton fab3Item2;
+    @BindView(R.id.fab3)
+    FloatingActionMenu fab3;
+    @BindView(R.id.fab4_item1)
+    FloatingActionButton fab4Item1;
+    @BindView(R.id.fab4_item2)
+    FloatingActionButton fab4Item2;
+    @BindView(R.id.fab4)
+    FloatingActionMenu fab4;
+
 
     // private SystemBarTintManager mSystemBarTint;
 
@@ -46,8 +77,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 
     @Override
@@ -73,6 +102,7 @@ public class MainActivity extends BaseActivity {
                     Timber.i("MainActivity 点击了第" + i1 + "个item");
                     // 切换fragment时关闭平滑滚动，并不是去掉动画
                     viewPager.setCurrentItem(i1, false);
+                    animateFab(i1);
                 }
 
                 @Override
@@ -101,6 +131,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageSelected(int position) {
                     bottomNavigation.setSelectedIndex(position, true);
+                    animateFab(position);
                 }
 
                 @Override
@@ -108,6 +139,13 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
 
@@ -199,6 +237,57 @@ public class MainActivity extends BaseActivity {
         @Override
         public int getCount() {
             return fragments.length;
+        }
+    }
+
+
+    //int[] colorIntArray = {android.R.color.holo_purple, android.R.color.holo_green_dark, android.R.color.holo_orange_dark, R.color.bottombar_item4};
+    // int[] iconIntArray = {R.drawable.ic_profile_music, R.drawable.ic_profile_note, R.drawable.ic_profile_video, R.drawable.ic_profile_settings};
+
+    private void animateFab(int position) {
+        switch (position) {
+            case 0:
+                if (fab1.isMenuHidden()) {
+                    fab1.showMenu(true);
+                }
+                fab2.hideMenu(true);
+                fab3.hideMenu(true);
+                fab4.hideMenu(true);
+                break;
+            case 1:
+                if (fab2.isMenuHidden()) {
+                    fab2.showMenu(true);
+                }
+                fab1.hideMenu(true);
+                fab3.hideMenu(true);
+                fab4.hideMenu(true);
+                break;
+            case 2:
+                if (fab3.isMenuHidden()) {
+                    fab3.showMenu(true);
+                }
+                fab1.hideMenu(true);
+                fab2.hideMenu(true);
+                fab4.hideMenu(true);
+                break;
+
+            case 3:
+                if (fab3.isMenuHidden()) {
+                    fab3.showMenu(true);
+                }
+                fab1.hideMenu(true);
+                fab2.hideMenu(true);
+                fab4.hideMenu(true);
+                break;
+
+            default:
+                if (fab1.isMenuHidden()) {
+                    fab1.showMenu(true);
+                }
+                fab2.hideMenu(true);
+                fab3.hideMenu(true);
+                fab4.hideMenu(true);
+                break;
         }
     }
 

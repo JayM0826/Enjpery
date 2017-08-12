@@ -1,7 +1,6 @@
 package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.R;
 import com.j.enjpery.app.ui.customview.EmojiTextView;
-import com.j.enjpery.model.Status;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -26,11 +25,11 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private static final int TYPE_ORINGIN_ITEM = 0;
     private static final int TYPE_RETWEET_ITEM = 3;
-    private ArrayList<Status> mDatas;
+    private ArrayList<AVStatus> mDatas;
     private Context mContext;
     private View mView;
 
-    public TimelineAdapter(ArrayList<Status> datas, Context context) {
+    public TimelineAdapter(ArrayList<AVStatus> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
     }
@@ -64,7 +63,7 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
      */
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof OriginViewHolder) {
+        /*if (holder instanceof OriginViewHolder) {
             //如果这条原创微博没有被删除
             if (mDatas.get(position).user != null) {
                 ((OriginViewHolder) holder).titlebar_layout.setVisibility(View.VISIBLE);
@@ -98,9 +97,9 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
                     public void onClick(View v) {
                         Toast.makeText(mContext, "点击了微博背景", Toast.LENGTH_SHORT).show();
 
-                       /* Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
+                       *//* Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
                         intent.putExtra("weiboitem", mDatas.get(position));
-                        mContext.startActivity(intent);*/
+                        mContext.startActivity(intent);*//*
                     }
                 });
             }
@@ -136,9 +135,9 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
                 public void onClick(View v) {
                     if (mDatas.get(position).retweeted_status.user != null) {
                         Toast.makeText(mContext, "点赞转发的内容", Toast.LENGTH_SHORT).show();
-                       /* Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
+                       *//* Intent intent = new Intent(mContext, OriginPicTextCommentDetailSwipeActivity.class);
                         intent.putExtra("weiboitem", mDatas.get(position).retweeted_status);
-                        mContext.startActivity(intent);*/
+                        mContext.startActivity(intent);*//*
                     }
                 }
             });
@@ -158,14 +157,14 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
                 public void onClick(View v) {
                     Toast.makeText(mContext, "微博背景的点击事件", Toast.LENGTH_SHORT).show();
 
-                    /*Intent intent = new Intent(mContext, RetweetPicTextCommentDetailSwipeActivity.class);
+                    *//*Intent intent = new Intent(mContext, RetweetPicTextCommentDetailSwipeActivity.class);
                     intent.putExtra("weiboitem", mDatas.get(position));
-                    mContext.startActivity(intent);*/
+                    mContext.startActivity(intent);*//*
                 }
             });
 
 
-        }
+        }*/
 
     }
 
@@ -180,18 +179,20 @@ public abstract class TimelineAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-        if (mDatas.get(position).retweeted_status != null) {
+        /*if (mDatas.get(position).retweeted_status != null) {
             return TYPE_RETWEET_ITEM;
         } else {
             return TYPE_ORINGIN_ITEM;
-        }
+        }*/
+
+        return TYPE_RETWEET_ITEM;
     }
 
-    public void setData(ArrayList<Status> data) {
+    public void setData(ArrayList<AVStatus> data) {
         this.mDatas = data;
     }
 
-    public abstract void arrowClick(Status status, int position, Bitmap bitmap);
+    public abstract void arrowClick(AVStatus status, int position, Bitmap bitmap);
 
     public void removeDataItem(int position) {
         mDatas.remove(position);

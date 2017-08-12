@@ -1,7 +1,6 @@
 package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 
-import com.j.enjpery.model.Status;
-import com.j.enjpery.model.User;
+import com.avos.avoscloud.AVStatus;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public interface HomeFragmentView {
     /**
      * 刷新数据集
      */
-    public void updateListView(ArrayList<Status> statuselist);
+    public void updateListView(ArrayList<AVStatus> statuselist);
 
 
     /**
@@ -50,26 +49,20 @@ public interface HomeFragmentView {
     /**
      * 设置顶部的分组名
      */
-    public void setGroupName(String userName);
+   //  public void setGroupName(String userName);
 
     /**
      * 设置用户名
      *
      * @param userName
      */
-    public void setUserName(String userName);
+    // public void setUserName(String userName);
 
     /**
      * 滑动到顶部
      */
     public void scrollToTop(boolean refreshData);
 
-    /**
-     * 设置当前的用户
-     *
-     * @param user
-     */
-    public void setCurrentUser(User user);
 
 
     public void showRecyclerView();

@@ -6,8 +6,8 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 
 import android.text.TextUtils;
 
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.model.Comment;
-import com.j.enjpery.model.Status;
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -24,9 +24,9 @@ public class FillContentHelper {
      *
      * @param status
      */
-    public static void setSource(Status status) {
+    public static void setSource(AVStatus status) {
         //如果字段是空的，就没必要在接着下去了。服务器确实有时候会返回空
-        if (TextUtils.isEmpty(status.source)) {
+        /*if (TextUtils.isEmpty(status.source)) {
             return;
         }
         //如果已经提取过关键字，就不需要再处理
@@ -40,7 +40,7 @@ public class FillContentHelper {
         if (mmatcher.find()) {
             String weibocomefrom = mmatcher.group(2);
             status.source = weibocomefrom;
-        }
+        }*/
     }
 
     /**
@@ -65,9 +65,9 @@ public class FillContentHelper {
             String weibocomefrom = mmatcher.group(2);
             comment.source = weibocomefrom;
         }
-        if (comment.status != null) {
+        /*if (comment.status != null) {
             setSource(comment.status);
-        }
+        }*/
 
     }
 
@@ -76,14 +76,14 @@ public class FillContentHelper {
      *
      * @param status
      */
-    public static void setImgUrl(Status status) {
+    public static void setImgUrl(AVStatus status) {
         //如果微博存在图片
-        if (status.pic_urls != null && status.pic_urls.size() > 0) {
+        /*if (status.pic_urls != null && status.pic_urls.size() > 0) {
             //如果本地私有字段已经被处理过了，就不需要再处理
             if (status.bmiddle_pic_urls.size() > 0) {
                 return;
             }
-            for (Status.PicUrlsBean picUrlsBean : status.pic_urls) {
+            for (AVStatus.PicUrlsBean picUrlsBean : status.pic_urls) {
                 status.thumbnail_pic_urls.add(picUrlsBean.thumbnail_pic);
                 status.bmiddle_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "bmiddle"));
                 if (!picUrlsBean.thumbnail_pic.endsWith(".gif")) {
@@ -92,7 +92,7 @@ public class FillContentHelper {
                     status.origin_pic_urls.add(picUrlsBean.thumbnail_pic.replace("thumbnail", "bmiddle"));
                 }
             }
-        }
+        }*/
 
 
     }
@@ -104,14 +104,14 @@ public class FillContentHelper {
      *
      * @param status
      */
-    public static void setSingleImgSizeType(Status status) {
-        if (status.pic_urls != null && status.pic_urls.size() == 1) {
+    public static void setSingleImgSizeType(AVStatus status) {
+        /*if (status.pic_urls != null && status.pic_urls.size() == 1) {
             //从本地加载缓存，如果已经被赋值,就不再继续取随机数
             if (!TextUtils.isEmpty(status.singleImgSizeType)) {
                 return;
             }
             status.singleImgSizeType = String.valueOf(new Random().nextInt(3) + 1);
-        }
+        }*/
     }
 
 

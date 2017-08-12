@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.avos.avoscloud.AVStatus;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.j.enjpery.R;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.util.ScreenUtil;
-import com.j.enjpery.model.Status;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
@@ -28,7 +28,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
     private ArrayList<String> mData;
     private Context mContext;
-    private Status mStatus;
+    private AVStatus mStatus;
     /**
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
@@ -39,8 +39,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheOnDisk(true)
             .build();
 
-    public ImageAdapter(Status status, Context context) {
-        this.mStatus = status;
+    public ImageAdapter(AVStatus status, Context context) {
+        /*this.mStatus = status;
         if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
             this.mData = status.thumbnail_pic_urls;
         } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
@@ -48,7 +48,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         } else {
             this.mData = status.origin_pic_urls;
         }
-        this.mContext = context;
+        this.mContext = context;*/
 
     }
 

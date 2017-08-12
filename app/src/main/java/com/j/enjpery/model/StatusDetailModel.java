@@ -6,6 +6,8 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVStatus;
+
 import java.util.ArrayList;
 public interface StatusDetailModel {
 
@@ -21,18 +23,18 @@ public interface StatusDetailModel {
     interface OnRepostCallBack {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Status> commentlist);
+        void onDataFinish(ArrayList<AVStatus> commentlist);
 
         void onError(String error);
     }
 
-    public void comment(int groupType, Status status, Context context, OnCommentCallBack onCommentCallBack);
+    public void comment(int groupType, AVStatus status, Context context, OnCommentCallBack onCommentCallBack);
 
-    public void commentNextPage(int groupType, Status status, Context context, OnCommentCallBack onCommentCallBack);
+    public void commentNextPage(int groupType, AVStatus status, Context context, OnCommentCallBack onCommentCallBack);
 
 
-    public void repost(int groupType, Status status, Context context, OnRepostCallBack onRepostCallBack);
+    public void repost(int groupType, AVStatus status, Context context, OnRepostCallBack onRepostCallBack);
 
-    public void repostNextPage(int groupType, Status status, Context context, OnRepostCallBack onRepostCallBack);
+    public void repostNextPage(int groupType, AVStatus status, Context context, OnRepostCallBack onRepostCallBack);
 
 }

@@ -8,7 +8,6 @@ import android.content.Context;
 
 public interface HomeFragmentPresent {
 
-    public void refreshUserName(Context context);
 
     public void firstLoadData(Context context, boolean firstStart);
 

@@ -36,8 +36,6 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 public class LoginActivity extends BaseActivity {
-
-
     private String email;
     private String password;
     @BindView(R.id.et_username)
@@ -50,7 +48,6 @@ public class LoginActivity extends BaseActivity {
     CardView cv;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-
 
     @Override
     public int getLayoutId() {

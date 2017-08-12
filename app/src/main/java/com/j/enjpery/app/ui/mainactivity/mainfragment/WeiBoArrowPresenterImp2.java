@@ -2,20 +2,16 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
+import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.TimelineAdapter;
 import com.j.enjpery.app.util.Constants;
-import com.j.enjpery.app.util.SDCardUtil;
-import com.j.enjpery.model.FavoriteList;
 import com.j.enjpery.model.FavoriteListModel;
 import com.j.enjpery.model.FavoriteListModelImp;
 import com.j.enjpery.model.FriendShipModel;
 import com.j.enjpery.model.FriendShipModelImp;
-import com.j.enjpery.model.Status;
-import com.j.enjpery.model.StatusList;
 import com.j.enjpery.model.StatusListModel;
 import com.j.enjpery.model.StatusListModelImp;
-import com.j.enjpery.model.User;
 
 /**
  * Created by J on 2017/8/8.
@@ -138,7 +134,7 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
      *
      * @param context
      */
-    public void user_destroy(User user, Context context) {
+    public void user_destroy(AVUser user, Context context) {
         mContext = context;
         mArrowDialog.dismiss();
         friendShipModel.user_destroy(user, context, new FriendShipModel.OnRequestListener() {
@@ -155,7 +151,7 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
     }
 
     @Override
-    public void user_create(User user, Context context) {
+    public void user_create(AVUser user, Context context) {
         mContext = context;
         mArrowDialog.dismiss();
         friendShipModel.user_create(user, context, new FriendShipModel.OnRequestListener() {
@@ -177,7 +173,7 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
      * @param status
      * @param context
      */
-    public void createFavorite(Status status, Context context) {
+    public void createFavorite(AVStatus status, Context context) {
         mContext = context;
         mArrowDialog.dismiss();
         favoriteListModel.createFavorite(status, context, new FavoriteListModel.OnRequestUIListener() {
@@ -200,7 +196,7 @@ public class WeiBoArrowPresenterImp2 implements WeiBoArrowPresent2 {
      * @param context
      */
     @Override
-    public void cancalFavorite(final int position, Status status, Context context, final boolean deleteAnimation) {
+    public void cancalFavorite(final int position, AVStatus status, Context context, final boolean deleteAnimation) {
         mContext = context;
         if (mArrowDialog != null) {
             mArrowDialog.dismiss();

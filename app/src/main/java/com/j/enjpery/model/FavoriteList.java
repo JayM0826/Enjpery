@@ -32,14 +32,14 @@ public class FavoriteList {
             //设置三种类型图片的url地址
             FillContentHelper.setImgUrl(favorite.status);
 
-            if (favorite.status.retweeted_status != null) {
+            /*if (favorite.status.retweeted_status != null) {
                 //服务器并没有返回我们单张图片的随机尺寸，这里我们手动需要随机赋值
                 FillContentHelper.setSingleImgSizeType(favorite.status.retweeted_status);
                 //提取微博来源的关键字
                 FillContentHelper.setSource(favorite.status.retweeted_status);
                 //设置三种类型图片的url地址
                 FillContentHelper.setImgUrl(favorite.status.retweeted_status);
-            }
+            }*/
         }
 
 

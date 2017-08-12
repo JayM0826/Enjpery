@@ -3,6 +3,7 @@ package com.j.enjpery.model;
 import android.content.Context;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
 import com.google.gson.Gson;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.RequestListener;
@@ -22,7 +23,7 @@ public class FriendShipModelImp implements FriendShipModel {
     private Context mContext;
 
     @Override
-    public void user_destroy(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
+    public void user_destroy(final AVUser user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
         /*FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnRequestUIListener = onRequestListener;
@@ -48,7 +49,7 @@ public class FriendShipModelImp implements FriendShipModel {
     }
 
     @Override
-    public void user_create(final User user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
+    public void user_create(final AVUser user, Context context, OnRequestListener onRequestListener, boolean updateCache) {
         /*FriendshipsAPI friendshipsAPI = new FriendshipsAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         mOnRequestUIListener = onRequestListener;
@@ -73,7 +74,7 @@ public class FriendShipModelImp implements FriendShipModel {
     /**
      * @param context
      */
-    private void updateCache(Context context, User usertoUpdate) {
+    private void updateCache(Context context, AVUser usertoUpdate) {
         /*String follerResponse = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/profile", "我的粉丝列表" + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         if (follerResponse != null) {
             UserList userList = UserList.parse(follerResponse);

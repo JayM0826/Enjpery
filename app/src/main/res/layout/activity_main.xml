@@ -25,8 +25,8 @@
         />
 
     <!--被引用的id一定要先声明-->
-    <!--<com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab"
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="0dp"
@@ -34,30 +34,139 @@
         android:paddingRight="10dp"
         android:layout_marginBottom="8dp"
         app:layout_behavior="com.j.enjpery.app.ui.mainactivity.MainActivity$FabBehavior"
-        app:layout_anchor="@id/BottomNavigation"
+        app:layout_anchor="@id/bottomNavigation"
         app:layout_anchorGravity="right|top"
         app:menu_backgroundColor="#ccffffff"
         app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
         app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
-        app:menu_fab_size="mini">
+        app:menu_fab_size="normal">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_item1"
+            android:id="@+id/fab1_item1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
-            app:fab_label="Snackbar"
+            android:src="@drawable/ic_profile_note"
+            app:fab_label="添加"
             app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_item2"
+            android:id="@+id/fab1_item2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_call"
-            app:fab_label="Exit"
+            android:src="@drawable/ic_search_black_24dp"
+            app:fab_label="搜索"
             app:fab_size="mini" />
 
-    </com.github.clans.fab.FloatingActionMenu>-->
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_behavior="com.j.enjpery.app.ui.mainactivity.MainActivity$FabBehavior"
+        app:layout_anchor="@id/bottomNavigation"
+        app:layout_anchorGravity="right|top"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
+        app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_fab_size="normal">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_note"
+            app:fab_label="直播"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab2_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_black_24dp"
+            app:fab_label="搜索"
+            app:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_behavior="com.j.enjpery.app.ui.mainactivity.MainActivity$FabBehavior"
+        app:layout_anchor="@id/bottomNavigation"
+        app:layout_anchorGravity="right|top"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
+        app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_fab_size="normal">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_note"
+            app:fab_label="发表"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab3_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_black_24dp"
+            app:fab_label="搜索"
+            app:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="8dp"
+        app:layout_behavior="com.j.enjpery.app.ui.mainactivity.MainActivity$FabBehavior"
+        app:layout_anchor="@id/bottomNavigation"
+        app:layout_anchorGravity="right|top"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_hide_animation="@anim/fab_slide_out_to_right"
+        app:menu_fab_show_animation="@anim/fab_slide_in_from_right"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_fab_size="normal">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab4_item1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_profile_note"
+            app:fab_label="新建"
+            app:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab4_item2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search_black_24dp"
+            app:fab_label="修改 "
+            app:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 </android.support.design.widget.CoordinatorLayout>

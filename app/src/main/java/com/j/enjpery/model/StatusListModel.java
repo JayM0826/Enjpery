@@ -2,6 +2,8 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVStatus;
+
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,7 @@ public interface StatusListModel {
 
         void getNewWeiBo(int num);
 
-        void onDataFinish(ArrayList<Status> statuslist);
+        void onDataFinish(ArrayList<AVStatus> statuslist);
 
         void onError(String error);
     }

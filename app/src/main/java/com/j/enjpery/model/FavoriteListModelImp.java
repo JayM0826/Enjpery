@@ -2,6 +2,7 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.app.util.SDCardUtil;
 
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 public class FavoriteListModelImp implements FavoriteListModel {
     private Context mContext;
     private OnRequestUIListener mOnRequestUIListener;
-    private ArrayList<Status> mStatusList = new ArrayList<>();
+    private ArrayList<AVStatus> mStatusList = new ArrayList<>();
     private int mPage = 1;
 
     @Override
-    public void createFavorite(final Status status, Context context, OnRequestUIListener onRequestUIListener) {
+    public void createFavorite(final AVStatus status, Context context, OnRequestUIListener onRequestUIListener) {
         mContext = context;
         mOnRequestUIListener = onRequestUIListener;
         /*FavoritesAPI favoritesAPI = new FavoritesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
@@ -45,7 +46,7 @@ public class FavoriteListModelImp implements FavoriteListModel {
     }
 
     @Override
-    public void cancelFavorite(final Status status, Context context, OnRequestUIListener onRequestUIListener) {
+    public void cancelFavorite(final AVStatus status, Context context, OnRequestUIListener onRequestUIListener) {
         mContext = context;
         mOnRequestUIListener = onRequestUIListener;
         /*final FavoritesAPI favoritesAPI = new FavoritesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));

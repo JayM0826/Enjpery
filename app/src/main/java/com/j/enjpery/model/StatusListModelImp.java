@@ -4,16 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVStatus;
 import com.google.gson.Gson;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.ui.customview.LoadedToast;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.RequestListener;
 import com.j.enjpery.app.util.Constants;
-import com.j.enjpery.app.util.SDCardUtil;
 import com.j.enjpery.app.util.ToastUtil;
-import com.j.enjpery.model.Status;
-import com.j.enjpery.model.StatusList;
-import com.j.enjpery.model.StatusListModel;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -27,7 +24,7 @@ public class StatusListModelImp implements StatusListModel {
      * 全局刷新的间隔时间
      */
     private static int REFRESH_FRIENDS_TIMELINE_TASK = 15 * 60 * 1000;
-    private ArrayList<Status> mStatusList = new ArrayList<>();
+    private ArrayList<AVStatus> mStatusList = new ArrayList<>();
     private Context mContext;
     private OnDataFinishedListener mOnDataFinishedUIListener;
     private OnRequestListener mOnDestroyWeiBoUIListener;
@@ -166,7 +163,7 @@ public class StatusListModelImp implements StatusListModel {
             // response = SDCardUtil.get(context, SDCardUtil.getSDCardPath() + "/weiSwift/home", groupType + AccessTokenKeeper.readAccessToken(context).getUid() + ".txt");
         }
         if (response != null) {
-            mStatusList = (ArrayList<Status>) StatusList.parse(response).statuses;
+            mStatusList = (ArrayList<AVStatus>) StatusList.parse(response).statuses;
             onDataFinishedListener.onDataFinish(mStatusList);
             return true;
         } else {
@@ -226,9 +223,9 @@ public class StatusListModelImp implements StatusListModel {
         if (mCurrentGroup != newGroupId) {
             mRefrshAll = true;
         }
-        if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mRefrshAll == false) {
+        /*if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mRefrshAll == false) {
             sinceId = Long.valueOf(mStatusList.get(0).id);
-        }
+        }*/
         if (mRefrshAll) {
             sinceId = 0;
         }
@@ -241,12 +238,12 @@ public class StatusListModelImp implements StatusListModel {
         @Override
         public void onComplete(String response) {
             StatusList statusList = StatusList.parse(response);
-            ArrayList<Status> temp = statusList.statuses;
+            ArrayList<AVStatus> temp = statusList.statuses;
             if (temp != null && temp.size() > 0) {
                 //请求回来的数据的maxid与列表中的第一条的id相同，说明是局部刷新，否则是全局刷新
                 //LoadedToast.showToast(mContext, temp.size() + "条新微博");
                 //如果是全局刷新,需要清空列表中的全部微博
-                if (mStatusList.size() == 0 || !String.valueOf(statusList.max_id).equals(mStatusList.get(0).id)) {
+                /*if (mStatusList.size() == 0 || !String.valueOf(statusList.max_id).equals(mStatusList.get(0).id)) {
                     mStatusList.clear();
                     mStatusList = temp;
                 } else {
@@ -254,7 +251,7 @@ public class StatusListModelImp implements StatusListModel {
                     mStatusList.addAll(0, temp);
                     //更新对象并且序列化到本地
                     statusList.statuses = mStatusList;
-                }
+                }*/
                 cacheSave(mCurrentGroup, mContext, statusList);
                 mOnDataFinishedUIListener.getNewWeiBo(temp.size());
                 mOnDataFinishedUIListener.onDataFinish(mStatusList);
@@ -283,14 +280,14 @@ public class StatusListModelImp implements StatusListModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Status> temp = (ArrayList<Status>) StatusList.parse(response).statuses;
-                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
+                ArrayList<AVStatus> temp = (ArrayList<AVStatus>) StatusList.parse(response).statuses;
+                /*if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
                     mOnDataFinishedUIListener.noMoreData();
                 } else if (temp.size() > 1) {
                     temp.remove(0);
                     mStatusList.addAll(temp);
                     mOnDataFinishedUIListener.onDataFinish(mStatusList);
-                }
+                }*/
             } else {
                 mOnDataFinishedUIListener.noMoreData();
             }

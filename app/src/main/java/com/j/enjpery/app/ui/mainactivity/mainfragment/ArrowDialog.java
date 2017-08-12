@@ -11,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.R;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.TimelineAdapter;
 import com.j.enjpery.app.util.ToastUtil;
-import com.j.enjpery.model.Status;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,42 +36,42 @@ public abstract class ArrowDialog extends Dialog {
     public LinearLayout mFollerLayout;
     public LinearLayout mShareLayout;
     public WeiBoArrowPresent2 mWeiBoArrowPresent;
-    public Status mStatus;
+    public AVStatus mStatus;
     public TimelineAdapter mWeiboAdapter;
     public int mItemPosition;
-    public String mGroupName;
+    // public String mGroupName;
     public Bitmap mBitmap;
 
-    public ArrowDialog(Context context, Status status, TimelineAdapter weiboAdapter, int position, String groupName) {
+    public ArrowDialog(Context context, AVStatus status, TimelineAdapter weiboAdapter, int position, String groupName) {
         super(context, R.style.ArrowDialog);
         mContext = context;
         mStatus = status;
         mWeiboAdapter = weiboAdapter;
         mItemPosition = position;
-        mGroupName = groupName;
+        // mGroupName = groupName;
     }
 
-    public ArrowDialog(Context context, Status status) {
+    public ArrowDialog(Context context, AVStatus status) {
         super(context);
         mContext = context;
         mStatus = status;
     }
 
 
-    public ArrowDialog(Context context, Status status, Bitmap bitmap) {
+    public ArrowDialog(Context context, AVStatus status, Bitmap bitmap) {
         super(context);
         mContext = context;
         mStatus = status;
         mBitmap = bitmap;
     }
 
-    public ArrowDialog(Context context, Status status, TimelineAdapter weiboAdapter, int position, String groupName, Bitmap bitmap) {
+    public ArrowDialog(Context context, AVStatus status, TimelineAdapter weiboAdapter, int position, Bitmap bitmap) {
         super(context, R.style.ArrowDialog);
         mContext = context;
         mStatus = status;
         mWeiboAdapter = weiboAdapter;
         mItemPosition = position;
-        mGroupName = groupName;
+        // mGroupName = groupName;
         mBitmap = bitmap;
     }
 
@@ -113,22 +113,22 @@ public abstract class ArrowDialog extends Dialog {
     /**
      * 设置收藏的TextView的内容，如果收藏了此微博，则显示取消收藏，如果没有收藏，则显示收藏
      */
-    public abstract void setFavoriteTextContext(final Status status, TextView textView);
+    public abstract void setFavoriteTextContext(final AVStatus status, TextView textView);
 
     /**
      * 设置朋友的关系内容，如果已经关注，则显示取消关注，如果没有关注，则显示关注
      */
-    public abstract void setFriendShipContext(final Status status, TextView textView);
+    public abstract void setFriendShipContext(final AVStatus status, TextView textView);
 
     /**
      * 设置是否显示删除按钮，如果不是自己的微博，要隐藏他
      */
-    public abstract void setDeleteViewContent(final Status status, final TextView textView);
+    public abstract void setDeleteViewContent(final AVStatus status, final TextView textView);
 
     /**
      * 设置是否分享
      */
-    public void setShareViewContent(final Status status, final TextView textView) {
+    public void setShareViewContent(final AVStatus status, final TextView textView) {
         mShareLayout.setVisibility(View.VISIBLE);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override

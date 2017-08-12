@@ -7,6 +7,9 @@ package com.j.enjpery.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,9 +38,9 @@ public class Comment implements Parcelable {
      */
     public String source;
     /**
-     * 评论作者的用户信息字段
+   * 评论作者的用户信息字段
      */
-    public User user;
+    public AVUser user;
     /**
      * 评论的 MID
      */
@@ -49,7 +52,7 @@ public class Comment implements Parcelable {
     /**
      * 评论的微博信息字段
      */
-    public Status status;
+    public AVStatus status;
     /**
      * 评论来源评论，当本评论属于对另一评论的回复时返回此字段
      */
@@ -119,15 +122,16 @@ public class Comment implements Parcelable {
         dest.writeParcelable(this.reply_comment, flags);
     }
 
+
     protected Comment(Parcel in) {
         this.created_at = in.readString();
         this.id = in.readString();
         this.text = in.readString();
         this.source = in.readString();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readParcelable(AVUser.class.getClassLoader());
         this.mid = in.readString();
         this.idstr = in.readString();
-        this.status = in.readParcelable(Status.class.getClassLoader());
+        this.status = in.readParcelable(AVStatus.class.getClassLoader());
         this.reply_comment = in.readParcelable(Comment.class.getClassLoader());
     }
 

@@ -3,6 +3,8 @@ package com.j.enjpery.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.avos.avoscloud.AVUser;
+
 import java.util.ArrayList;
 
 /**
@@ -55,7 +57,7 @@ public class Group implements Parcelable {
     /**
      * 分组所属用户信息
      **/
-    public User user;
+    public AVUser user;
     /**
      * 分组创建时间
      **/
@@ -129,7 +131,7 @@ public class Group implements Parcelable {
         this.tags = new ArrayList<Tag>();
         in.readList(this.tags, Tag.class.getClassLoader());
         this.profile_image_url = in.readString();
-        this.user = in.readParcelable(User.class.getClassLoader());
+        this.user = in.readParcelable(AVUser.class.getClassLoader());
         this.createAtTime = in.readString();
     }
 

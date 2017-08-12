@@ -605,5 +605,6 @@
     <color name="searchHeadView_inner_bg">#FFFFFF</color>
     <color name="loadding_footer_bg">#FFFFFF</color>
     <color name="loadding_footer_text">#8A000000</color>
+    <color name="bottombar_item4">#FF5252</color>
 
 </resources>

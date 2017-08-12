@@ -1,8 +1,6 @@
 package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -17,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
 import com.cesards.cropimageview.CropImageView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
@@ -32,15 +32,11 @@ import com.j.enjpery.app.util.SharedPreferencesUtil;
 import com.j.enjpery.app.util.TimeUtils;
 import com.j.enjpery.app.util.WeiBoContentTextUtil;
 import com.j.enjpery.model.Comment;
-import com.j.enjpery.model.Status;
 import com.j.enjpery.model.StatusDetailModelImp;
-import com.j.enjpery.model.User;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
@@ -80,20 +76,10 @@ public class FillContent {
      * @param profile_img
      * @param profile_verified
      */
-    public static void fillProfileImg(final Context context, final User user, final ImageView profile_img, final ImageView profile_verified) {
-        profile_verified.setVisibility(View.GONE);
-        profile_verified.setVisibility(View.VISIBLE);
+    public static void fillProfileImg(final Context context, final AVUser user, final ImageView profile_img, final ImageView profile_verified) {
+        profile_verified.setVisibility(View.INVISIBLE);
 
-        if (user.verified == true && user.verified_type == 0) {
-            profile_verified.setImageResource(R.drawable.avatar_vip);
-        } else if (user.verified == true && (user.verified_type == 1 || user.verified_type == 2 || user.verified_type == 3)) {
-            profile_verified.setImageResource(R.drawable.avatar_enterprise_vip);
-        } else if (user.verified == false && user.verified_type == 220) {
-            profile_verified.setImageResource(R.drawable.avatar_grassroot);
-        } else {
-            profile_verified.setVisibility(View.INVISIBLE);
-        }
-        ImageLoader.getInstance().displayImage(user.avatar_hd, profile_img, mAvatorOptions);
+        // ImageLoader.getInstance().displayImage(user.avatar_hd, profile_img, mAvatorOptions);
 
         profile_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,26 +110,26 @@ public class FillContent {
         setWeiBoComeFrom(weibo_comefrom, comment);
     }
 
-    public static void fillTitleBar(Context context, Status status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        fillProfileImg(context, status.user, profile_img, profile_verified);
-        setWeiBoName(profile_name, status.user);
-        setWeiBoTime(context, profile_time, status);
-        setWeiBoComeFrom(weibo_comefrom, status);
+    public static void fillTitleBar(Context context, AVStatus status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        // fillProfileImg(context, status.user, profile_img, profile_verified);
+        // setWeiBoName(profile_name, status.user);
+        //setWeiBoTime(context, profile_time, status);
+        // setWeiBoComeFrom(weibo_comefrom, status);
     }
 
 
-    public static void setWeiBoName(TextView textView, User user) {
-        if (user.remark != null && user.remark.length() > 0) {
+    public static void setWeiBoName(TextView textView, AVUser user) {
+       /* if (user.remark != null && user.remark.length() > 0) {
             textView.setText(user.remark);
         } else {
             textView.setText(user.name);
-        }
+        }*/
     }
 
-    public static void setWeiBoTime(Context context, TextView textView, Status status) {
-        Date data = DateUtils.parseDate(status.created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
-        TimeUtils timeUtils = TimeUtils.instance(context);
-        textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
+    public static void setWeiBoTime(Context context, TextView textView, AVStatus status) {
+        // Date data = DateUtils.parseDate(status.created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
+        // TimeUtils timeUtils = TimeUtils.instance(context);
+        // textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
 
     public static void setWeiBoTime(Context context, TextView textView, Comment comment) {
@@ -153,65 +139,29 @@ public class FillContent {
     }
 
 
-    public static void setWeiBoComeFrom(TextView textView, Status status) {
+    public static void setWeiBoComeFrom(TextView textView, AVStatus status) {
         if (status == null) {
             textView.setText("");
             return;
         }
-        if (!TextUtils.isEmpty(status.source)) {
+        /*if (!TextUtils.isEmpty(status.source)) {
             textView.setText("来自 " + status.source);
         } else {
             textView.setText("");
-        }
+        }*/
     }
 
-    public static void setFollowerComeFrom(TextView textView, Status status) {
+    public static void setFollowerComeFrom(TextView textView, AVStatus status) {
         if (status == null) {
             textView.setText("");
             return;
         }
-        if (!TextUtils.isEmpty(status.source)) {
+        /*if (!TextUtils.isEmpty(status.source)) {
             textView.setText(status.source);
         } else {
             textView.setText("");
-        }
+        }*/
     }
-
-    public static void updateRealtionShip(Context context, User user, ImageView icon, TextView text) {
-        boolean isNightMode = (boolean) SharedPreferencesUtil.get(context, "setNightMode", false);
-        if (!isNightMode) {
-            if (user.follow_me && user.following) {
-                icon.setImageResource(R.drawable.card_icon_arrow);
-                text.setText("互相关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_each_other));
-            } else if (user.following) {
-                icon.setImageResource(R.drawable.card_icon_attention);
-                text.setText("已关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_alreay));
-            } else {
-                icon.setImageResource(R.drawable.card_icon_addattention);
-                text.setText("加关注");
-                text.setTextColor(context.getResources().getColor(R.color.friend_item_button_follow_none));
-            }
-        } else {
-            if (user.follow_me && user.following) {
-                icon.setImageResource(R.drawable.card_icon_arrow);
-                text.setText("互相关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_each_other));
-            } else if (user.following) {
-                icon.setImageResource(R.drawable.card_icon_attention);
-                text.setText("已关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_alreay));
-            } else {
-                icon.setImageResource(R.drawable.card_icon_addattention);
-                text.setText("加关注");
-                text.setTextColor(context.getResources().getColor(R.color.night_friend_item_button_follow_none));
-            }
-        }
-
-
-    }
-
 
     public static void setWeiBoComeFrom(TextView textView, Comment comment) {
         if (comment == null) {
@@ -236,8 +186,8 @@ public class FillContent {
      * @param redirect
      * @param feedlike
      */
-    public static void fillButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude, TextView comment, TextView redirect, TextView feedlike) {
-        if (status.comments_count != 0) {
+    public static void fillButtonBar(final Context context, final AVStatus status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude, TextView comment, TextView redirect, TextView feedlike) {
+       /* if (status.comments_count != 0) {
             comment.setText(status.comments_count + "");
         } else {
             comment.setText("评论");
@@ -254,34 +204,34 @@ public class FillContent {
         } else {
             feedlike.setText("赞");
         }
-
+*/
         fillButtonBar(context, status, bottombar_retweet, bottombar_comment, bottombar_attitude);
     }
 
-    public static void fillButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
+    public static void fillButtonBar(final Context context, final AVStatus status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
         //如果转发的内容已经被删除,则不允许转发
-        if (status.retweeted_status != null && status.retweeted_status.user == null) {
+        /*if (status.retweeted_status != null && status.retweeted_status.user == null) {
             bottombar_retweet.setEnabled(false);
         } else {
             bottombar_retweet.setEnabled(true);
-        }
+        }*/
 
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status.retweeted_status == null) {
+                /*if (status.retweeted_status == null) {
 
                     Toast.makeText(context, "bottombar_comment  if", Toast.LENGTH_SHORT).show();
-                   /* Intent intent = new Intent(context, OriginPicTextCommentDetailSwipeActivity.class);
+                   *//* Intent intent = new Intent(context, OriginPicTextCommentDetailSwipeActivity.class);
                     intent.putExtra("weiboitem", status);
-                    ((Activity) context).startActivityForResult(intent, 101);*/
+                    ((Activity) context).startActivityForResult(intent, 101);*//*
                 } else {
                     Toast.makeText(context, "bottombar_comment  else", Toast.LENGTH_SHORT).show();
 
-                    /*Intent intent = new Intent(context, RetweetPicTextCommentDetailSwipeActivity.class);
+                    *//*Intent intent = new Intent(context, RetweetPicTextCommentDetailSwipeActivity.class);
                     intent.putExtra("weiboitem", status);
-                    ((Activity) context).startActivityForResult(intent, 101);*/
-                }
+                    ((Activity) context).startActivityForResult(intent, 101);*//*
+                }*/
 
             }
         });
@@ -299,13 +249,13 @@ public class FillContent {
         });
     }
 
-    public static void fillDetailButtonBar(final Context context, final Status status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
+    public static void fillDetailButtonBar(final Context context, final AVStatus status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude) {
         //如果转发的内容已经被删除,则不允许转发
-        if (status.retweeted_status != null && status.retweeted_status.user == null) {
+        /*if (status.retweeted_status != null && status.retweeted_status.user == null) {
             bottombar_retweet.setEnabled(false);
         } else {
             bottombar_retweet.setEnabled(true);
-        }
+        }*/
 
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,12 +318,12 @@ public class FillContent {
     /**
      * 填充转发微博文字内容
      */
-    public static void fillRetweetContent(Status status, Context context, TextView origin_nameAndcontent) {
-        if (status.retweeted_status.user != null) {
+    public static void fillRetweetContent(AVStatus status, Context context, TextView origin_nameAndcontent) {
+        /*if (status.retweeted_status.user != null) {
             StringBuffer retweetcontent_buffer = new StringBuffer();
             retweetcontent_buffer.setLength(0);
             retweetcontent_buffer.append("@");
-            retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
+            // retweetcontent_buffer.append(status.retweeted_status.user.name + " :  ");
             retweetcontent_buffer.append(status.retweeted_status.text);
             origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent(retweetcontent_buffer.toString(), context, origin_nameAndcontent));
             //origin_nameAndcontent.setText(retweetcontent_buffer.toString());
@@ -381,14 +331,14 @@ public class FillContent {
         } else {
             origin_nameAndcontent.setText(WeiBoContentTextUtil.getWeiBoContent("抱歉，此微博已被作者删除。查看帮助：#网页链接#", context, origin_nameAndcontent));
             //origin_nameAndcontent.setText("抱歉，此微博已被作者删除。查看帮助：#网页链接#");
-        }
+        }*/
     }
 
     /**
      * 填充微博图片列表,包括原创微博和转发微博中的图片都可以使用
      */
-    public static void fillWeiBoImgList(Status status, Context context, RecyclerView recyclerview) {
-        ArrayList<String> imageDatas = status.bmiddle_pic_urls;
+    public static void fillWeiBoImgList(AVStatus status, Context context, RecyclerView recyclerview) {
+        /*ArrayList<String> imageDatas = status.bmiddle_pic_urls;
         if (imageDatas == null || imageDatas.size() == 0) {
             recyclerview.setVisibility(View.GONE);
             return;
@@ -403,6 +353,7 @@ public class FillContent {
         recyclerview.setLayoutManager(gridLayoutManager);
         imageAdapter.setData(imageDatas);
         imageAdapter.notifyDataSetChanged();
+        */
     }
 
     /**
@@ -485,16 +436,16 @@ public class FillContent {
      * @param gifImg
      * @param imageLabel
      */
-    public static void fillImageList(final Context context, final Status status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
+    public static void fillImageList(final Context context, final AVStatus status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         final ArrayList<String> urllist;
-        if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+        /*if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
             urllist = status.thumbnail_pic_urls;
         } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
             urllist = status.bmiddle_pic_urls;
         } else {
             urllist = status.origin_pic_urls;
-        }
-        ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
+        }*/
+        /*ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 setLabelForGif(urllist.get(position), imageLabel);
@@ -523,7 +474,7 @@ public class FillContent {
                     displayNorImg(file, bitmap, norImg, imageLabel);
                 }
             }
-        });
+        });*/
         longImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -560,19 +511,19 @@ public class FillContent {
         //setOnLongClickListener(longImg, gifImg, norImg, context, status, position);
     }
 
-    private static void setOnLongClickListener(SubsamplingScaleImageView longImg, GifImageView gifImg, ImageView norImg, final Context context, final Status status, final int position) {
+    private static void setOnLongClickListener(SubsamplingScaleImageView longImg, GifImageView gifImg, ImageView norImg, final Context context, final AVStatus status, final int position) {
 
 
         longImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 ArrayList<String> saveUrlArrayList;
-                if (NetUtil.isConnected(context)) {
+                /*if (NetUtil.isConnected(context)) {
                     saveUrlArrayList = status.origin_pic_urls;
                 } else {
                     saveUrlArrayList = status.bmiddle_pic_urls;
-                }
-                SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);
+                }*/
+                // SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);
                 return false;
             }
         });
@@ -580,7 +531,7 @@ public class FillContent {
         gifImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                SaveImageDialog.showDialog(status.bmiddle_pic_urls.get(position), context);
+                // SaveImageDialog.showDialog(status.bmiddle_pic_urls.get(position), context);
                 return false;
             }
         });
@@ -589,12 +540,12 @@ public class FillContent {
             @Override
             public boolean onLongClick(View v) {
                 ArrayList<String> saveUrlArrayList;
-                if (NetUtil.isConnected(context)) {
+               /* if (NetUtil.isConnected(context)) {
                     saveUrlArrayList = status.origin_pic_urls;
                 } else {
                     saveUrlArrayList = status.bmiddle_pic_urls;
                 }
-                SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);
+                SaveImageDialog.showDialog(saveUrlArrayList.get(position), context);*/
                 return false;
             }
         });
@@ -715,7 +666,7 @@ public class FillContent {
      * @param profile_name
      * @param content
      */
-    public static void fillMentionCenterContent(Status retweetstatus, ImageView profile_img, TextView profile_name, TextView content) {
+    public static void fillMentionCenterContent(AVStatus retweetstatus, ImageView profile_img, TextView profile_name, TextView content) {
 
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.message_image_default)
@@ -732,14 +683,14 @@ public class FillContent {
         profile_img.setVisibility(View.VISIBLE);
 
         //转发的内容存在且没有被删除
-        if (retweetstatus != null && retweetstatus.user != null) {
+        /*if (retweetstatus != null && retweetstatus.user != null) {
             if (retweetstatus.bmiddle_pic != null && retweetstatus.bmiddle_pic.length() > 0) {
                 ImageLoader.getInstance().displayImage(retweetstatus.bmiddle_pic, profile_img, options);
             } else {
-                ImageLoader.getInstance().displayImage(retweetstatus.user.avatar_hd, profile_img, options);
+                // ImageLoader.getInstance().displayImage(retweetstatus.user.avatar_hd, profile_img, options);
             }
             profile_name.setVisibility(View.VISIBLE);
-            profile_name.setText("@" + retweetstatus.user.name);
+            // profile_name.setText("@" + retweetstatus.user.name);
             content.setText(retweetstatus.text);
         }
         //转发的内容已经被删除
@@ -747,7 +698,7 @@ public class FillContent {
             profile_img.setImageResource(R.drawable.photo_filter_image_empty);
             profile_name.setVisibility(View.GONE);
             content.setText(retweetstatus.text);
-        }
+        }*/
     }
 
     /**
@@ -781,8 +732,8 @@ public class FillContent {
             mycomment.setVisibility(View.VISIBLE);
             bg_layout.setBackgroundResource(R.drawable.home_commentcenter_grey_bg_auto);
             comment_weibolayout.setBackgroundResource(R.drawable.home_commentcenter_white_bg_auto);
-            String mycommenttext = "@" + comment.reply_comment.user.name + ":" + comment.reply_comment.text;
-            fillWeiBoContent(mycommenttext, context, mycomment);
+            // String mycommenttext = "@" + comment.reply_comment.user.name + ":" + comment.reply_comment.text;
+            // fillWeiBoContent(mycommenttext, context, mycomment);
         } else {
             mycomment.setVisibility(View.GONE);
             bg_layout.setBackgroundColor(Color.TRANSPARENT);
@@ -804,7 +755,7 @@ public class FillContent {
         mentionitem_img.setVisibility(View.VISIBLE);
 
         //评论的微博存在且没有被删除
-        if (comment.status != null && comment.status.user != null) {
+        /*if (comment.status != null && comment.status.user != null) {
             //评论的微博是转发微博且包含图片
             if (comment.status.retweeted_status != null && !TextUtils.isEmpty(comment.status.retweeted_status.bmiddle_pic)) {
                 ImageLoader.getInstance().displayImage(comment.status.retweeted_status.bmiddle_pic, mentionitem_img, options, new SimpleImageLoadingListener() {
@@ -818,7 +769,7 @@ public class FillContent {
             }
             //评论的微博是转发微博，但是没有图片
             else if (comment.status.retweeted_status != null && comment.status.retweeted_status.bmiddle_pic == null) {
-                ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
+                // ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
             }
             //评论的微博是原创微博，且存在图片
             else if (comment.status.bmiddle_pic != null && !TextUtils.isEmpty(comment.status.bmiddle_pic)) {
@@ -833,11 +784,11 @@ public class FillContent {
             }
             //评论的微博是原创微博，但是没有图片
             else {
-                ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
+               //  ImageLoader.getInstance().displayImage(comment.status.user.avatar_hd, mentionitem_img, options);
             }
 
             profile_name.setVisibility(View.VISIBLE);
-            profile_name.setText("@" + comment.status.user.name);
+            // profile_name.setText("@" + comment.status.user.name);
             content.setText(comment.status.text);
         }
         //评论的微博已经被删除
@@ -845,105 +796,7 @@ public class FillContent {
             mentionitem_img.setImageResource(R.drawable.photo_filter_image_empty);
             profile_name.setVisibility(View.GONE);
             content.setText(comment.status.text);
-        }
-    }
-
-    public static void fillFollowerDescription(User user, TextView content) {
-        //设置文本内容
-        content.setText("");
-        if (!TextUtils.isEmpty(user.description)) {
-            content.setText(user.description);
-        } else if (user.status != null) {
-            content.setText(user.status.text);
-        }
-    }
-
-    /**
-     * 填充粉丝的内容
-     *
-     * @param context
-     * @param user
-     * @param follwerRelation
-     */
-    public static void fillFollowerRealtionShip(Context context, User user, ImageView follwerRelation, TextView textView) {
-        //设置是否关注了此人
-        if (user.following == true) {
-            follwerRelation.setImageResource(R.drawable.card_icon_arrow);
-
-        } else {
-            follwerRelation.setImageResource(R.drawable.card_icon_addattention);
-        }
-    }
-
-    public static void fillFriendContent(Context context, User user, ImageView friendImg, ImageView friendVerified, ImageView followme, TextView friendName, TextView friendContent) {
-        FillContent.fillProfileImg(context, user, friendImg, friendVerified);
-        setWeiBoName(friendName, user);
-
-        if (user.follow_me) {
-            followme.setVisibility(View.VISIBLE);
-        } else {
-            followme.setVisibility(View.INVISIBLE);
-        }
-        if (user.status != null) {//有些人不发微博
-            friendContent.setText(user.status.text);
-        }
-    }
-
-
-    public static void fillUserHeadView(final Context context, final User user, final ImageView userCoverimg, ImageView userImg, ImageView userVerified, TextView userName,
-                                        ImageView userSex, TextView userFriends,
-                                        TextView userFollows, TextView userVerifiedreason) {
-        if (!TextUtils.isEmpty(user.cover_image_phone)) {
-            ImageLoader.getInstance().displayImage(user.cover_image_phone, userCoverimg, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-
-                }
-
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    if (!TextUtils.isEmpty(user.cover_image) && NetUtil.isConnected(context)) {
-                        ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
-                    } else {
-                        userCoverimg.setImageResource(R.drawable.cover_image);
-                    }
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-
-                }
-            });
-        } else if (!TextUtils.isEmpty(user.cover_image)) {
-            ImageLoader.getInstance().displayImage(user.cover_image, userCoverimg);
-        } else {
-            userCoverimg.setImageResource(R.drawable.cover_image);
-        }
-
-        userCoverimg.setColorFilter(Color.parseColor("#1e000000"));
-
-        fillProfileImg(context, user, userImg, userVerified);
-        setWeiBoName(userName, user);
-
-        if (user.gender.equals("m")) {
-            userSex.setImageResource(R.drawable.userinfo_icon_male);
-        } else if (user.gender.equals("f")) {
-            userSex.setImageResource(R.drawable.userinfo_icon_female);
-        } else {
-            userSex.setVisibility(View.GONE);
-        }
-        userFriends.setText("关注  " + user.friends_count);
-        userFollows.setText("粉丝  " + user.followers_count);
-        if (!user.verified) {
-            userVerifiedreason.setVisibility(View.GONE);
-        } else {
-            userVerifiedreason.setText("微博认证：" + user.verified_reason);
-        }
+        }*/
     }
 
 

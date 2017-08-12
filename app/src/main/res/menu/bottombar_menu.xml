@@ -18,7 +18,7 @@
         android:title="@string/bottom_status" />
     <item
         android:id="@+id/bbn_item4"
-        android:color="#FF5252"
+        android:color="@color/bottombar_item4"
         android:icon="@drawable/ic_sentiment_very_satisfied_white_24px"
         android:title="@string/bottom_profile" />
 

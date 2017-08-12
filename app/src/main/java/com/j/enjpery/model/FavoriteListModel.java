@@ -2,6 +2,8 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVStatus;
+
 import java.util.ArrayList;
 
 /**
@@ -18,16 +20,16 @@ public interface FavoriteListModel {
     interface OnDataFinishedListener {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Status> statuslist);
+        void onDataFinish(ArrayList<AVStatus> statuslist);
 
         void onError(String error);
 
     }
 
 
-    public void createFavorite(Status status, Context context, OnRequestUIListener onRequestUIListener);
+    public void createFavorite(AVStatus status, Context context, OnRequestUIListener onRequestUIListener);
 
-    public void cancelFavorite(Status status, Context context, OnRequestUIListener onRequestUIListener);
+    public void cancelFavorite(AVStatus status, Context context, OnRequestUIListener onRequestUIListener);
 
     public void favorites(Context context, OnDataFinishedListener onDataFinishedListener);
 

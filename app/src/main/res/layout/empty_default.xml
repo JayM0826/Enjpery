@@ -16,14 +16,16 @@
         android:layout_gravity="center"
         android:layout_marginTop="120dp"
         android:drawablePadding="27dp"
-        android:drawableTop="@mipmap/ic_launcher"
+        android:drawableTop="@drawable/ic_profile_music"
         android:gravity="center"
+        android:text="还没有缓存的内容"
         android:textColor="#bcbcbc" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/refreshTip"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:padding="12.5dp"

@@ -5,25 +5,28 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.TimelineAdapter;
-import com.j.enjpery.model.Status;
 
 /**
  * Created by J on 2017/8/8.
  */
 
+/**
+ * 箭头的上下文菜单
+ */
 public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
 
-    public TimelineArrowWindow(Context context, Status status, TimelineAdapter weiboAdapter, int position, String groupName) {
+    public TimelineArrowWindow(Context context, AVStatus status, TimelineAdapter weiboAdapter, int position, String groupName) {
         super(context, status, weiboAdapter, position, groupName);
     }
 
-    public TimelineArrowWindow(Context context, Status status) {
+    public TimelineArrowWindow(Context context, AVStatus status) {
         super(context, status);
     }
 
-    public TimelineArrowWindow(Context mContext, Status status,  TimelineAdapter mAdapter, int position, String s, Bitmap bitmap) {
-        super(mContext, status, mAdapter, position, s, bitmap);
+    public TimelineArrowWindow(Context mContext, AVStatus status,  TimelineAdapter mAdapter, int position, Bitmap bitmap) {
+        super(mContext, status, mAdapter, position, bitmap);
     }
 
 
@@ -39,8 +42,8 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
      * 设置收藏的TextView的内容，如果收藏了此微博，则显示取消收藏，如果没有收藏，则显示收藏
      */
     @Override
-    public void setFavoriteTextContext(final Status status, TextView textView) {
-        if (status.favorited) {
+    public void setFavoriteTextContext(final AVStatus status, TextView textView) {
+        /*if (status.favorited) {
             textView.setText("取消收藏");
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,18 +59,18 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
                     mWeiBoArrowPresent.createFavorite(status, mContext);
                 }
             });
-        }
+        }*/
     }
 
     /**
      * 设置朋友的关系内容，如果已经关注，则显示取消关注，如果没有关注，则显示关注
      */
     @Override
-    public void setFriendShipContext(final Status status, TextView textView) {
+    public void setFriendShipContext(final AVStatus status, TextView textView) {
         /*if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
             mFollerLayout.setVisibility(View.GONE);
         }*/
-        if (status.user.following) {
+        /*if (status.user.following) {
             textView.setText("取消关注 " + status.user.name);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,14 +86,14 @@ public class TimelineArrowWindow extends ArrowDialog implements WeiBoArrowView {
                     mWeiBoArrowPresent.user_create(status.user, mContext);
                 }
             });
-        }
+        }*/
     }
 
     /**
      * 设置是否显示删除按钮，如果不是自己的微博，要隐藏他
      */
     @Override
-    public void setDeleteViewContent(final Status status, final TextView textView) {
+    public void setDeleteViewContent(final AVStatus status, final TextView textView) {
       /*  if (status.user.id.equals(AccessTokenKeeper.readAccessToken(mContext).getUid())) {
             textView.setVisibility(View.VISIBLE);
             textView.setOnClickListener(new View.OnClickListener() {

@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.j.enjpery.R;
 import com.j.enjpery.app.ui.customview.EmojiTextView;
 import com.j.enjpery.model.Comment;
-import com.j.enjpery.model.User;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        User user = mDatas.get(position).user;
+        AVUser user = mDatas.get(position).user;
         String content = mDatas.get(position).text;
         FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
         FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);

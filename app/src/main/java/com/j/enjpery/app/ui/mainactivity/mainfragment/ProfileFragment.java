@@ -56,7 +56,7 @@ public class ProfileFragment extends BaseFragment {
     @BindView(R.id.setting)
     TextView setting;
 
-    @BindView(R.id.head)
+    @BindView(R.id.headImage)
     ImageView headImage;
 
     @BindView(R.id.userLayout)
@@ -79,7 +79,6 @@ public class ProfileFragment extends BaseFragment {
         // 只会请求一次网络,里面的map都是本地的
         if (AVUser.getCurrentUser() != null)
             Glide.with(getActivity()).load(AVUser.getCurrentUser().get("headImage")).into(headImage);
-
         if (!StringUtils.isBlank((String) AVUser.getCurrentUser().get("account")))
             account.setText((String) AVUser.getCurrentUser().get("account"));
 

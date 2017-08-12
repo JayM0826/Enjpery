@@ -3,6 +3,8 @@ package com.j.enjpery.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.avos.avoscloud.AVStatus;
+
 import java.util.ArrayList;
 
 /**
@@ -14,7 +16,7 @@ public class Favorite implements Parcelable {
     /**
      * 我喜欢的微博信息
      */
-    public Status status;
+    public AVStatus status;
     /**
      * 我喜欢的微博的 Tag 信息
      */
@@ -41,7 +43,7 @@ public class Favorite implements Parcelable {
     }
 
     protected Favorite(Parcel in) {
-        this.status = in.readParcelable(Status.class.getClassLoader());
+        this.status = in.readParcelable(AVStatus.class.getClassLoader());
         this.tags = new ArrayList<Tag>();
         in.readList(this.tags, Tag.class.getClassLoader());
         this.favorited_time = in.readString();

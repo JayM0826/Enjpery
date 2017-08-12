@@ -2,18 +2,18 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment;
 
 import android.content.Context;
 
-import com.facebook.stetho.common.LogUtil;
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentPresent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentView;
 import com.j.enjpery.app.util.Constants;
-import com.j.enjpery.model.Status;
 import com.j.enjpery.model.StatusListModel;
 import com.j.enjpery.model.StatusListModelImp;
-import com.j.enjpery.model.User;
 import com.j.enjpery.model.UserModel;
 import com.j.enjpery.model.UserModelImp;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by J on 2017/8/8.
@@ -39,31 +39,6 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         this.mUserModel = new UserModelImp();
     }
 
-
-    /**
-     * 获取UserName
-     *
-     * @param context
-     */
-    @Override
-    public void refreshUserName(Context context) {
-        /*LogUtil.d(AccessTokenKeeper.readAccessToken(context).getUid());
-        mUserModel.show(Long.valueOf(AccessTokenKeeper.readAccessToken(context).getUid()), context, new UserModel.OnUserDetailRequestFinish() {
-            @Override
-            public void onComplete(User user) {
-                mHomeFragmentView.setCurrentUser(user);
-                mHomeFragmentView.setGroupName(user.name);
-                mHomeFragmentView.setUserName(user.name);
-                mHomeFragmentView.popWindowsDestory();
-            }
-
-            @Override
-            public void onError(String error) {
-                mHomeFragmentView.setGroupName("我的首页");
-            }
-        });*/
-    }
-
     /**
      * 刚进来，如果有缓存数据，而且不是第一次登录的，则不进行下拉刷新操作，否则进行下拉刷新操作
      *
@@ -78,6 +53,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         } else {
             //加载本地缓存失败，则做请求操作
             if (mStatusListModel.cacheLoad(Constants.GROUP_TYPE_ALL, context, onPullFinishedListener) == false) {
+                Timber.d("加载本地缓存失败，则做请求操作");
                 mHomeFragmentView.showLoadingIcon();
                 mStatusListModel.friendsTimeline(context, onPullFinishedListener);
             }
@@ -134,7 +110,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void onDataFinish(ArrayList<Status> statuslist) {
+        public void onDataFinish(ArrayList<AVStatus> statuslist) {
             mHomeFragmentView.hideLoadingIcon();
             mHomeFragmentView.scrollToTop(false);
             mHomeFragmentView.updateListView(statuslist);
@@ -167,7 +143,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void onDataFinish(ArrayList<Status> statuslist) {
+        public void onDataFinish(ArrayList<AVStatus> statuslist) {
             mHomeFragmentView.hideFooterView();
             mHomeFragmentView.updateListView(statuslist);
         }

@@ -309,8 +309,8 @@ public class UserInfoActivity extends BaseActivity {
         if (!StringUtils.isBlank((String) AVUser.getCurrentUser().get("account")))
             account.setText((String) AVUser.getCurrentUser().get("account"));
 
-        if (!StringUtils.isBlank((String) AVUser.getCurrentUser().get("sex")))
-            sex.setText((String) AVUser.getCurrentUser().get("sex"));
+        if (!StringUtils.isBlank((String) AVUser.getCurrentUser().get("gender")))
+            sex.setText((String) AVUser.getCurrentUser().get("gender"));
     }
 
 

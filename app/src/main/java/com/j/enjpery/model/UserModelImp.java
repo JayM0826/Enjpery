@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
 import com.google.gson.Gson;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.RequestListener;
 import com.j.enjpery.app.util.Constants;
@@ -17,9 +19,9 @@ import java.util.ArrayList;
  */
 
 public class UserModelImp implements UserModel {
-    private ArrayList<Status> mStatusList = new ArrayList<>();
-    private ArrayList<User> mUsersList = new ArrayList<>();
-    private ArrayList<User> mUserArrayList;
+    private ArrayList<AVStatus> mStatusList = new ArrayList<>();
+    private ArrayList<AVUser> mUsersList = new ArrayList<>();
+    private ArrayList<AVUser> mUserArrayList;
 
     private OnStatusListFinishedListener mOnStatusListFinishedListener;
     private OnUserListRequestFinish mOnUserListRequestFinish;
@@ -64,7 +66,7 @@ public class UserModelImp implements UserModel {
      * @return
      */
     @Override
-    public User showUserDetailSync(long uid, Context context) {
+    public AVUser showUserDetailSync(long uid, Context context) {
         /*UsersAPI mUsersAPI = new UsersAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         mContext = context;
         return User.parse(mUsersAPI.showSync(uid));*/
@@ -221,11 +223,11 @@ public class UserModelImp implements UserModel {
     public void deleteUserByUid(long uid, Context context, OnUserDeleteListener onUserDeleteListener) {
         int i = 0;
         for (i = 0; i < mUserArrayList.size(); i++) {
-            if (mUserArrayList.get(i).id.equals(String.valueOf(uid))) {
+            /*if (mUserArrayList.get(i).id.equals(String.valueOf(uid))) {
                 mUserArrayList.remove(i);
                 i--;
                 break;
-            }
+            }*/
         }
         if (mUserArrayList.size() == 0) {
             onUserDeleteListener.onEmpty();
@@ -345,9 +347,9 @@ public class UserModelImp implements UserModel {
         if (mCurrentGroup != newGroupId) {
             mRefrshAll = true;
         }
-        if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mRefrshAll == false) {
+        /*if (mStatusList.size() > 0 && mCurrentGroup == newGroupId && mRefrshAll == false) {
             sinceId = Long.valueOf(mStatusList.get(0).id);
-        }
+        }*/
         if (mRefrshAll) {
             sinceId = 0;
         }
@@ -359,14 +361,14 @@ public class UserModelImp implements UserModel {
         @Override
         public void onComplete(String response) {
             if (!TextUtils.isEmpty(response)) {
-                ArrayList<Status> temp = StatusList.parse(response).statuses;
-                if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
+                ArrayList<AVStatus> temp = StatusList.parse(response).statuses;
+                /*if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mStatusList.get(mStatusList.size() - 1).id))) {
                     mOnStatusListFinishedListener.noMoreDate();
                 } else if (temp.size() > 1) {
                     temp.remove(0);
                     mStatusList.addAll(temp);
                     mOnStatusListFinishedListener.onDataFinish(mStatusList);
-                }
+                }*/
             } else {
                 mOnStatusListFinishedListener.noMoreDate();
             }
@@ -381,7 +383,7 @@ public class UserModelImp implements UserModel {
     public RequestListener userlist_PullToRefresh = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<User> temp = UserList.parse(response).users;
+            ArrayList<AVUser> temp = UserList.parse(response).users;
             if (temp != null && temp.size() > 0) {
                 if (mUsersList != null) {
                     mUsersList.clear();
@@ -407,8 +409,8 @@ public class UserModelImp implements UserModel {
     public RequestListener userlist_NextPage = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            if (!TextUtils.isEmpty(response)) {
-                ArrayList<User> temp = UserList.parse(response).users;
+            /*if (!TextUtils.isEmpty(response)) {
+                ArrayList<AVUser> temp = UserList.parse(response).users;
                 if (temp.size() == 0 || (temp != null && temp.size() == 1 && temp.get(0).id.equals(mUsersList.get(mUsersList.size() - 1).id))) {
                     mOnUserListRequestFinish.noMoreDate();
                 } else if (temp.size() > 1) {
@@ -420,7 +422,7 @@ public class UserModelImp implements UserModel {
             } else {
                 ToastUtil.showShort(mContext, "内容已经加载完了");
                 mOnUserListRequestFinish.noMoreDate();
-            }
+            }*/
         }
 
         @Override
@@ -433,7 +435,7 @@ public class UserModelImp implements UserModel {
     public RequestListener statuslist_PullToRefresh = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            ArrayList<Status> temp = StatusList.parse(response).statuses;
+            ArrayList<AVStatus> temp = StatusList.parse(response).statuses;
             if (temp != null && temp.size() > 0) {
                 if (mStatusList != null) {
                     mStatusList.clear();
@@ -457,11 +459,11 @@ public class UserModelImp implements UserModel {
     public RequestListener user_PullToRefresh = new RequestListener() {
         @Override
         public void onComplete(String response) {
-            User user = User.parse(response);
+            /*AVUser user = AVUser.parse(response);
             if (user != null) {
                 cacheSave_user(mContext, response);
                 mOnUserDetailRequestFinish.onComplete(user);
-            }
+            }*/
         }
 
         @Override

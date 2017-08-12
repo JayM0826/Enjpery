@@ -85,7 +85,7 @@ public class EditUserInfoActivity extends BaseActivity {
                             AVUser.getCurrentUser().put("address", string);
                             break;
                         case R.string.selectSex:
-                            AVUser.getCurrentUser().put("sex", string);
+                            AVUser.getCurrentUser().put("gender", string);
                             break;
                         default:break;
                     }

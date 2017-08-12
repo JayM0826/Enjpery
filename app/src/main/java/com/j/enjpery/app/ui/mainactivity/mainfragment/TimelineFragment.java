@@ -4,13 +4,11 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,40 +19,25 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.R;
-import com.j.enjpery.app.base.BaseFragment;
 import com.j.enjpery.app.ui.customview.LoadingFooter;
-import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.GroupPopWindow;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HeaderAndFooterRecyclerViewAdapter;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentPresent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentView;
-import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.IGroupItemClick;
 
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.TimelineAdapter;
 import com.j.enjpery.app.util.Constants;
 import com.j.enjpery.app.util.DensityUtil;
 import com.j.enjpery.app.util.RecyclerViewStateUtils;
-import com.j.enjpery.app.util.RecyclerViewUtils;
 import com.j.enjpery.app.util.ScreenUtil;
-import com.j.enjpery.app.util.SnackbarUtil;
-import com.j.enjpery.model.Status;
-import com.j.enjpery.model.User;
-import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,9 +65,11 @@ import timber.log.Timber;
 
 
 
-    *//**
-     * 默认只运行一次，除非强制刷新
-     *//*
+    */
+
+/**
+ * 默认只运行一次，除非强制刷新
+ *//*
     @Override
     public void refreshData() {
 
@@ -156,13 +141,12 @@ import timber.log.Timber;
 }*/
 public class TimelineFragment extends Fragment implements HomeFragmentView {
 
-    private ArrayList<Status> mDatas;
+    private ArrayList<AVStatus> mDatas;
     public Context mContext;
     public Activity mActivity;
     public View mView;
-    private LinearLayout mGroup;
+
     public RecyclerView mRecyclerView;
-    public TextView mUserNameTextView;
     public TextView mErrorMessage;
     public SwipeRefreshLayout mSwipeRefreshLayout;
     public TimelineAdapter mAdapter;
@@ -170,16 +154,8 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
     private HomeFragmentPresent mHomePresent;
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
     private LinearLayout mEmptyLayout;
-    private GroupPopWindow mPopWindow;
-    private User mCurrentUser;
     private boolean mComeFromAccoutActivity;
-    private String mUserName;
-
-
-    /**
-     * 顶部导航栏
-     */
-    private LinearLayout mTopBar;
+    private TextView refreshTip;
 
     /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
@@ -199,34 +175,31 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
     private onButtonBarListener mOnBottonBarListener;
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = getActivity();
         mContext = getContext();
         mHomePresent = new HomeFragmentPresentImp(this);
-        mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity");
+        // mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity", false);
         sHideThreshold = DensityUtil.dp2px(mContext, 20);
         mView = inflater.inflate(R.layout.fragment_main, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
-        mTopBar = (LinearLayout) mView.findViewById(R.id.toolbar_home);
-        mGroup = (LinearLayout) mView.findViewById(R.id.group);
-        mUserNameTextView = (TextView) mView.findViewById(R.id.name);
         mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
         mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
         mToastTv = (TextView) mView.findViewById(R.id.toast_msg);
         mToastBg = (RelativeLayout) mView.findViewById(R.id.toast_bg);
+        refreshTip = (TextView) mView.findViewById(R.id.refreshTip);
+        RxView.clicks(refreshTip).subscribe(aVoid -> {
+            showLoadingIcon();
+        });
         initRecyclerView();
         initRefreshLayout();
-        initGroupWindows();
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mHomePresent.refreshUserName(mContext);
-                if (mComeFromAccoutActivity) {
-                    mHomePresent.firstLoadData(mContext, true);
-                } else {
-                    mHomePresent.firstLoadData(mContext, mActivity.getIntent().getBooleanExtra("fisrtstart", false));
-                }
+        mSwipeRefreshLayout.post(() -> {
+            if (mComeFromAccoutActivity) {
+                mHomePresent.firstLoadData(mContext, true);
+            } else {
+                mHomePresent.firstLoadData(mContext, mActivity.getIntent().getBooleanExtra("fisrtstart", false));
             }
         });
         return mView;
@@ -235,34 +208,19 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
     @Override
     public void onDestroyView() {
         mHomePresent.cancelTimer();
-        if (mPopWindow != null) {
-            mPopWindow.onDestory();
-        }
         super.onDestroyView();
     }
 
     public TimelineFragment() {
+        Timber.i("走的是默认函数");
     }
-
-    /**
-     * 静态工厂方法需要一个int型的值来初始化fragment的参数，
-     * 然后返回新的fragment到调用者
-     */
-    public static TimelineFragment newInstance(boolean comeFromAccoutActivity) {
-        TimelineFragment TimelineFragment = new TimelineFragment();
-        Bundle args = new Bundle();
-        args.putBoolean("comeFromAccoutActivity", comeFromAccoutActivity);
-        TimelineFragment.setArguments(args);
-        return TimelineFragment;
-    }
-
 
     public void initRecyclerView() {
         mDatas = new ArrayList<>();
         mAdapter = new TimelineAdapter(mDatas, mContext) {
             @Override
-            public void arrowClick(Status status, int position, Bitmap bitmap) {
-                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString(), bitmap);
+            public void arrowClick(AVStatus status, int position, Bitmap bitmap) {
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, bitmap);
                 arrowDialog.show();
                 int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -271,8 +229,9 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
+
+        // 真正的adapter
         mRecyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
-        RecyclerViewUtils.setHeaderView(mRecyclerView, new HomeHeadView(mContext));
     }
 
 
@@ -280,42 +239,10 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
-            }
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
         });
         mSwipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dp2px(mContext, 10), DensityUtil.dp2px(mContext, 10 + 65));
-    }
-
-    private void initGroupWindows() {
-        mGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Rect rect = new Rect();
-                getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-                int statusBarHeight = rect.top;
-                mPopWindow = GroupPopWindow.getInstance(mContext, ScreenUtil.getScreenWidth(mContext) * 3 / 5, ScreenUtil.getScreenHeight(mContext) * 2 / 3);
-                mPopWindow.showAtLocation(mUserNameTextView, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, mUserNameTextView.getHeight() + statusBarHeight + DensityUtil.dp2px(mContext, 8));
-                mPopWindow.setOnGroupItemClickListener(new IGroupItemClick() {
-                    @Override
-                    public void onGroupItemClick(int position, long groupId, String groupName) {
-                        mCurrentGroup = groupId;
-                        if (groupId != Constants.GROUP_TYPE_ALL) {
-                            setGroupName(groupName);
-                        } else {
-                            setGroupName(mUserName);
-                        }
-                        mPopWindow.dismiss();
-                        mHomePresent.pullToRefreshData(groupId, mContext);
-                    }
-                });
-                if (mPopWindow.isShowing()) {
-                    mPopWindow.scrollToSelectIndex();
-                }
-            }
-        });
     }
 
     /**
@@ -327,18 +254,10 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
     public void scrollToTop(boolean refreshData) {
         mRecyclerView.scrollToPosition(0);
         if (refreshData) {
-            mRecyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
-                }
+            mRecyclerView.post(() -> {
+                mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
             });
         }
-    }
-
-    @Override
-    public void setCurrentUser(User user) {
-        mCurrentUser = user;
     }
 
     @Override
@@ -373,9 +292,9 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void popWindowsDestory() {
-        if (mPopWindow != null) {
+       /* if (mPopWindow != null) {
             mPopWindow.onDestory();
-        }
+        }*/
     }
 
     @Override
@@ -388,6 +307,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
             public void onAnimationStart(Animation animation) {
                 mToastTv.setVisibility(View.VISIBLE);
                 mToastTv.setText(num + "条新微博");
+
             }
 
             @Override
@@ -409,9 +329,8 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
     }
 
 
-
     @Override
-    public void updateListView(ArrayList<Status> statuselist) {
+    public void updateListView(ArrayList<AVStatus> statuselist) {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         mDatas = statuselist;
         mAdapter.setData(statuselist);
@@ -420,22 +339,16 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showLoadingIcon() {
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
+        mSwipeRefreshLayout.post(() -> {
+            mSwipeRefreshLayout.setRefreshing(true);
         });
     }
 
     @Override
     public void hideLoadingIcon() {
 
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
+        mSwipeRefreshLayout.post(() -> {
+            mSwipeRefreshLayout.setRefreshing(false);
         });
     }
 
@@ -460,26 +373,6 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
         RecyclerViewStateUtils.setFooterViewState(mRecyclerView, LoadingFooter.State.NetWorkError);
     }
 
-
-    @Override
-    public void setGroupName(String userName) {
-        mUserNameTextView.setText(userName);
-        if (mGroup.getVisibility() != View.VISIBLE) {
-            mGroup.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
-     * 设置顶部导航栏的用户名
-     *
-     * @param userName
-     */
-    @Override
-    public void setUserName(String userName) {
-        mUserName = userName;
-    }
-
-
     private static final int SHOW_THRESHOLD = 80;
 
     public EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
@@ -498,7 +391,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
             //手指向上滑动
             if (mScrolledDistance > sHideThreshold && mControlsVisible) {
                 if (mOnBottonBarListener != null) {
-                    hideTopBar();
+                    // hideTopBar();
                     mOnBottonBarListener.hideButtonBar();
                 }
                 mControlsVisible = false;
@@ -507,7 +400,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
             //手指向下滑动
             else if (mScrolledDistance < -SHOW_THRESHOLD && !mControlsVisible) {
                 if (mOnBottonBarListener != null) {
-                    showTopBar();
+                    // showTopBar();
                     mOnBottonBarListener.showButtonBar();
                 }
                 mControlsVisible = true;
@@ -523,27 +416,10 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            showTopBar();
+            // showTopBar();
             mOnBottonBarListener.showButtonBar();
             mControlsVisible = true;
         }
-    }
-
-    /**
-     * 隐藏底部导航栏
-     */
-    public void hideTopBar() {
-        BarManager barManager = new BarManager();
-        barManager.hideTopBar(mTopBar,mContext);
-    }
-
-
-    /**
-     * 显示顶部导航栏
-     */
-    public void showTopBar() {
-        BarManager barManager = new BarManager();
-        barManager.showTopBar(mTopBar);
     }
 
     /**
@@ -555,7 +431,6 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
         this.mOnBottonBarListener = onBarListener;
     }
 
-
     /**
      * 因为ButotnBar的布局并不在fragment中，而是在MainActivity中，所有隐藏和显示底部导航栏的工作要交给MainActivity去做
      */
@@ -564,8 +439,6 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
         void hideButtonBar();
     }
-
-    public User getCurrentUser() {
-        return mCurrentUser;
-    }
 }
+
+

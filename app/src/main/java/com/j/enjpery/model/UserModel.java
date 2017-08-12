@@ -2,6 +2,9 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
+
 import java.util.ArrayList;
 
 /**
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 public interface UserModel {
 
     interface OnUserDetailRequestFinish {
-        void onComplete(User user);
+        void onComplete(AVUser user);
 
         void onError(String error);
     }
@@ -20,7 +23,7 @@ public interface UserModel {
     interface OnUserListRequestFinish {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<User> userlist);
+        void onDataFinish(ArrayList<AVUser> userlist);
 
         void onError(String error);
     }
@@ -28,13 +31,13 @@ public interface UserModel {
     interface OnStatusListFinishedListener {
         void noMoreDate();
 
-        void onDataFinish(ArrayList<Status> statuslist);
+        void onDataFinish(ArrayList<AVStatus> statuslist);
 
         void onError(String error);
     }
 
     interface OnUserDeleteListener {
-        void onSuccess(ArrayList<User> userlist);
+        void onSuccess(ArrayList<AVUser> userlist);
 
         void onEmpty();
 
@@ -46,7 +49,7 @@ public interface UserModel {
 
     public void show(String screenName, Context context, OnUserDetailRequestFinish onUserDetailRequestFinish);
 
-    public User showUserDetailSync(long uid, Context context);
+    public AVUser showUserDetailSync(long uid, Context context);
 
     public void userTimeline(long uid, int groupId, Context context, OnStatusListFinishedListener onStatusFinishedListener);
 
