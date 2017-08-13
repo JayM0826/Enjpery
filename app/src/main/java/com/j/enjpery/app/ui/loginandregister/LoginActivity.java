@@ -63,7 +63,6 @@ public class LoginActivity extends BaseActivity {
         }
 
         RxView.clicks(btGo)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
                     if (!validate()) {
                         Exception e = new Exception("用户名或者密码不符合规范");
@@ -75,7 +74,6 @@ public class LoginActivity extends BaseActivity {
                     LoginAndRegister.doLogin(email, password, instance);
                 });
         RxView.clicks(fab)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
                     // Activity之间的切换没有任何动画
                     getWindow().setExitTransition(null);

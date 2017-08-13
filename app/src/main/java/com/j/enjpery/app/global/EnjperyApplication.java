@@ -7,6 +7,7 @@
 package com.j.enjpery.app.global;
 
 import android.app.Application;
+import android.content.Context;
 import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,16 +18,24 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.j.enjpery.BuildConfig;
 import com.j.enjpery.R;
 import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
+import com.j.enjpery.app.util.CompressCompletedCB;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
+import top.zibin.luban.Luban;
 
 import static com.j.enjpery.app.util.Constants4Enjpery.LeanCloudAppId;
 import static com.j.enjpery.app.util.Constants4Enjpery.LeanCloudAppKey;
@@ -139,6 +148,26 @@ public class EnjperyApplication extends Application {
         imagePicker.setFocusHeight(800);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
         imagePicker.setOutPutX(1000);                         //保存文件的宽度。单位像素
         imagePicker.setOutPutY(1000);                         //保存文件的高度。单位像素
+    }
+
+
+    public void compressWithRx(File file, final CompressCompletedCB compressCompletedCB) {
+        Flowable.just(file)
+                .observeOn(Schedulers.io())
+                .map(new Function<File, File>() {
+                    @Override
+                    public File apply(@NonNull File file) throws Exception {
+                        return Luban.with(getApplicationContext()).load(file).get();
+                    }
+                })
+                .subscribe(new Consumer<File>() {
+                    @Override
+                    public void accept(@NonNull File file) throws Exception {
+                        Timber.i("压缩名字" + file.getAbsolutePath());
+                        // 上传照片
+                        compressCompletedCB.done(file);
+                    }
+                });
     }
 
 }

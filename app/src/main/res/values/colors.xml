@@ -606,5 +606,34 @@
     <color name="loadding_footer_bg">#FFFFFF</color>
     <color name="loadding_footer_text">#8A000000</color>
     <color name="bottombar_item4">#FF5252</color>
+    <color name="pressed_white">#55ffffff</color>
+
+    <!-- 发送按钮在普通状态下，不可点击 -->
+    <color name="normal_send_button_bg">#FFFFFF</color>
+    <color name="normal_send_button_stoke">#d8d8d8</color>
+    <color name="normal_send_button_text">#b5b5b5</color>
+
+    <!-- 发送按钮在按压状态下 -->
+    <color name="press_send_button_bg">#df7500</color>
+    <color name="press_send_button_stoke">#df7500</color>
+    <color name="press_send_button_text">#ffecd3</color>
+
+    <!-- 发送按钮在可以点击的状态下 -->
+    <color name="highlight_send_button_bg">#fe8300</color>
+    <color name="highlight_send_button_stoke">#fe8300</color>
+    <color name="highlight_send_button_text">#fbffff</color>
+
+    <!--发送微博界面 -->
+    <color name="post_bg">#FFFFFF</color>
+    <color name="post_hint">#808080</color>
+    <color name="post_text">#333333</color>
+    <color name="post_bottomBar_bg">#f9f9f9</color>
+
+    <color name="retweet_weibo_bg">#242424</color>
+    <color name="retweet_weibo_author">#8a8a8a</color>
+    <color name="retweet_weibo_text">#4f4f4f</color>
+    <color name="limittext_text_warning">#929292</color>
+    <color name="limittext_text_outofrange">#e03f22</color>
+    <color name="photo_dialog_background">#90000000</color>
 
 </resources>

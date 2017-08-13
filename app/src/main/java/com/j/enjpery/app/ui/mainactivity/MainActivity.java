@@ -1,6 +1,7 @@
 package com.j.enjpery.app.ui.mainactivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -26,8 +27,12 @@ import com.j.enjpery.app.ui.mainactivity.mainfragment.LiveFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.MessageFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.ProfileFragment;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.TimelineFragment;
+import com.j.enjpery.app.ui.publishtimeline.PublishStatusActivity;
+import com.j.enjpery.app.util.SnackbarUtil;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +40,8 @@ import it.sephiroth.android.library.bottomnavigation.BadgeProvider;
 import it.sephiroth.android.library.bottomnavigation.BottomBehavior;
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 import timber.log.Timber;
+
+import static com.j.enjpery.app.util.Constants.POST_SERVICE_CREATE_WEIBO;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.bottomNavigation)
@@ -111,7 +118,7 @@ public class MainActivity extends BaseActivity {
                     // Timber.i("MainActivity 再次点击了第" + i1 + "个item");
                 }
             });
-
+            animateFab(0);
             final BadgeProvider provider = bottomNavigation.getBadgeProvider();
             provider.show(R.id.bbn_item3);
             provider.show(R.id.bbn_item4);
@@ -138,16 +145,36 @@ public class MainActivity extends BaseActivity {
                 public void onPageScrollStateChanged(int state) {
                 }
             });
+
+            initFabs();
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+    private void initFabs() {
+        RxView.clicks(fab1.findViewById(R.id.fab1_item1))
+                .compose(bindToLifecycle())
+                .subscribe(Avoid->{
+                    SnackbarUtil.show(bottomNavigation, "点击了添加");
+                });
+        RxView.clicks(fab1.findViewById(R.id.fab1_item2))
+                .compose(bindToLifecycle())
+                .subscribe(Avoid->{
+                    SnackbarUtil.show(bottomNavigation, "点击了搜索");
+                });
+        RxView.clicks(fab3.findViewById(R.id.fab3_item1))
+                .compose(bindToLifecycle())
+                .subscribe(Avoid->{
+                    Intent intent = new Intent(MainActivity.this, PublishStatusActivity.class);
+                    intent.putExtra("type",POST_SERVICE_CREATE_WEIBO);
+                    startActivity(intent);
+                });
 
+        RxView.clicks(fab3.findViewById(R.id.fab3_item2))
+                .compose(bindToLifecycle())
+                .subscribe(Avoid->{
+                    SnackbarUtil.show(bottomNavigation, "点击了搜索");
+                });
+    }
 
     public static class FabBehavior extends CoordinatorLayout.Behavior<FloatingActionMenu> {
         public FabBehavior() {
@@ -248,45 +275,45 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 if (fab1.isMenuHidden()) {
-                    fab1.showMenu(true);
+                    fab1.showMenu(false);
                 }
-                fab2.hideMenu(true);
-                fab3.hideMenu(true);
-                fab4.hideMenu(true);
+                fab2.hideMenu(false);
+                fab3.hideMenu(false);
+                fab4.hideMenu(false);
                 break;
             case 1:
                 if (fab2.isMenuHidden()) {
-                    fab2.showMenu(true);
+                    fab2.showMenu(false);
                 }
-                fab1.hideMenu(true);
-                fab3.hideMenu(true);
-                fab4.hideMenu(true);
+                fab1.hideMenu(false);
+                fab3.hideMenu(false);
+                fab4.hideMenu(false);
                 break;
             case 2:
                 if (fab3.isMenuHidden()) {
-                    fab3.showMenu(true);
+                    fab3.showMenu(false);
                 }
-                fab1.hideMenu(true);
-                fab2.hideMenu(true);
-                fab4.hideMenu(true);
+                fab1.hideMenu(false);
+                fab2.hideMenu(false);
+                fab4.hideMenu(false);
                 break;
 
             case 3:
-                if (fab3.isMenuHidden()) {
-                    fab3.showMenu(true);
+                if (fab4.isMenuHidden()) {
+                    fab4.showMenu(false);
                 }
-                fab1.hideMenu(true);
-                fab2.hideMenu(true);
-                fab4.hideMenu(true);
+                fab1.hideMenu(false);
+                fab2.hideMenu(false);
+                fab4.hideMenu(false);
                 break;
 
             default:
                 if (fab1.isMenuHidden()) {
-                    fab1.showMenu(true);
+                    fab1.showMenu(false);
                 }
-                fab2.hideMenu(true);
-                fab3.hideMenu(true);
-                fab4.hideMenu(true);
+                fab2.hideMenu(false);
+                fab3.hideMenu(false);
+                fab4.hideMenu(false);
                 break;
         }
     }

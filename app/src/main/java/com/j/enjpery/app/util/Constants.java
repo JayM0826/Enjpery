@@ -62,4 +62,10 @@ public interface Constants {
     public static final String DELETE_WEIBO_TYPE5 = "好友圈";
     public static final String DELETE_WEIBO_TYPE6 = "我的收藏";
 
+
+    public static final String POST_SERVICE_REPOST_STATUS = "转发微博";
+    public static final String POST_SERVICE_CREATE_WEIBO = "发微博";
+    public static final String POST_SERVICE_COMMENT_STATUS = "评论微博";
+    public static final String POST_SERVICE_REPLY_COMMENT = "回复评论";
+
 }

@@ -59,4 +59,7 @@
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_22">22dp</dimen><!--微博列表的上下间距-->
+
+    <!--发微博的内容字体大小-->
+    <dimen name="post_content_font">15sp</dimen><!--发微博的内容字体大小：15中号，14小号-->
 </resources>

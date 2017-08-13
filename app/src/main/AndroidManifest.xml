@@ -39,11 +39,13 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.ui.teaminfo.TeamInfoActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".app.ui.teaminfo.TeamInfoActivity"
+            android:theme="@style/AppTheme" />
         <!-- LeanCloud实时通信模块、推送（均需要加入以下声明） START -->
         <!-- LeanCloud实时通信模块、推送都要使用 PushService -->
         <service android:name="com.avos.avoscloud.PushService" />
@@ -66,25 +68,23 @@
         <!-- 登陆页面 -->
         <activity
             android:name=".app.ui.loginandregister.LoginActivity"
-            android:theme="@style/AppTheme.LoginAndRegister"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.LoginAndRegister" />
         <!-- 注册页面 -->
         <activity
             android:name=".app.ui.loginandregister.SignUpActivity"
-            android:theme="@style/AppTheme.LoginAndRegister"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".app.ui.mainactivity.MainActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.LoginAndRegister" />
+        <activity android:name=".app.ui.mainactivity.MainActivity" />
         <!-- 仿微信的图片选择器 -->
         <activity
             android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"
             android:theme="@style/ImagePickerThemeFullScreen" />
         <activity
             android:name=".app.ui.userinfo.UserInfoActivity"
-            android:label="@string/userinfo"
-            />
-        <activity
-            android:name=".app.ui.userinfo.EditUserInfoActivity"></activity>
+            android:label="@string/userinfo" />
+        <activity android:name=".app.ui.userinfo.EditUserInfoActivity" />
+        <activity android:name=".app.ui.publishtimeline.PublishStatusActivity"></activity>
     </application>
 
 </manifest>

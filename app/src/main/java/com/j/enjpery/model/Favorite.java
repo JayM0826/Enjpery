@@ -18,10 +18,6 @@ public class Favorite implements Parcelable {
      */
     public AVStatus status;
     /**
-     * 我喜欢的微博的 Tag 信息
-     */
-    public ArrayList<Tag> tags;
-    /**
      * 创建我喜欢的微博信息的时间
      */
     public String favorited_time;
@@ -38,14 +34,11 @@ public class Favorite implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.status, flags);
-        dest.writeList(this.tags);
         dest.writeString(this.favorited_time);
     }
 
     protected Favorite(Parcel in) {
         this.status = in.readParcelable(AVStatus.class.getClassLoader());
-        this.tags = new ArrayList<Tag>();
-        in.readList(this.tags, Tag.class.getClassLoader());
         this.favorited_time = in.readString();
     }
 
