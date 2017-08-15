@@ -13,6 +13,10 @@ android {
         versionName "1.0"
         multiDexEnabled true  // this line will solve this problem
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'armeabi-v7a','x86'
+        }
     }
     buildTypes {
         release {
@@ -214,4 +218,6 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.1.3'
     // https://github.com/daimajia/NumberProgressBar
     compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    // https://github.com/Sunzxyong/Tiny 另一款图片压缩神器
+    compile 'com.zxy.android:tiny:0.0.7'
 }

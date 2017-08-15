@@ -16,7 +16,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.j.enjpery.R;
 import com.j.enjpery.app.global.EnjperyApplication;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.FillContent;
@@ -34,6 +39,7 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.ui.ImagePreviewDelActivity;
+import com.zxy.tiny.Tiny;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -256,40 +262,77 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
                         return;
                     }
                     if (mSelectImgList.size() > 9) {
-                        ToastUtil.showShort(mContext, "由于新浪的限制，第三方微博客户端只允许上传一张图，请做调整");
+                        ToastUtil.showShort(mContext, "亲," + (String) AVUser.getCurrentUser().get("account") + ":最多只允许上传9张图片哦");
                         return;
                     }
 
-                    /*Intent intent = new Intent(mContext, PostService.class);
-                Bundle bundle = new Bundle();
+                    // 开始发状态
 
-                switch (mIdeaType) {
-                    case PostService.POST_SERVICE_CREATE_WEIBO:
-                        WeiBoCreateBean weiboBean = new WeiBoCreateBean(statusContent.getText().toString(), mSelectImgList);
-                        intent.putExtra("postType", PostService.POST_SERVICE_CREATE_WEIBO);
-                        bundle.putParcelable("weiBoCreateBean", weiboBean);
-                        intent.putExtras(bundle);
-                        break;
-                    case PostService.POST_SERVICE_REPOST_STATUS:
-                        WeiBoCreateBean repostBean = new WeiBoCreateBean(statusContent.getText().toString(), mSelectImgList, mStatus);
-                        intent.putExtra("postType", PostService.POST_SERVICE_REPOST_STATUS);
-                        bundle.putParcelable("weiBoCreateBean", repostBean);
-                        intent.putExtras(bundle);
-                        break;
-                    case PostService.POST_SERVICE_COMMENT_STATUS:
-                        intent.putExtra("postType", PostService.POST_SERVICE_COMMENT_STATUS);
-                        WeiBoCommentBean weiBoCommentBean = new WeiBoCommentBean(statusContent.getText().toString(), mStatus);
-                        bundle.putParcelable("weiBoCommentBean", weiBoCommentBean);
-                        intent.putExtras(bundle);
-                        break;
-                    case PostService.POST_SERVICE_REPLY_COMMENT:
-                        intent.putExtra("postType", PostService.POST_SERVICE_REPLY_COMMENT);
-                        CommentReplyBean commentReplyBean = new CommentReplyBean(statusContent.getText().toString(), mComment);
-                        bundle.putParcelable("commentReplyBean", commentReplyBean);
-                        intent.putExtras(bundle);
-                        break;
-                }
-                startService(intent);*/
+                    switch (statusType) {
+                        case POST_SERVICE_CREATE_WEIBO:
+                            String message = statusContent.getText().toString();
+                            // showProgressDialog("正在与朋友们分享中...");
+                            if (mSelectImgList != null && mSelectImgList.size() > 0) {
+                                File[] imageFiles = new File[mSelectImgList.size()];
+                                for (int i = 0; i < mSelectImgList.size(); ++i){
+                                    imageFiles[i] = new File(mSelectImgList.get(i).path);
+                                }
+                                Tiny.getInstance().source(imageFiles).batchAsFile().batchCompress(((isSuccess, outfile) -> {
+                                    if (!isSuccess) {
+                                        Timber.d("新的压缩工具压缩失败");
+                                        // 直接上传原图
+
+                                        return;
+                                    }
+                                    // 成功压缩后进行上传
+                                    StatusService.sendStatus(message, outfile, new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            // hideProgressDialog();
+                                            if (StatusService.filterException(mContext, e)) {
+                                                ToastUtil.showShort(PublishStatusActivity.this, "发表成功");
+                                                finish();
+                                            } else {
+                                                ToastUtil.showShort(PublishStatusActivity.this, "发表失败，请重试");
+                                            }
+                                        }
+                                    });
+                                }));
+
+                            } else {
+                                StatusService.sendStatus(message, new SaveCallback() {
+                                    @Override
+                                    public void done(AVException e) {
+                                        // hideProgressDialog();
+                                        if (StatusService.filterException(mContext, e)) {
+                                            ToastUtil.showShort(PublishStatusActivity.this, "发表成功了啊");
+                                        } else {
+                                            ToastUtil.showShort(PublishStatusActivity.this, "发表失败了啊");
+
+                                        }
+                                    }
+                                });
+                            }
+                            break;
+                        case POST_SERVICE_REPOST_STATUS:
+                            /*WeiBoCreateBean repostBean = new WeiBoCreateBean(statusContent.getText().toString(), mSelectImgList, mStatus);
+                            intent.putExtra("postType", PostService.POST_SERVICE_REPOST_STATUS);
+                            bundle.putParcelable("weiBoCreateBean", repostBean);
+                            intent.putExtras(bundle);*/
+                            break;
+                        case POST_SERVICE_COMMENT_STATUS:
+                            /*intent.putExtra("postType", PostService.POST_SERVICE_COMMENT_STATUS);
+                            WeiBoCommentBean weiBoCommentBean = new WeiBoCommentBean(statusContent.getText().toString(), mStatus);
+                            bundle.putParcelable("weiBoCommentBean", weiBoCommentBean);
+                            intent.putExtras(bundle);*/
+                            break;
+                        case POST_SERVICE_REPLY_COMMENT:
+                            /*intent.putExtra("postType", PostService.POST_SERVICE_REPLY_COMMENT);
+                            CommentReplyBean commentReplyBean = new CommentReplyBean(statusContent.getText().toString(), mComment);
+                            bundle.putParcelable("commentReplyBean", commentReplyBean);
+                            intent.putExtras(bundle);*/
+                            break;
+                    }
                     KeyBoardUtil.closeKeybord(statusContent, mContext);
                     finish();
                 });
@@ -311,7 +354,6 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
         RxView.clicks(blankspace)
                 .subscribe(aVoid -> {
                     KeyBoardUtil.openKeybord(statusContent, mContext);
-                    // SnackbarUtil.show(blankspace, "这里还是存在的啊");
                 });
     }
 
@@ -332,7 +374,7 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
 
     public void initImgList() {
         recyclerView.setVisibility(View.VISIBLE);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1, OrientationHelper.HORIZONTAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1, OrientationHelper.HORIZONTAL, false);
         imgListAdapter = new ImgListAdapter(mSelectImgList, mContext);
         imgListAdapter.setOnFooterViewClickListener(this);
         recyclerView.setLayoutManager(gridLayoutManager);

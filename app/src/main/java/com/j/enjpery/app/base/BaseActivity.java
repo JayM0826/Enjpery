@@ -96,6 +96,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
                     R.style.AppTheme_Dark_Dialog);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage(message);
+            progressDialog.setCancelable(false);
         }
 
         progressDialog.show();

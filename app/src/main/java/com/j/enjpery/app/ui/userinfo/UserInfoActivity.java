@@ -187,11 +187,10 @@ public class UserInfoActivity extends BaseActivity {
                 if (images != null) {
                     Timber.i("选择的原始图片路径为：" + images.get(0).path);
                     File imgFile = new File(images.get(0).path);
-                    Timber.i("开始压缩");
                     setViewEnable(false);
                     compressWithRx(imgFile, file -> {
                         // 上传图片
-                        Timber.i("开始完毕，开始上传头像");
+                        Timber.i("压缩完毕，开始上传头像");
                         // AVUser.getCurrentUser().saveAvatar(file);
                         updateHeadImage(file);
                     });
@@ -252,6 +251,7 @@ public class UserInfoActivity extends BaseActivity {
      */
 
     private void compressWithRx(File file, final CompressCompletedCB compressCompletedCB) {
+        Timber.i("开始压缩");
         Flowable.just(file)
                 .observeOn(Schedulers.io())
                 .map(new Function<File, File>() {

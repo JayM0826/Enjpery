@@ -21,11 +21,15 @@ import com.j.enjpery.app.ui.mainactivity.eventbus.NetworkEvent;
 import com.j.enjpery.app.util.CompressCompletedCB;
 import com.j.enjpery.app.util.SnackbarUtil;
 import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.view.CropImageView;
+import com.zxy.tiny.Tiny;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -75,7 +79,7 @@ public class EnjperyApplication extends Application {
             return;
         }*/
         mInstance = this;
-
+        Tiny.getInstance().init(this);
         // LeakCanary.install(this);
         //初始化Stetho调试工具
         Stetho.initialize(
@@ -151,23 +155,33 @@ public class EnjperyApplication extends Application {
     }
 
 
-    public void compressWithRx(File file, final CompressCompletedCB compressCompletedCB) {
-        Flowable.just(file)
-                .observeOn(Schedulers.io())
-                .map(new Function<File, File>() {
-                    @Override
-                    public File apply(@NonNull File file) throws Exception {
-                        return Luban.with(getApplicationContext()).load(file).get();
-                    }
-                })
-                .subscribe(new Consumer<File>() {
-                    @Override
-                    public void accept(@NonNull File file) throws Exception {
-                        Timber.i("压缩名字" + file.getAbsolutePath());
-                        // 上传照片
-                        compressCompletedCB.done(file);
-                    }
-                });
+
+    public void compressImageWithRx(List<File> fileList, final CompressCompletedCB compressCompletedCB) {
+        for (File file : fileList) {
+            Flowable.just(file)
+                    .observeOn(Schedulers.io())
+                    .map(new Function<File, File>() {
+                        @Override
+                        public File apply(@NonNull File file) throws Exception {
+                            return Luban.with(getApplicationContext()).load(file).get();
+                        }
+                    })
+                    .subscribe(new Consumer<File>() {
+                        @Override
+                        public void accept(@NonNull File file) throws Exception {
+                            Timber.i("压缩名字" + file.getAbsolutePath());
+                            compressCompletedCB.done(file);
+                        }
+                    });
+
+        }
     }
 
+    public void compressImage(List<ImageItem> imageItemList, final CompressCompletedCB compressCompletedCB) {
+        List<File> fileList = new ArrayList<>();
+        for (ImageItem imageItem : imageItemList) {
+            fileList.add(new File(imageItem.path));
+        }
+        compressImageWithRx(fileList, compressCompletedCB);
+    }
 }
