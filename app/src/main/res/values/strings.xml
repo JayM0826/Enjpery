@@ -118,6 +118,9 @@
     <string name="downloading">正在下载</string>
     <string name="saving_picture">保存</string>
     <string name="error">出错了</string>
+    <string name="status_success">分享成功，不骄傲</string>
+    <string name="status_failed">分享失败,不气馁</string>
+    <string name="post_status">与朋友分享印记.</string>
 
 
 </resources>

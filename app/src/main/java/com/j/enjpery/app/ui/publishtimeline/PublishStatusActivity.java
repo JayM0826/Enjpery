@@ -53,6 +53,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -110,10 +111,8 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
     // private UsersAPI mUsersAPI;
     private Context mContext;
 
-    private ArrayList<AlbumFolderInfo> mFolderList = new ArrayList<>();
     private ArrayList<ImageItem> mSelectImgList = new ArrayList<>();
     private AVStatus mStatus;
-    private Comment mComment;
     // 原创还是转发
     private String statusType;
 
@@ -271,44 +270,50 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
                     switch (statusType) {
                         case POST_SERVICE_CREATE_WEIBO:
                             String message = statusContent.getText().toString();
-                            // showProgressDialog("正在与朋友们分享中...");
-                            if (mSelectImgList != null && mSelectImgList.size() > 0) {
+                            showProgressDialog("正在与朋友分享中...");
+                            if (mSelectImgList != null && mSelectImgList.size() > 0) {  // 有图片的情况
                                 File[] imageFiles = new File[mSelectImgList.size()];
-                                for (int i = 0; i < mSelectImgList.size(); ++i){
+                                for (int i = 0; i < mSelectImgList.size(); ++i) {
                                     imageFiles[i] = new File(mSelectImgList.get(i).path);
                                 }
                                 Tiny.getInstance().source(imageFiles).batchAsFile().batchCompress(((isSuccess, outfile) -> {
                                     if (!isSuccess) {
                                         Timber.d("新的压缩工具压缩失败");
                                         // 直接上传原图
-
                                         return;
                                     }
+
+                                    Timber.d("新的压缩工具压缩成功");
                                     // 成功压缩后进行上传
                                     StatusService.sendStatus(message, outfile, new SaveCallback() {
                                         @Override
                                         public void done(AVException e) {
-                                            // hideProgressDialog();
+                                            hideProgressDialog();
                                             if (StatusService.filterException(mContext, e)) {
-                                                ToastUtil.showShort(PublishStatusActivity.this, "发表成功");
-                                                finish();
+                                                SnackbarUtil.show(btnOk, R.string.status_success);
+                                                statusContent.setText("");
+                                                statusContent.setHint("还可以再分享...");
+                                                mSelectImgList.clear();
+                                                imgListAdapter.notifyDataSetChanged();
                                             } else {
-                                                ToastUtil.showShort(PublishStatusActivity.this, "发表失败，请重试");
+                                                SnackbarUtil.show(btnOk, R.string.status_failed);
                                             }
                                         }
                                     });
                                 }));
-
-                            } else {
+                            } else { // 无图片的情况
                                 StatusService.sendStatus(message, new SaveCallback() {
                                     @Override
                                     public void done(AVException e) {
-                                        // hideProgressDialog();
+                                        hideProgressDialog();
                                         if (StatusService.filterException(mContext, e)) {
-                                            ToastUtil.showShort(PublishStatusActivity.this, "发表成功了啊");
+                                            SnackbarUtil.show(btnOk, R.string.status_success);
+                                            statusContent.setText("");
+                                            statusContent.setHint("还可以再分享...");
+                                            mSelectImgList.clear();
+                                            imgListAdapter.notifyDataSetChanged();
                                         } else {
-                                            ToastUtil.showShort(PublishStatusActivity.this, "发表失败了啊");
-
+                                            SnackbarUtil.show(btnOk, R.string.status_failed);
                                         }
                                     }
                                 });
@@ -334,7 +339,6 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
                             break;
                     }
                     KeyBoardUtil.closeKeybord(statusContent, mContext);
-                    finish();
                 });
 
         btnOk.setOnTouchListener((v, event) -> {
@@ -506,4 +510,13 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
             }
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void postStatusEvent(PostStatusEvent postStatusEvent) {
+        if (!postStatusEvent.getStatus()) {
+            hideProgressDialog();
+            SnackbarUtil.show(btnOk,R.string.status_failed);
+        }
+    }
+
 }

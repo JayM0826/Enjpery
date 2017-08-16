@@ -29,7 +29,7 @@
                 android:layout_marginTop="12.5dp"
                 android:background="@color/post_bg"
                 android:gravity="top"
-                android:hint="分享新鲜事..."
+                android:hint="@string/post_status"
                 android:inputType="textMultiLine"
                 android:maxLines="10"
                 android:minHeight="150dp"
@@ -44,8 +44,7 @@
             android:id="@+id/ImgList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="15dp" />
+            android:padding="8dp" />
     </LinearLayout>
 
     <ImageView
