@@ -2,6 +2,7 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentPresent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentView;
@@ -12,6 +13,7 @@ import com.j.enjpery.model.UserModel;
 import com.j.enjpery.model.UserModelImp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -46,7 +48,8 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
      * @param comefromlogin 刚刚登录成功，本地并没有缓存
      */
     @Override
-    public void firstLoadData(Context context, boolean comefromlogin) {
+    public void firstLoadData(Context context, boolean comefromlogin) throws AVException {
+
         if (comefromlogin) {
             mHomeFragmentView.showLoadingIcon();
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
@@ -61,9 +64,10 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
     }
 
     @Override
-    public void pullToRefreshData(long groupId, Context context) {
+    public void pullToRefreshData(long groupId, Context context) throws AVException {
         mHomeFragmentView.showLoadingIcon();
         if (groupId == GROUP_TYPE_ALL) {
+            Timber.i("进行刷新动态了");
             mStatusListModel.friendsTimeline(context, onPullFinishedListener);
         } else if (groupId == GROUP_TYPE_FRIENDS_CIRCLE) {
             mStatusListModel.bilateralTimeline(context, onPullFinishedListener);
@@ -110,7 +114,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void onDataFinish(ArrayList<AVStatus> statuslist) {
+        public void onDataFinish(List<AVStatus> statuslist) {
             mHomeFragmentView.hideLoadingIcon();
             mHomeFragmentView.scrollToTop(false);
             mHomeFragmentView.updateListView(statuslist);
@@ -143,7 +147,7 @@ public class HomeFragmentPresentImp implements HomeFragmentPresent {
         }
 
         @Override
-        public void onDataFinish(ArrayList<AVStatus> statuslist) {
+        public void onDataFinish(List<AVStatus> statuslist) {
             mHomeFragmentView.hideFooterView();
             mHomeFragmentView.updateListView(statuslist);
         }

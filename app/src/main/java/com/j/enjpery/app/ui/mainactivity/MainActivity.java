@@ -94,11 +94,7 @@ public class MainActivity extends BaseActivity {
 
         if (null == savedInstanceState) {
             bottomNavigation.setDefaultSelectedIndex(0);
-            ((BottomBehavior) bottomNavigation.getBehavior()).setOnExpandStatusChangeListener(
-                    (expanded, animate) -> {
-                        // 书写监听事件
-                        Toast.makeText(MainActivity.this, "setOnExpandStatusChangeListener 点击", Toast.LENGTH_SHORT).show();
-                    });
+
             bottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
                 @Override
                 public void onMenuItemSelect(int i, int i1, boolean b) {
@@ -145,6 +141,7 @@ public class MainActivity extends BaseActivity {
                 public void onPageScrollStateChanged(int state) {
                 }
             });
+            viewPager.setOffscreenPageLimit(4);
 
             initFabs();
         }
@@ -153,25 +150,25 @@ public class MainActivity extends BaseActivity {
     private void initFabs() {
         RxView.clicks(fab1.findViewById(R.id.fab1_item1))
                 .compose(bindToLifecycle())
-                .subscribe(Avoid->{
+                .subscribe(Avoid -> {
                     SnackbarUtil.show(bottomNavigation, "点击了添加");
                 });
         RxView.clicks(fab1.findViewById(R.id.fab1_item2))
                 .compose(bindToLifecycle())
-                .subscribe(Avoid->{
+                .subscribe(Avoid -> {
                     SnackbarUtil.show(bottomNavigation, "点击了搜索");
                 });
         RxView.clicks(fab3.findViewById(R.id.fab3_item1))
                 .compose(bindToLifecycle())
-                .subscribe(Avoid->{
+                .subscribe(Avoid -> {
                     Intent intent = new Intent(MainActivity.this, PublishStatusActivity.class);
-                    intent.putExtra("type",POST_SERVICE_CREATE_WEIBO);
+                    intent.putExtra("type", POST_SERVICE_CREATE_WEIBO);
                     startActivity(intent);
                 });
 
         RxView.clicks(fab3.findViewById(R.id.fab3_item2))
                 .compose(bindToLifecycle())
-                .subscribe(Avoid->{
+                .subscribe(Avoid -> {
                     SnackbarUtil.show(bottomNavigation, "点击了搜索");
                 });
     }
@@ -304,7 +301,7 @@ public class MainActivity extends BaseActivity {
                 }
                 fab1.hideMenu(false);
                 fab2.hideMenu(false);
-                fab4.hideMenu(false);
+                fab3.hideMenu(false);
                 break;
 
             default:

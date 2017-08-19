@@ -17,11 +17,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
 
     <!-- 基础模块 END -->
     <application
@@ -85,6 +86,7 @@
             android:label="@string/userinfo" />
         <activity android:name=".app.ui.userinfo.EditUserInfoActivity" />
         <activity android:name=".app.ui.publishtimeline.PublishStatusActivity"></activity>
+        <activity android:name=".app.ui.photoview.ImageViewActivity"/>
     </application>
 
 </manifest>

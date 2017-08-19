@@ -18,7 +18,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -26,9 +29,10 @@ import pl.droidsonroids.gif.GifImageView;
  */
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+
     private ArrayList<String> mData;
     private Context mContext;
-    private AVStatus mStatus;
+
     /**
      * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
      */
@@ -38,17 +42,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();
+    /**
+     * 用于加载微博列表图片的配置，进行安全压缩，尽可能的展示图片细节
+     */
 
     public ImageAdapter(AVStatus status, Context context) {
-        /*this.mStatus = status;
-        if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
+        /*if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
             this.mData = status.thumbnail_pic_urls;
         } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
             this.mData = status.bmiddle_pic_urls;
         } else {
             this.mData = status.origin_pic_urls;
-        }
-        this.mContext = context;*/
+        }*/
+        this.mContext = context;
 
     }
 
@@ -65,7 +71,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        FillContent.fillImageList(mContext, mStatus, options, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
+        FillContent.fillImageList(mContext,options, mData, position, holder.longImg, holder.norImg, holder.gifImg, holder.imageLabel);
     }
 
     @Override
@@ -79,17 +85,18 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public SubsamplingScaleImageView longImg;
-        public ImageView norImg;
-        public GifImageView gifImg;
-        public ImageView imageLabel;
+        @BindView(R.id.longImg)
+        SubsamplingScaleImageView longImg;
+        @BindView(R.id.norImg)
+        ImageView norImg;
+        @BindView(R.id.gifView)
+        GifImageView gifImg;
+        @BindView(R.id.imageType)
+        ImageView imageLabel;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            longImg = (SubsamplingScaleImageView) itemView.findViewById(R.id.longImg);
-            norImg = (ImageView) itemView.findViewById(R.id.norImg);
-            gifImg = (GifImageView) itemView.findViewById(R.id.gifView);
-            imageLabel = (ImageView) itemView.findViewById(R.id.imageType);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -102,7 +109,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
      * @param longImg
      * @param gifImg
      */
-    private static void setImgSize(ArrayList<String> datas, Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
+    private static void setImgSize(List<String> datas, Context context, ImageView norImg, SubsamplingScaleImageView longImg, GifImageView gifImg) {
         if (datas == null || datas.size() == 0) {
             return;
         }

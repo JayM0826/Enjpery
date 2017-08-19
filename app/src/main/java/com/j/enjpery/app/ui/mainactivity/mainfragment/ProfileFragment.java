@@ -100,60 +100,50 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void initCreateView(Bundle state) {
         RxView.clicks(userLayout)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .subscribe(aVoid -> {
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                     startActivity(intent);
                 });
 
         RxView.clicks(album)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了相册");
                 });
         RxView.clicks(collect)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了收藏");
                 });
 
         RxView.clicks(follow)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了关注");
                 });
 
         RxView.clicks(music)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了音乐");
                 });
 
         RxView.clicks(video)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了视频");
                 });
         RxView.clicks(note)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了随笔");
                 });
         RxView.clicks(setting)
-                .throttleFirst(1, TimeUnit.SECONDS)
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了设置");
                 });
         RxView.clicks(status)
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     SnackbarUtil.show(userLayout, "点击了动态");
                 });

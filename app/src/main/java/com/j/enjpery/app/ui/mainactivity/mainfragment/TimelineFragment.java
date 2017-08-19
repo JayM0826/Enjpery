@@ -1,11 +1,8 @@
 package com.j.enjpery.app.ui.mainactivity.mainfragment;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,14 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVStatus;
 import com.j.enjpery.R;
+import com.j.enjpery.app.base.BaseFragment;
 import com.j.enjpery.app.ui.customview.LoadingFooter;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HeaderAndFooterRecyclerViewAdapter;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentPresent;
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.HomeFragmentView;
-
 import com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget.TimelineAdapter;
 import com.j.enjpery.app.util.Constants;
 import com.j.enjpery.app.util.DensityUtil;
@@ -35,127 +32,36 @@ import com.j.enjpery.app.util.ScreenUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import timber.log.Timber;
 
+public class TimelineFragment extends BaseFragment implements HomeFragmentView {
 
-/**
- * A simple {@link Fragment} subclass.
- */
-/*public class TimelineFragment extends BaseFragment  {
-
-    private boolean firstVisible = true;
-    @BindView(R.id.timelineRecyclerView)
-    RecyclerView timelineRecyclerView;
-    @BindView(R.id.pullToRefresh)
-    SwipeRefreshLayout pullToRefresh;
-    @BindView(R.id.fabSearch)
-    FloatingActionButton fabSearch;
-    @BindView(R.id.fabNew)
-    FloatingActionButton fabNew;
-    @BindView(R.id.fabMenu)
-    FloatingActionMenu fabMenu;
+    @BindView(R.id.weiboRecyclerView)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.toast_msg)
+    TextView mToastTv;
+    @BindView(R.id.toast_bg)
+    RelativeLayout mToastBg;
+    @BindView(R.id.errorMessage)
+    TextView mErrorMessage;
     @BindView(R.id.refreshTip)
     TextView refreshTip;
+    @BindView(R.id.emptydeault_layout)
+    LinearLayout mEmptyLayout;
+    private List<AVStatus> mDatas;
 
-    private ArrayList<Status> mDatas;
-    public Context mContext;
-    public Activity mActivity;
-    public TimelineAdapter mAdapter;
-
-
-
-    */
-
-/**
- * 默认只运行一次，除非强制刷新
- *//*
-    @Override
-    public void refreshData() {
-
-    }
-
-
-    @Override
-    public int getLayoutResId() {
-        return R.layout.fragment_timeline;
-    }
-
-    public TimelineFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void initCreateView(Bundle state) {
-
-
-
-        RxView.clicks(fabSearch).subscribe(aVoid -> {
-            SnackbarUtil.show(fabMenu, "点击了搜索按钮");
-        });
-
-        RxView.clicks(fabMenu.findViewById(R.id.fabNew)).subscribe(aVoid -> {
-            SnackbarUtil.show(fabMenu, "点击了新建按钮");
-        });
-
-        initRecyclerView();
-        initRefreshLayout();
-
-    }
-
-    @Override
-    protected void initRecyclerView() {
-        super.initRecyclerView();
-        mDatas = new ArrayList<>();
-        mAdapter = new TimelineAdapter(mDatas, mContext) {
-            @Override
-            public void arrowClick(Status status, int position, Bitmap bitmap) {
-                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, mUserNameTextView.getText().toString(), bitmap);
-                arrowDialog.show();
-                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
-                arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
-        };
-    }
-
-    private void initRefreshLayout() {
-
-        pullToRefresh.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
-
-        RxSwipeRefreshLayout.refreshes(pullToRefresh)
-                .compose(bindToLifecycle())
-                .throttleFirst(1, TimeUnit.SECONDS)
-                .debounce(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aVoid->{
-                    prepareFetchData(true);
-                });
-
-        pullToRefresh.setProgressViewOffset(false, DensityUtil.dp2px(mContext, 10), DensityUtil.dp2px(mContext, 10 + 65));
-    }
-}*/
-public class TimelineFragment extends Fragment implements HomeFragmentView {
-
-    private ArrayList<AVStatus> mDatas;
-    public Context mContext;
-    public Activity mActivity;
-    public View mView;
-
-    public RecyclerView mRecyclerView;
-    public TextView mErrorMessage;
-    public SwipeRefreshLayout mSwipeRefreshLayout;
     public TimelineAdapter mAdapter;
     private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
     private HomeFragmentPresent mHomePresent;
     private long mCurrentGroup = Constants.GROUP_TYPE_ALL;
-    private LinearLayout mEmptyLayout;
     private boolean mComeFromAccoutActivity;
-    private TextView refreshTip;
 
     /**
      * 手指滑动距离多少个像素点的距离，才隐藏bar
@@ -169,46 +75,40 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
      * 记录bar是否显示或者隐藏
      */
     private boolean mControlsVisible = true;
-
-    private TextView mToastTv;
-    private RelativeLayout mToastBg;
-
     private onButtonBarListener mOnBottonBarListener;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mActivity = getActivity();
-        mContext = getContext();
+    public void refreshData() {
+
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_timeline;
+    }
+
+    @Override
+    public void initCreateView(Bundle state) {
+        Timber.i("开始创建时间线");
         mHomePresent = new HomeFragmentPresentImp(this);
         // mComeFromAccoutActivity = getArguments().getBoolean("comeFromAccoutActivity", false);
-        sHideThreshold = DensityUtil.dp2px(mContext, 20);
-        mView = inflater.inflate(R.layout.fragment_main, container, false);
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.weiboRecyclerView);
-        mEmptyLayout = (LinearLayout) mView.findViewById(R.id.emptydeault_layout);
-        mErrorMessage = (TextView) mView.findViewById(R.id.errorMessage);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh_widget);
-        mToastTv = (TextView) mView.findViewById(R.id.toast_msg);
-        mToastBg = (RelativeLayout) mView.findViewById(R.id.toast_bg);
-        refreshTip = (TextView) mView.findViewById(R.id.refreshTip);
+        sHideThreshold = DensityUtil.dp2px(context, 20);
         RxView.clicks(refreshTip).subscribe(aVoid -> {
             showLoadingIcon();
         });
         initRecyclerView();
         initRefreshLayout();
         mSwipeRefreshLayout.post(() -> {
-            if (mComeFromAccoutActivity) {
-                mHomePresent.firstLoadData(mContext, true);
-            } else {
-                mHomePresent.firstLoadData(mContext, mActivity.getIntent().getBooleanExtra("fisrtstart", false));
+            try {
+                if (mComeFromAccoutActivity) {
+                    mHomePresent.firstLoadData(context, true);
+                } else {
+                    mHomePresent.firstLoadData(context, activity.getIntent().getBooleanExtra("fisrtstart", false));
+                }
+            } catch (AVException a) {
+                Timber.e(a.getMessage());
             }
         });
-        return mView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        mHomePresent.cancelTimer();
-        super.onDestroyView();
     }
 
     public TimelineFragment() {
@@ -217,17 +117,17 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
     public void initRecyclerView() {
         mDatas = new ArrayList<>();
-        mAdapter = new TimelineAdapter(mDatas, mContext) {
+        mAdapter = new TimelineAdapter(mDatas, context) {
             @Override
             public void arrowClick(AVStatus status, int position, Bitmap bitmap) {
-                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(mContext, mDatas.get(position), mAdapter, position, bitmap);
+                TimelineArrowWindow arrowDialog = new TimelineArrowWindow(context, mDatas.get(position), mAdapter, position, bitmap);
                 arrowDialog.show();
-                int width = ScreenUtil.getScreenWidth(mContext) - DensityUtil.dp2px(mContext, 80);
+                int width = ScreenUtil.getScreenWidth(context) - DensityUtil.dp2px(context, 80);
                 arrowDialog.getWindow().setLayout(width, (ViewGroup.LayoutParams.WRAP_CONTENT));
             }
         };
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
 
         // 真正的adapter
@@ -240,9 +140,13 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
+            try {
+                mHomePresent.pullToRefreshData(mCurrentGroup, context);
+            } catch (AVException e) {
+                Timber.e(e.getMessage());
+            }
         });
-        mSwipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dp2px(mContext, 10), DensityUtil.dp2px(mContext, 10 + 65));
+        mSwipeRefreshLayout.setProgressViewOffset(false, DensityUtil.dp2px(context, 10), DensityUtil.dp2px(context, 10 + 65));
     }
 
     /**
@@ -255,7 +159,11 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
         mRecyclerView.scrollToPosition(0);
         if (refreshData) {
             mRecyclerView.post(() -> {
-                mHomePresent.pullToRefreshData(mCurrentGroup, mContext);
+                try {
+                    mHomePresent.pullToRefreshData(mCurrentGroup, context);
+                } catch (AVException e) {
+                    Timber.d(e.getMessage());
+                }
             });
         }
     }
@@ -330,7 +238,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
 
     @Override
-    public void updateListView(ArrayList<AVStatus> statuselist) {
+    public void updateListView(List<AVStatus> statuselist) {
         mRecyclerView.addOnScrollListener(mOnScrollListener);
         mDatas = statuselist;
         mAdapter.setData(statuselist);
@@ -355,7 +263,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
 
     @Override
     public void showLoadFooterView() {
-        RecyclerViewStateUtils.setFooterViewState(mActivity, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
+        RecyclerViewStateUtils.setFooterViewState(activity, mRecyclerView, mDatas.size(), LoadingFooter.State.Loading, null);
     }
 
     @Override
@@ -381,7 +289,7 @@ public class TimelineFragment extends Fragment implements HomeFragmentView {
             super.onLoadNextPage(view);
             if (mDatas != null && mDatas.size() > 0) {
                 showLoadFooterView();
-                mHomePresent.requestMoreData(mCurrentGroup, mContext);
+                mHomePresent.requestMoreData(mCurrentGroup, context);
             }
         }
 

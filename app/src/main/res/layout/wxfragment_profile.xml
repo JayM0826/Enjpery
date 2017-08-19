@@ -42,7 +42,7 @@
                     android:id="@+id/account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
+                    android:layout_marginTop="10dip"
                     android:layout_toRightOf="@id/headImage"
                     android:text="又土又逗,简称土豆"
                     android:textSize="18.0dip" />
@@ -69,7 +69,7 @@
                     android:layout_width="20.0dip"
                     android:layout_height="20.0dip"
                     android:layout_marginLeft="5.0dip"
-                    android:layout_marginTop="22.0dip"
+                    android:layout_marginTop="12.0dip"
                     android:layout_toRightOf="@id/account"
                     android:src="@drawable/ic_sex_male" />
             </RelativeLayout>

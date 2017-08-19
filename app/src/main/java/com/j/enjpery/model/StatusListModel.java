@@ -2,9 +2,11 @@ package com.j.enjpery.model;
 
 import android.content.Context;
 
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVStatus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by J on 2017/8/6.
@@ -19,7 +21,7 @@ public interface StatusListModel {
 
         void getNewWeiBo(int num);
 
-        void onDataFinish(ArrayList<AVStatus> statuslist);
+        void onDataFinish(List<AVStatus> statuslist);
 
         void onError(String error);
     }
@@ -30,9 +32,9 @@ public interface StatusListModel {
         void onError(String error);
     }
 
-    public void timeline(long groundId, Context context, OnDataFinishedListener onDataFinishedListener);
+    public void timeline(long groundId, Context context, OnDataFinishedListener onDataFinishedListener) ;
 
-    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
+    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener) throws AVException;
 
     public void bilateralTimeline(Context context, OnDataFinishedListener onDataFinishedListener);
 

@@ -38,14 +38,14 @@ public class NewPauseOnScrollListener extends RecyclerView.OnScrollListener {
                 imageLoader.resume();
                 break;
             case RecyclerView.SCROLL_STATE_DRAGGING:
-                if (pauseOnScroll) {
+               /* if (pauseOnScroll) {
                     imageLoader.pause();
-                }
+                }*/
                 break;
             case RecyclerView.SCROLL_STATE_SETTLING:
-                if (pauseOnSettling) {
+                /*if (pauseOnSettling) {
                     imageLoader.pause();
-                }
+                }*/
                 break;
         }
         if (externalListener != null) {

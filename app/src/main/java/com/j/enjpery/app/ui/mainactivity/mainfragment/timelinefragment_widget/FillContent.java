@@ -1,6 +1,7 @@
 package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -8,7 +9,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVStatus;
 import com.avos.avoscloud.AVUser;
+import com.bumptech.glide.Glide;
 import com.cesards.cropimageview.CropImageView;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
@@ -24,9 +25,8 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.j.enjpery.R;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.ui.customview.EmojiTextView;
-import com.j.enjpery.app.ui.customview.SaveImageDialog;
+import com.j.enjpery.app.ui.photoview.ImageViewActivity;
 import com.j.enjpery.app.util.DateUtils;
-import com.j.enjpery.app.util.ImageUtil;
 import com.j.enjpery.app.util.NetUtil;
 import com.j.enjpery.app.util.SharedPreferencesUtil;
 import com.j.enjpery.app.util.TimeUtils;
@@ -34,18 +34,14 @@ import com.j.enjpery.app.util.WeiBoContentTextUtil;
 import com.j.enjpery.model.Comment;
 import com.j.enjpery.model.StatusDetailModelImp;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -74,21 +70,12 @@ public class FillContent {
      *
      * @param user
      * @param profile_img
-     * @param profile_verified
      */
-    public static void fillProfileImg(final Context context, final AVUser user, final ImageView profile_img, final ImageView profile_verified) {
-        profile_verified.setVisibility(View.INVISIBLE);
+    public static void fillProfileImg(final Context context, final AVUser user, final ImageView profile_img) {
+        Glide.with(context).load(user.get("headImage")).into(profile_img);
+        profile_img.setOnClickListener(v -> {
+            Toast.makeText(context, "点击了这个图片", Toast.LENGTH_SHORT).show();
 
-        // ImageLoader.getInstance().displayImage(user.avatar_hd, profile_img, mAvatorOptions);
-
-        profile_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "点击了这个图片", Toast.LENGTH_SHORT).show();
-               /* Intent intent = new Intent(context, ProfileSwipeActivity.class);
-                intent.putExtra("screenName", user.screen_name);
-                context.startActivity(intent);*/
-            }
         });
     }
 
@@ -98,38 +85,33 @@ public class FillContent {
      * @param context
      * @param comment
      * @param profile_img
-     * @param profile_verified
      * @param profile_name
      * @param profile_time
      * @param weibo_comefrom
      */
-    public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        fillProfileImg(context, comment.user, profile_img, profile_verified);
+    public static void fillTitleBar(Context context, Comment comment, ImageView profile_img, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        fillProfileImg(context, comment.user, profile_img);
         setWeiBoName(profile_name, comment.user);
         setWeiBoTime(context, profile_time, comment);
         setWeiBoComeFrom(weibo_comefrom, comment);
     }
 
-    public static void fillTitleBar(Context context, AVStatus status, ImageView profile_img, ImageView profile_verified, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
-        // fillProfileImg(context, status.user, profile_img, profile_verified);
-        // setWeiBoName(profile_name, status.user);
-        //setWeiBoTime(context, profile_time, status);
-        // setWeiBoComeFrom(weibo_comefrom, status);
+    public static void fillTitleBar(Context context, AVStatus status, ImageView profile_img, TextView profile_name, TextView profile_time, TextView weibo_comefrom) {
+        fillProfileImg(context, status.getSource(), profile_img);
+        setWeiBoName(profile_name, status.getSource());
+        setWeiBoTime(context, profile_time, status);
+        setWeiBoComeFrom(weibo_comefrom, status);
     }
 
 
     public static void setWeiBoName(TextView textView, AVUser user) {
-       /* if (user.remark != null && user.remark.length() > 0) {
-            textView.setText(user.remark);
-        } else {
-            textView.setText(user.name);
-        }*/
+        textView.setText((String) user.get("account"));
     }
 
     public static void setWeiBoTime(Context context, TextView textView, AVStatus status) {
-        // Date data = DateUtils.parseDate(status.created_at, DateUtils.WeiBo_ITEM_DATE_FORMAT);
-        // TimeUtils timeUtils = TimeUtils.instance(context);
-        // textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
+        Date data = DateUtils.parseDate(status.getCreatedAt().toString(), DateUtils.WeiBo_ITEM_DATE_FORMAT);
+        TimeUtils timeUtils = TimeUtils.instance(context);
+        textView.setText(timeUtils.buildTimeString(data.getTime()) + "   ");
     }
 
     public static void setWeiBoTime(Context context, TextView textView, Comment comment) {
@@ -140,15 +122,7 @@ public class FillContent {
 
 
     public static void setWeiBoComeFrom(TextView textView, AVStatus status) {
-        if (status == null) {
-            textView.setText("");
-            return;
-        }
-        /*if (!TextUtils.isEmpty(status.source)) {
-            textView.setText("来自 " + status.source);
-        } else {
-            textView.setText("");
-        }*/
+        textView.setText("发布自偶像的社区");
     }
 
     public static void setFollowerComeFrom(TextView textView, AVStatus status) {
@@ -187,24 +161,11 @@ public class FillContent {
      * @param feedlike
      */
     public static void fillButtonBar(final Context context, final AVStatus status, LinearLayout bottombar_retweet, LinearLayout bottombar_comment, LinearLayout bottombar_attitude, TextView comment, TextView redirect, TextView feedlike) {
-       /* if (status.comments_count != 0) {
-            comment.setText(status.comments_count + "");
-        } else {
-            comment.setText("评论");
-        }
+        comment.setText("评论");
 
-        if (status.reposts_count != 0) {
-            redirect.setText(status.reposts_count + "");
-        } else {
-            redirect.setText("转发");
-        }
+        redirect.setText("转发");
 
-        if (status.attitudes_count != 0) {
-            feedlike.setText(status.attitudes_count + "");
-        } else {
-            feedlike.setText("赞");
-        }
-*/
+        feedlike.setText("赞");
         fillButtonBar(context, status, bottombar_retweet, bottombar_comment, bottombar_attitude);
     }
 
@@ -238,7 +199,7 @@ public class FillContent {
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "bottombar_retweet " ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "bottombar_retweet ", Toast.LENGTH_SHORT).show();
 
 
             /*    Intent intent = new Intent(context, IdeaSwipeActivity.class);
@@ -260,7 +221,7 @@ public class FillContent {
         bottombar_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "bottombar_comment " ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "bottombar_comment ", Toast.LENGTH_SHORT).show();
 
                 /*Intent intent = new Intent(context, IdeaSwipeActivity.class);
                 intent.putExtra("ideaType", PostService.POST_SERVICE_COMMENT_STATUS);
@@ -272,7 +233,7 @@ public class FillContent {
         bottombar_retweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "bottombar_retweet " ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "bottombar_retweet ", Toast.LENGTH_SHORT).show();
 
                 /*Intent intent = new Intent(context, IdeaSwipeActivity.class);
                 intent.putExtra("ideaType", PostService.POST_SERVICE_REPOST_STATUS);
@@ -338,7 +299,8 @@ public class FillContent {
      * 填充微博图片列表,包括原创微博和转发微博中的图片都可以使用
      */
     public static void fillWeiBoImgList(AVStatus status, Context context, RecyclerView recyclerview) {
-        /*ArrayList<String> imageDatas = status.bmiddle_pic_urls;
+        // JSONArray jsonArray = JSONArray.parseArray((String)status.get("multiImages"));
+        ArrayList<String> imageDatas = (ArrayList) status.get("multiImages");
         if (imageDatas == null || imageDatas.size() == 0) {
             recyclerview.setVisibility(View.GONE);
             return;
@@ -353,7 +315,6 @@ public class FillContent {
         recyclerview.setLayoutManager(gridLayoutManager);
         imageAdapter.setData(imageDatas);
         imageAdapter.notifyDataSetChanged();
-        */
     }
 
     /**
@@ -364,7 +325,7 @@ public class FillContent {
      *
      * @return
      */
-    private static GridLayoutManager initGridLayoutManager(ArrayList<String> imageDatas, Context context) {
+    private static GridLayoutManager initGridLayoutManager(List<String> imageDatas, Context context) {
         GridLayoutManager gridLayoutManager;
         if (imageDatas != null) {
             switch (imageDatas.size()) {
@@ -405,22 +366,15 @@ public class FillContent {
         }
     }
 
-    public static void displayNorImg(File file, Bitmap bitmap, ImageView norImg, ImageView imageLable) {
+    public static void displayNorImg(String imageUrl, ImageView norImg, ImageView imageLable, Context context) {
         imageLable.setVisibility(View.GONE);
-        norImg.setImageBitmap(bitmap);
-        norImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(context).load(imageUrl).into(norImg);
     }
 
-    public static void displayGif(File file, GifImageView gifImageView, ImageView imageLable) {
+    public static void displayGif(String imageUrl, GifImageView gifImageView, ImageView imageLable, Context context) {
         imageLable.setVisibility(View.VISIBLE);
         imageLable.setImageResource(R.drawable.timeline_image_gif);
-        try {
-            GifDrawable gifDrawable = new GifDrawable(file);
-            gifImageView.setImageDrawable(gifDrawable);
-        } catch (IOException e) {
-            Log.e("wenming", e.getMessage());
-            e.printStackTrace();
-        }
+        Glide.with(context).asGif().load(imageUrl).into(gifImageView);
     }
 
 
@@ -428,7 +382,6 @@ public class FillContent {
      * 填充微博列表图片
      *
      * @param context
-     * @param status
      * @param options
      * @param position
      * @param longImg
@@ -436,77 +389,60 @@ public class FillContent {
      * @param gifImg
      * @param imageLabel
      */
-    public static void fillImageList(final Context context, final AVStatus status, DisplayImageOptions options, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
-        final ArrayList<String> urllist;
+    public static void fillImageList(final Context context, final DisplayImageOptions options, final ArrayList<String> urlList, final int position, final SubsamplingScaleImageView longImg, final ImageView norImg, final GifImageView gifImg, final ImageView imageLabel) {
         /*if (NewFeature.timeline_img_quality == NewFeature.thumbnail_quality) {
             urllist = status.thumbnail_pic_urls;
         } else if (NewFeature.timeline_img_quality == NewFeature.bmiddle_quality) {
             urllist = status.bmiddle_pic_urls;
         } else {
-            urllist = status.origin_pic_urls;
-        }*/
-        /*ImageLoader.getInstance().loadImage(urllist.get(position), options, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {
-                setLabelForGif(urllist.get(position), imageLabel);
-            }
 
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap bitmap) {
-                File file = DiskCacheUtils.findInCache(urllist.get(position), ImageLoader.getInstance().getDiskCache());
-                if (file == null) {
-                    return;
-                }
-                if (imageUri.endsWith(".gif")) {
-                    gifImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.INVISIBLE);
-                    norImg.setVisibility(View.INVISIBLE);
-                    displayGif(file, gifImg, imageLabel);
-                } else if (ImageUtil.isLongImg(file, bitmap)) {
-                    longImg.setVisibility(View.VISIBLE);
-                    gifImg.setVisibility(View.INVISIBLE);
-                    norImg.setVisibility(View.INVISIBLE);
-                    displayLongPic(file, bitmap, longImg, imageLabel);
-                } else {
-                    norImg.setVisibility(View.VISIBLE);
-                    longImg.setVisibility(View.INVISIBLE);
-                    gifImg.setVisibility(View.INVISIBLE);
-                    displayNorImg(file, bitmap, norImg, imageLabel);
-                }
+        }*/
+
+        for (String url : urlList) {
+            if (url.endsWith(".gif")) {
+                gifImg.setVisibility(View.VISIBLE);
+                longImg.setVisibility(View.INVISIBLE);
+                norImg.setVisibility(View.INVISIBLE);
+
+                displayGif(url, gifImg, imageLabel, context);
+            } /*else if (ImageUtil.isLongImg(file)) {
+                longImg.setVisibility(View.VISIBLE);
+                gifImg.setVisibility(View.INVISIBLE);
+                norImg.setVisibility(View.INVISIBLE);
+                displayLongPic(file, bitmap, longImg, imageLabel, context);
+            } */ else {
+                norImg.setVisibility(View.VISIBLE);
+                longImg.setVisibility(View.INVISIBLE);
+                gifImg.setVisibility(View.INVISIBLE);
+
+                displayNorImg(url, norImg, imageLabel, context);
             }
-        });*/
-        longImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        }
+
+
+        longImg.setOnClickListener(v-> {
                 Toast.makeText(context, "longImg ", Toast.LENGTH_SHORT).show();
 
                 /*Intent intent = new Intent(context, ImageDetailsActivity.class);
                 intent.putExtra("imagelist_url", status.origin_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);*/
-            }
         });
-        gifImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        gifImg.setOnClickListener(v-> {
                 Toast.makeText(context, "gifImg ", Toast.LENGTH_SHORT).show();
                 /*Intent intent = new Intent(context, ImageDetailsActivity.class);
                 intent.putExtra("imagelist_url", status.bmiddle_pic_urls);
                 intent.putExtra("image_position", position);
                 context.startActivity(intent);*/
-            }
         });
 
-        norImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "norImg", Toast.LENGTH_SHORT).show();
 
-               /* Intent intent = new Intent(context, ImageDetailsActivity.class);
-                intent.putExtra("imagelist_url", status.origin_pic_urls);
+        norImg.setOnClickListener(v-> {
+                Intent intent = new Intent(context, ImageViewActivity.class);
+                intent.putStringArrayListExtra("imageUrls", urlList);
                 intent.putExtra("image_position", position);
-                context.startActivity(intent);*/
-            }
+                context.startActivity(intent);
         });
         //setOnLongClickListener(longImg, gifImg, norImg, context, status, position);
     }

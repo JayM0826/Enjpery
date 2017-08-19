@@ -29,20 +29,20 @@ import timber.log.Timber;
  */
 
 public abstract class BaseFragment extends RxFragment {
-    private View parentView;
+    public View parentView;
     private Unbinder bind;
     protected boolean isViewInitiated;
     protected boolean isVisibleToUser;
     protected boolean isDataInitiated;
-    private FragmentActivity activity;
+    public FragmentActivity activity;
     private boolean isNeedRegister = false;
     protected boolean firstVisible = true;
+    public Context context;
 
     /*called once the fragment is associated with its activity.*/
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (FragmentActivity) activity;
     }
 
     /*called to do initial creation of the fragment.*/
@@ -59,6 +59,7 @@ public abstract class BaseFragment extends RxFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         parentView = inflater.inflate(getLayoutResId(), container, false);
         activity = getSupportActivity();
+        context = getContext();
         bind = ButterKnife.bind(this, parentView);
         return parentView;
     }

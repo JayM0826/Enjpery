@@ -95,10 +95,10 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         }
         switch (newState) {
             case RecyclerView.SCROLL_STATE_DRAGGING:
-                ImageLoader.getInstance().pause();
+                // ImageLoader.getInstance().pause();
                 break;
             case RecyclerView.SCROLL_STATE_IDLE:
-                ImageLoader.getInstance().resume();
+                // ImageLoader.getInstance().resume();
                 break;
         }
     }

@@ -7,6 +7,7 @@
 package com.j.enjpery.app.base;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -25,6 +26,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     public  BaseActivity instance;
     private boolean isNeedRegister = false;
     public ProgressDialog progressDialog;
+    protected Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         //设置布局内容
         setContentView(getLayoutId());
+        context = this;
         //初始化黄油刀控件绑定框架
         bind = ButterKnife.bind(this);
         //初始化控件

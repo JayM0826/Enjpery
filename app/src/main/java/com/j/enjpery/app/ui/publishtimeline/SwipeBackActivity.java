@@ -5,12 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.j.enjpery.app.util.Utils;
+import com.trello.rxlifecycle2.components.RxActivity;
 
 /**
  * Created by J on 2017/8/13.
  */
 
-public class SwipeBackActivity extends AppCompatActivity implements SwipeBackActivityBase {
+public class SwipeBackActivity extends RxActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override

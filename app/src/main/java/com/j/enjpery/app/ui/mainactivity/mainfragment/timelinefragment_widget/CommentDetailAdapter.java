@@ -43,7 +43,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         AVUser user = mDatas.get(position).user;
         String content = mDatas.get(position).text;
-        FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img, ((CommentViewHolder) holder).profile_verified);
+        FillContent.fillProfileImg(mContext, user, ((CommentViewHolder) holder).profile_img);
         FillContent.fillWeiBoContent(content, mContext, ((CommentViewHolder) holder).content);
         FillContent.setWeiBoName(((CommentViewHolder) holder).profile_name, user);
         FillContent.setWeiBoTime(mContext, ((CommentViewHolder) holder).profile_time, mDatas.get(position));
@@ -74,7 +74,6 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
         public CommentViewHolder(View v) {
             super(v);
             profile_img = (ImageView) v.findViewById(R.id.profile_img);
-            profile_verified = (ImageView) v.findViewById(R.id.profile_verified);
             profile_name = (TextView) v.findViewById(R.id.comment_profile_name);
             profile_time = (TextView) v.findViewById(R.id.comment_profile_time);
             content = (EmojiTextView) v.findViewById(R.id.comment_content);

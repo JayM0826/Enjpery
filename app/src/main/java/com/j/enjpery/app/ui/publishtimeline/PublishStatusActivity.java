@@ -138,6 +138,7 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
         statusType = getIntent().getStringExtra("type");
         tvDescription.setText("新的状态，新的心情");
         initContent();
+        initImgList();
         setUpListener();
         //  Tag的作用就是设置标签，标签可以是任意。
         statusContent.setTag(false);
@@ -476,10 +477,8 @@ public class PublishStatusActivity extends BaseSwipeActivity implements ImgListA
             if (data != null && requestCode == IMAGE_PICKER) {
                 List<ImageItem> tempIamgeList = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 mSelectImgList.addAll(tempIamgeList);
-
                 if (mSelectImgList != null && !mSelectImgList.isEmpty()) {
                     if (firstInitRecycleView) {
-                        initImgList();
                         btnOk.setVisibility(View.VISIBLE);
                         btnOk.setEnabled(true);
                         firstInitRecycleView = false;

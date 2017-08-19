@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.bumptech.glide.Glide;
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.ImageViewState;
@@ -95,7 +96,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         setOnClickListener(preNorImg, preLongImg, bgLayout, longImg, gifImg, norImgView);
         setOnLongClickListener(preNorImg, preLongImg, bgLayout, longImg, gifImg, norImgView, position);
 
-        ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
+        Glide.with(mContext).load(mDatas.get(position)).into(norImgView);
+        /*ImageLoader.getInstance().loadImage(mDatas.get(position), null, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 progressBar.setVisibility(View.VISIBLE);
@@ -119,7 +121,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                         return;
                     }
                     displayGif(file, gifImg);
-                } else if (ImageUtil.isLongImg(file, bitmap)) {
+                } *//*else if (ImageUtil.isLongImg(file, bitmap)) {
                     longImg.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.GONE);
                     norImgView.setVisibility(View.GONE);
@@ -136,7 +138,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                             progressBar.setVisibility(View.GONE);
                         }
                     }, 500);
-                } else {
+                } *//*else {
                     norImgView.setVisibility(View.VISIBLE);
                     gifImg.setVisibility(View.GONE);
                     longImg.setVisibility(View.GONE);
@@ -151,7 +153,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             public void onProgressUpdate(String s, View view, int current, int total) {
                 progressBar.setProgress((int) 100.0f * current / total);
             }
-        });
+        });*/
         container.addView(mView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return mView;
     }
@@ -216,7 +218,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .build();
 
 
-        ImageLoader.getInstance().loadImage(bmiddleUrl, options, new SimpleImageLoadingListener() {
+        /*ImageLoader.getInstance().loadImage(bmiddleUrl, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 File bimiddleImg = DiskCacheUtils.findInCache(bmiddleUrl, ImageLoader.getInstance().getDiskCache());
@@ -238,7 +240,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     displayNormalImg(loadedImage, preNorImg);
                 }
             }
-        });
+        });*/
     }
 
     private void hidePreviewImg(PhotoView norImg, final SubsamplingScaleImageView longImg) {

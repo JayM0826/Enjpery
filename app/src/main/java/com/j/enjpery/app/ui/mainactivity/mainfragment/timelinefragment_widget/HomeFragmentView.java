@@ -3,6 +3,7 @@ package com.j.enjpery.app.ui.mainactivity.mainfragment.timelinefragment_widget;
 import com.avos.avoscloud.AVStatus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by J on 2017/8/8.
@@ -12,7 +13,7 @@ public interface HomeFragmentView {
     /**
      * 刷新数据集
      */
-    public void updateListView(ArrayList<AVStatus> statuselist);
+    public void updateListView(List<AVStatus> statuselist);
 
 
     /**

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 
@@ -29,9 +31,11 @@ public class ImageUtil {
     }
 
     public static void saveImg(final Context context, final String url) {
+        Glide.with(context).download(url);
         DisplayImageOptions saveOpition = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .build();
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
         ImageLoader.getInstance().loadImage(url, saveOpition, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -46,7 +50,6 @@ public class ImageUtil {
                 }else {
                     SaveImgUtil.create(context).saveImage(imgFile,"jpg");
                 }
-
             }
         });
     }

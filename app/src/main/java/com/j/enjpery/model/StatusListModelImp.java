@@ -4,7 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVStatus;
+import com.avos.avoscloud.AVStatusQuery;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.FindCallback;
 import com.google.gson.Gson;
 import com.j.enjpery.app.global.NewFeature;
 import com.j.enjpery.app.ui.customview.LoadedToast;
@@ -13,8 +17,12 @@ import com.j.enjpery.app.util.Constants;
 import com.j.enjpery.app.util.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import timber.log.Timber;
 
 /**
  * Created by J on 2017/8/6.
@@ -47,15 +55,34 @@ public class StatusListModelImp implements StatusListModel {
      * @param onDataFinishedListener
      */
     @Override
-    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener) {
-        /*StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
+    public void friendsTimeline(Context context, OnDataFinishedListener onDataFinishedListener) throws AVException{
+        AVUser user = AVUser.getCurrentUser();
+        AVStatusQuery q = AVStatus.inboxQuery(user, AVStatus.INBOX_TYPE.TIMELINE.toString());
+        q.setLimit(10);
+        q.orderByDescending("createdAt");
+        mContext = context;
+        mOnDataFinishedUIListener = onDataFinishedListener;
+        setRefrshFriendsTimelineTask();
+        q.findInBackground(new FindCallback<AVStatus>() {
+            @Override
+            public void done(List<AVStatus> list, AVException e) {
+                if (e == null){
+                    Timber.i("异步请求状态成功");
+                    onDataFinishedListener.onDataFinish(list);
+                }else {
+                    Timber.i("请求过程出现错误");
+                }
+            }
+        });
+
+
+       /* StatusesAPI mStatusesAPI = new StatusesAPI(context, Constants.APP_KEY, AccessTokenKeeper.readAccessToken(context));
         setRefrshFriendsTimelineTask();
         mContext = context;
         mOnDataFinishedUIListener = onDataFinishedListener;
         long sinceId = checkout(Constants.GROUP_TYPE_ALL);
         mStatusesAPI.homeTimeline(sinceId, 0, NewFeature.GET_WEIBO_NUMS, 1, false, 0, false, pullToRefreshListener);*/
     }
-
 
     /**
      * 获取双向关注用户的最新微博。
